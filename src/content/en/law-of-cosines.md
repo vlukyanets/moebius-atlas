@@ -1,8 +1,9 @@
 ---
 title: Law of Cosines
 tag: THM
+track: school
+grade: 9
 year: 1579
-difficulty: 2
 requires: [dot-product, reduction-formulas]
 ---
 

@@ -1,8 +1,9 @@
 ---
 title: Perpendicular Lines
 tag: DEF
+track: school
+grade: 7
 year: -300
-difficulty: 1
 requires: [angle-measure]
 ---
 

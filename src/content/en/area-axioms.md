@@ -1,8 +1,9 @@
 ---
 title: Axioms of Area
 tag: AXM
+track: school
+grade: 8
 year: -300
-difficulty: 2
 requires: [polygon-definition, congruent-figures]
 ---
 

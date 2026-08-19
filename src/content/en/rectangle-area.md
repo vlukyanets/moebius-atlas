@@ -1,8 +1,9 @@
 ---
 title: Area of a Rectangle & Square
 tag: THM
+track: school
+grade: 8
 year: -300
-difficulty: 1
 requires: [area-axioms, rectangle-properties]
 ---
 

@@ -1,5 +1,5 @@
 ---
 title: A–Z
 kind: az
-order: 4
+order: 2
 ---

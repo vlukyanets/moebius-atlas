@@ -1,8 +1,9 @@
 ---
 title: Decomposition in a Basis
 tag: THM
+track: school
+grade: 9
 year: 1844
-difficulty: 3
 requires: [collinear-vectors, vector-addition]
 ---
 

@@ -1,6 +1,7 @@
 import { Fragment, useEffect, useState } from 'react';
 import { N, pathTargets, prereqLevels, tagOf, topicName } from '../data/graph';
 import { UI, tr, useLang, type Lang } from '../i18n';
+import { TopicPicker } from './TopicPicker';
 
 interface Props {
   /** Empty falls back to the first target in alphabetical order. */
@@ -53,13 +54,7 @@ export function PathView({ target: picked, onTarget, onOpen }: Props) {
             {tr(UI.collapseAll, lang)}
           </button>
         </div>
-        <select value={target} onChange={(e) => onTarget(e.target.value)}>
-          {targets.map((id) => (
-            <option key={id} value={id}>
-              {topicName(id, lang)}
-            </option>
-          ))}
-        </select>
+        <TopicPicker ids={targets} value={target} onChange={onTarget} />
       </div>
       <div className="path-hint">{tr(UI.pathHint, lang)}</div>
       <div className="path-lanes">

@@ -1,8 +1,9 @@
 ---
 title: Vector Addition
 tag: DEF
+track: school
+grade: 9
 year: 1844
-difficulty: 2
 requires: [vector-definition, parallelogram-definition]
 ---
 

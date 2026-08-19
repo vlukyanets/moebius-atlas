@@ -1,8 +1,9 @@
 ---
 title: Triangle
 tag: DEF
+track: school
+grade: 7
 year: -300
-difficulty: 1
 requires: [line-segment, angle-measure]
 ---
 

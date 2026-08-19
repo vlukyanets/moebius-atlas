@@ -3,7 +3,6 @@ title: Vector Space
 tag: DEF
 track: advanced
 year: 1888
-difficulty: 4
 requires: [vector-basis]
 ---
 

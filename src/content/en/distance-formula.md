@@ -1,8 +1,9 @@
 ---
 title: Distance Between Points
 tag: THM
+track: school
+grade: 9
 year: 1637
-difficulty: 2
 requires: [pythagorean-theorem, coordinate-operations]
 ---
 

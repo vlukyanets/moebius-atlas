@@ -1,8 +1,9 @@
 ---
 title: "Parallel Lines: Criteria"
 tag: THM
+track: school
+grade: 7
 year: -300
-difficulty: 2
 requires: [transversal-angles]
 ---
 

@@ -3,7 +3,6 @@ title: Axiomatics of Euclidean Geometry
 tag: AXM
 track: advanced
 year: 1899
-difficulty: 4
 requires: [parallel-postulate]
 ---
 

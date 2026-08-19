@@ -1,8 +1,9 @@
 ---
 title: Congruence Criterion III (SSS)
 tag: THM
+track: school
+grade: 7
 year: -300
-difficulty: 2
 requires: [congruence-sas-asa, isosceles-triangle]
 ---
 

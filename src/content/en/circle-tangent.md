@@ -1,8 +1,9 @@
 ---
 title: Tangent to a Circle
 tag: THM
+track: school
+grade: 7
 year: -300
-difficulty: 2
 requires: [circle-radius, point-line-distance]
 ---
 

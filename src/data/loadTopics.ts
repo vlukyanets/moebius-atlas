@@ -11,8 +11,9 @@
  *   ---
  *   title: Triangle Angle Sum
  *   tag: THM
+ *   track: school
+ *   grade: 8
  *   year: -300
- *   difficulty: 2
  *   requires: [parallel-properties, triangle-definition]
  *   ---
  *
@@ -24,7 +25,7 @@
  * page with KaTeX support ($…$ inline, $$…$$ display). The first plain
  * paragraph doubles as the short summary. The id is the file name.
  */
-import type { Resource, TagId, TopicMap, TrackId } from './types';
+import type { Resource, SubjectId, TagId, TopicMap, TrackId } from './types';
 import type { L10n } from '../i18n';
 
 const TOPIC_RAW = import.meta.glob('../content/*/*.md', {
@@ -74,8 +75,9 @@ export function loadTopics(): TopicMap {
       summary: summary as L10n,
       body: body as L10n,
       tag: meta.tag as TagId | undefined,
-      track: (meta.track as TrackId | undefined) ?? 'school',
-      difficulty: meta.difficulty as number | undefined,
+      track: resolveTrack(meta.track, id),
+      grade: meta.grade as number | undefined,
+      subject: (meta.subject as SubjectId | undefined) ?? 'geometry',
       year: meta.year as number | undefined,
       requires: meta.requires as string[] | undefined,
       resources: Object.keys(resources).length ? resources : undefined,
@@ -84,8 +86,23 @@ export function loadTopics(): TopicMap {
   return out;
 }
 
+/** Kept in sync with `TrackId`; importing TRACKS here would be circular. */
+const TRACK_IDS = new Set<string>(['school', 'olympiad', 'advanced', 'other']);
+
+/**
+ * A missing or unknown track lands the topic in `other` - the atlas still
+ * loads, and the console names the file so the gap is easy to spot.
+ */
+function resolveTrack(value: unknown, id: string): TrackId {
+  if (typeof value === 'string' && TRACK_IDS.has(value)) return value as TrackId;
+  console.warn(
+    `content/en/${id}.md: "track" should be one of ${[...TRACK_IDS].join('|')}, got "${value ?? ''}" - falling back to "other"`,
+  );
+  return 'other';
+}
+
 const LIST_KEYS = new Set(['requires']);
-const NUM_KEYS = new Set(['year', 'difficulty', 'order']);
+const NUM_KEYS = new Set(['year', 'grade', 'order']);
 
 /** Shared frontmatter+body parser - also used for the view files in `src/views/`. */
 export function parseFile(src: string, path: string): ParsedFile {

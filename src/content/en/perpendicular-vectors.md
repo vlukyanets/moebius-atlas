@@ -1,8 +1,9 @@
 ---
 title: Perpendicularity Condition
 tag: THM
+track: school
+grade: 9
 year: 1844
-difficulty: 2
 requires: [dot-product-coordinates]
 ---
 

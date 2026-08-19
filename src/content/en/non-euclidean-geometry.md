@@ -3,7 +3,6 @@ title: Non-Euclidean Geometry
 tag: THM
 track: advanced
 year: 1829
-difficulty: 5
 requires: [parallel-postulate]
 ---
 

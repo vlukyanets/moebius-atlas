@@ -1,8 +1,9 @@
 ---
 title: Circumference & the Number π
 tag: THM
+track: school
+grade: 9
 year: -250
-difficulty: 2
 requires: [regular-polygon-radii]
 ---
 

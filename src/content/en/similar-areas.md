@@ -1,8 +1,9 @@
 ---
 title: Areas of Similar Figures
 tag: THM
+track: school
+grade: 8
 year: -300
-difficulty: 2
 requires: [triangle-area, similarity-sss]
 ---
 

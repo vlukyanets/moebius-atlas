@@ -1,8 +1,9 @@
 ---
 title: Compass & Straightedge
 tag: MTD
+track: school
+grade: 7
 year: -440
-difficulty: 2
 requires: [congruence-sss]
 ---
 

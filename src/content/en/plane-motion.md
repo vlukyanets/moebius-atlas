@@ -1,8 +1,9 @@
 ---
 title: Motion of the Plane
 tag: DEF
+track: school
+grade: 9
 year: 1872
-difficulty: 2
 requires: [congruent-figures]
 ---
 

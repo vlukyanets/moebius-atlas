@@ -2,8 +2,7 @@
 title: Isoperimetric Inequality
 tag: THM
 track: olympiad
-year: -180
-difficulty: 4
+year: 1838
 requires: [geometric-inequalities, circle-area]
 ---
 

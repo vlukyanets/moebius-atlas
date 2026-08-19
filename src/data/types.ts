@@ -20,8 +20,20 @@ export interface TagInfo {
   bg: string;
 }
 
-/** Curriculum track a topic belongs to. Topics without one count as `school`. */
-export type TrackId = 'school' | 'olympiad' | 'advanced';
+/** Branch of mathematics a topic belongs to. Topics without one count as `geometry`. */
+export type SubjectId = 'geometry' | 'algebra' | 'other';
+
+export interface SubjectInfo {
+  /** Full name shown on the filter chip ("Algebra"). */
+  full: L10n;
+  /** Chip accent color. */
+  color: string;
+  /** Chip background when active. */
+  bg: string;
+}
+
+/** Curriculum track a topic belongs to. Declared by every topic. */
+export type TrackId = 'school' | 'olympiad' | 'advanced' | 'other';
 
 export interface TrackInfo {
   /** Full name shown on the filter chip ("Olympiad"). */
@@ -49,10 +61,12 @@ export interface TopicSeed {
   /** Full Markdown body (KaTeX via $…$ / $$…$$), shown on the detail page. */
   body?: L10n;
   tag?: TagId;
-  /** Curriculum track; absent means `school`. */
-  track?: TrackId;
-  /** 1..5 shown as ●●●○○. */
-  difficulty?: number;
+  /** Curriculum track; a missing or unknown value becomes `other`. */
+  track: TrackId;
+  /** School year the topic is taught in; school-track topics only. */
+  grade?: number;
+  /** Branch of mathematics; absent means `geometry`. */
+  subject?: SubjectId;
   /** Year of discovery; negative = BCE. */
   year?: number;
   /** Prerequisite topic ids (edges point prereq -> this). */

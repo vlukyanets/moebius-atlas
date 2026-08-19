@@ -1,8 +1,9 @@
 ---
 title: Circle, Disk & Radius
 tag: DEF
+track: school
+grade: 7
 year: -300
-difficulty: 1
 requires: [segment-measurement]
 ---
 

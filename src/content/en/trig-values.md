@@ -1,8 +1,9 @@
 ---
 title: Values for 30°, 45°, 60°
 tag: THM
+track: school
+grade: 8
 year: -300
-difficulty: 2
 requires: [sin-cos-tan, leg-opposite-30]
 ---
 

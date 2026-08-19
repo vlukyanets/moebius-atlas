@@ -1,8 +1,9 @@
 ---
 title: Kinds of Triangles by Angles
 tag: DEF
+track: school
+grade: 7
 year: -300
-difficulty: 1
 requires: [triangle-angle-sum]
 ---
 

@@ -3,7 +3,6 @@ title: Power of a Point
 tag: THM
 track: olympiad
 year: 1826
-difficulty: 3
 requires: [central-inscribed-angles, similarity-aa]
 ---
 

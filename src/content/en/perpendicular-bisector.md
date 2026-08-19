@@ -1,8 +1,9 @@
 ---
 title: Perpendicular Bisector
 tag: THM
+track: school
+grade: 7
 year: -300
-difficulty: 2
 requires: [isosceles-triangle, perpendicular-lines, locus]
 ---
 

@@ -1,8 +1,9 @@
 ---
 title: Regular Polygon
 tag: DEF
+track: school
+grade: 9
 year: -300
-difficulty: 2
 requires: [polygon-angle-sum, triangle-circumcircle]
 ---
 

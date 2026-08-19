@@ -3,7 +3,6 @@ title: Ptolemy's Theorem
 tag: THM
 track: olympiad
 year: 150
-difficulty: 3
 requires: [inscribed-quadrilateral, similarity-sas]
 ---
 

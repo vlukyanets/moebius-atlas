@@ -1,8 +1,9 @@
 ---
 title: Law of Sines & the Circumradius
 tag: THM
+track: school
+grade: 9
 year: 1000
-difficulty: 3
 requires: [law-of-sines, central-inscribed-angles]
 ---
 

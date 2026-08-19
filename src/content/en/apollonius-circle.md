@@ -3,7 +3,6 @@ title: Circle of Apollonius
 tag: THM
 track: olympiad
 year: -200
-difficulty: 4
 requires: [bisector-ratio, circle-radius]
 ---
 

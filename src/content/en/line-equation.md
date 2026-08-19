@@ -1,8 +1,9 @@
 ---
 title: Equation of a Line
 tag: THM
+track: school
+grade: 9
 year: 1637
-difficulty: 2
 requires: [coordinate-operations]
 ---
 

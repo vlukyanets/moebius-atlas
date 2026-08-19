@@ -3,7 +3,6 @@ title: Morley's Trisector Theorem
 tag: THM
 track: olympiad
 year: 1899
-difficulty: 5
 requires: [law-of-sines, triangle-cevians]
 ---
 

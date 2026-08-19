@@ -1,5 +1,5 @@
-import { TAGS, TOPICS, TRACKS } from './topics';
-import type { TagInfo, TopicSeed, TrackId, TrackInfo } from './types';
+import { SUBJECTS, TAGS, TOPICS, TRACKS } from './topics';
+import type { SubjectId, SubjectInfo, TagInfo, TopicSeed, TrackId, TrackInfo } from './types';
 import { UI, tr, type Lang } from '../i18n';
 
 /** All topics by id. */
@@ -16,7 +16,11 @@ export const tagOf = (id: string): TagInfo | null => {
   return t?.tag ? TAGS[t.tag] : null;
 };
 
-export const trackIdOf = (id: string): TrackId => N[id]?.track ?? 'school';
+export const subjectIdOf = (id: string): SubjectId => N[id]?.subject ?? 'geometry';
+
+export const subjectOf = (id: string): SubjectInfo => SUBJECTS[subjectIdOf(id)];
+
+export const trackIdOf = (id: string): TrackId => N[id].track;
 
 export const trackOf = (id: string): TrackInfo => TRACKS[trackIdOf(id)];
 
@@ -66,6 +70,10 @@ export function prereqLevels(target: string): string[][] {
   for (const id of Object.keys(depthOf)) levels[depthOf[id]].push(id);
   return levels;
 }
+
+/** "Grade 8" in English, "8 клас" in Ukrainian. */
+export const formatGrade = (g: number, lang: Lang): string =>
+  lang === 'uk' ? `${g} ${tr(UI.grade, lang)}` : `${tr(UI.grade, lang)} ${g}`;
 
 export const formatYear = (y: number, lang: Lang, circa = false): string => {
   const prefix = circa ? tr(UI.circa, lang) : '';

@@ -3,7 +3,6 @@ title: Angle Bisector Ratio
 tag: LEM
 track: olympiad
 year: -300
-difficulty: 3
 requires: [similarity-aa, triangle-cevians]
 ---
 

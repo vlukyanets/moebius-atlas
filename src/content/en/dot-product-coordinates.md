@@ -1,8 +1,9 @@
 ---
 title: Dot Product in Coordinates
 tag: THM
+track: school
+grade: 9
 year: 1844
-difficulty: 2
 requires: [dot-product, distance-formula]
 ---
 

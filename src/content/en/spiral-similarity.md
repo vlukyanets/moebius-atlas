@@ -3,7 +3,6 @@ title: Spiral Similarity
 tag: THM
 track: olympiad
 year: 1837
-difficulty: 4
 requires: [homothety, rotation-motion]
 ---
 

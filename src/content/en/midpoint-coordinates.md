@@ -1,8 +1,9 @@
 ---
 title: Midpoint Coordinates
 tag: THM
+track: school
+grade: 9
 year: 1637
-difficulty: 1
 requires: [coordinate-operations]
 ---
 

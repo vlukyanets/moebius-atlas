@@ -3,7 +3,6 @@ title: Conic Sections
 tag: DEF
 track: advanced
 year: -200
-difficulty: 4
 requires: [circle-radius]
 ---
 

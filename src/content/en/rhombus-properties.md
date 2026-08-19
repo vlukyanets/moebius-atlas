@@ -1,8 +1,9 @@
 ---
 title: Rhombus & Its Diagonals
 tag: THM
+track: school
+grade: 8
 year: -300
-difficulty: 2
 requires: [parallelogram-criteria, isosceles-triangle]
 ---
 

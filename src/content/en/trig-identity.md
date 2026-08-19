@@ -1,8 +1,9 @@
 ---
 title: Basic Trigonometric Identity
 tag: THM
+track: school
+grade: 8
 year: -150
-difficulty: 2
 requires: [pythagorean-theorem, sin-cos-tan]
 ---
 

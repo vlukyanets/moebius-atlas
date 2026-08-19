@@ -1,8 +1,9 @@
 ---
 title: Multiplying a Vector by a Number
 tag: DEF
+track: school
+grade: 9
 year: 1844
-difficulty: 1
 requires: [vector-definition]
 ---
 

@@ -1,8 +1,9 @@
 ---
 title: Parallel Lines
 tag: DEF
+track: school
+grade: 7
 year: -300
-difficulty: 1
 requires: [point-and-line]
 ---
 

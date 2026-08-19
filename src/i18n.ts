@@ -47,6 +47,7 @@ export const UI = {
   noResults: { en: 'No topics match. Try “angle” or “triangle”.', uk: 'Нічого не знайдено. Спробуйте «кут» або «трикутник».' },
   footerIdea: { en: 'Idea - Serhii Ivanyshak', uk: 'Автор ідеї — Сергій Іванишак' },
   footerDev: { en: 'Developer - Valentyn Lukianets', uk: 'Розробник — Валентин Лук’янець' },
+  pickerEmpty: { en: 'No topics match', uk: 'Нічого не знайдено' },
   pathLead: { en: 'Show everything you need to learn before', uk: 'Показати все, що треба вивчити перед темою' },
   pathHint: {
     en: 'TARGET AT TOP · EACH LEVEL BELOW HOLDS THE PREREQUISITES OF THE LEVEL ABOVE · DOWN TO THE BASICS',
@@ -87,4 +88,10 @@ export const UI = {
   filterAll: { en: 'All', uk: 'Усі' },
   filterLead: { en: 'Filter by type', uk: 'Фільтр за типом' },
   filterTrack: { en: 'Filter by track', uk: 'Фільтр за напрямом' },
+  filterSubject: { en: 'Filter by branch', uk: 'Фільтр за розділом' },
+  grade: { en: 'Grade', uk: 'клас' },
+  filterGrade: { en: 'Filter by grade', uk: 'Фільтр за класом' },
+  filters: { en: 'Filters', uk: 'Фільтри' },
+  filtersNone: { en: 'showing everything', uk: 'показано всі теми' },
+  filtersReset: { en: 'reset all', uk: 'скинути все' },
 } satisfies Record<string, L10n>;

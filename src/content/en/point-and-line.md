@@ -1,8 +1,9 @@
 ---
 title: Point and Line
 tag: DEF
+track: school
+grade: 7
 year: -300
-difficulty: 1
 ---
 
 The undefined base objects of geometry: a **point** marks a location, a **line** extends without end in both directions.

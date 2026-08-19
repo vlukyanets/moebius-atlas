@@ -1,8 +1,9 @@
 ---
 title: Angle Sum of a Convex Polygon
 tag: THM
+track: school
+grade: 8
 year: -300
-difficulty: 2
 requires: [polygon-definition, triangle-angle-sum]
 ---
 

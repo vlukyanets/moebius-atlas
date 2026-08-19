@@ -1,9 +1,10 @@
 ---
 title: Exterior Angle of a Triangle
 tag: THM
+track: school
+grade: 7
 year: -300
-difficulty: 2
-requires: [triangle-angle-sum, adjacent-angles]
+requires: [triangle-angle-sum]
 ---
 
 The angle adjacent to an interior angle of a triangle; it equals the sum of the two remote interior angles.

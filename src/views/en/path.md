@@ -1,5 +1,5 @@
 ---
 title: Learning Path
 kind: path
-order: 3
+order: 1
 ---

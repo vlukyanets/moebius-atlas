@@ -3,7 +3,6 @@ title: Trigonometric Form of Ceva's Theorem
 tag: THM
 track: olympiad
 year: 1678
-difficulty: 4
 requires: [ceva-theorem, area-sine]
 ---
 

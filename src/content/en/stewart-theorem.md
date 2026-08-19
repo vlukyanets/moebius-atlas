@@ -3,7 +3,6 @@ title: Stewart's Theorem
 tag: THM
 track: olympiad
 year: 1746
-difficulty: 4
 requires: [law-of-cosines, triangle-cevians]
 ---
 

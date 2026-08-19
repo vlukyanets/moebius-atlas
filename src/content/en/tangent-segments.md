@@ -1,8 +1,9 @@
 ---
 title: Tangent Segments
 tag: THM
+track: school
+grade: 7
 year: -300
-difficulty: 2
 requires: [circle-tangent, right-triangle-congruence]
 ---
 

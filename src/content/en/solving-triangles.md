@@ -1,8 +1,9 @@
 ---
 title: Solving Triangles
 tag: MTD
+track: school
+grade: 9
 year: 1579
-difficulty: 3
 requires: [law-of-sines, law-of-cosines]
 ---
 

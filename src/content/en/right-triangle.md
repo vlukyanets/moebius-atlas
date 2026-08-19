@@ -1,8 +1,9 @@
 ---
 title: Right Triangle
 tag: THM
+track: school
+grade: 7
 year: -300
-difficulty: 2
 requires: [triangle-kinds]
 ---
 

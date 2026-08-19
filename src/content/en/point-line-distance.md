@@ -1,8 +1,9 @@
 ---
 title: Distance from a Point to a Line
 tag: DEF
+track: school
+grade: 7
 year: -300
-difficulty: 2
 requires: [perpendicular-lines, right-triangle]
 ---
 

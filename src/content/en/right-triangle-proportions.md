@@ -1,8 +1,9 @@
 ---
 title: Proportions in a Right Triangle
 tag: THM
+track: school
+grade: 8
 year: -300
-difficulty: 3
 requires: [similarity-aa, right-triangle]
 ---
 

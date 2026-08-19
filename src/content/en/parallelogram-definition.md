@@ -1,8 +1,9 @@
 ---
 title: "Parallelogram: Sides & Angles"
 tag: DEF
+track: school
+grade: 8
 year: -300
-difficulty: 2
 requires: [transversal-angles, congruence-sas-asa]
 ---
 

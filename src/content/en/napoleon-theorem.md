@@ -3,7 +3,6 @@ title: Napoleon's Theorem
 tag: THM
 track: olympiad
 year: 1825
-difficulty: 4
 requires: [fermat-point]
 ---
 

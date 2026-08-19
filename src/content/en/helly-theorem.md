@@ -3,7 +3,6 @@ title: Helly's Theorem
 tag: THM
 track: olympiad
 year: 1923
-difficulty: 5
 requires: [convex-hull]
 ---
 

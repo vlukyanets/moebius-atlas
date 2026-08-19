@@ -3,7 +3,6 @@ title: Tangent-Chord Angle
 tag: THM
 track: olympiad
 year: -300
-difficulty: 3
 requires: [central-inscribed-angles]
 ---
 

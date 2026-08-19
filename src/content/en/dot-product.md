@@ -1,8 +1,9 @@
 ---
 title: Dot Product
 tag: DEF
+track: school
+grade: 9
 year: 1844
-difficulty: 2
 requires: [sin-cos-tan, vector-coordinates]
 ---
 

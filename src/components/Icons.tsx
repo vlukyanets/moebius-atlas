@@ -44,3 +44,24 @@ export function EraIcon({ size = 13 }: { size?: number }) {
     </svg>
   );
 }
+
+/** Open book - the school year a topic is taught in. */
+export function GradeIcon({ size = 13 }: { size?: number }) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 16 16"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.4"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M8 4.2v9.3" />
+      <path d="M8 4.2C6.7 3.1 5.1 2.6 3 2.6v8.9c2.1 0 3.7.5 5 1.6" />
+      <path d="M8 4.2c1.3-1.1 2.9-1.6 5-1.6v8.9c-2.1 0-3.7.5-5 1.6" />
+    </svg>
+  );
+}

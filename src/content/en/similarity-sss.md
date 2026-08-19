@@ -1,8 +1,9 @@
 ---
 title: "Similarity Criterion: Three Sides"
 tag: THM
+track: school
+grade: 8
 year: -300
-difficulty: 2
 requires: [similarity-sas]
 ---
 

@@ -3,7 +3,6 @@ title: Erdos-Mordell Inequality
 tag: THM
 track: olympiad
 year: 1937
-difficulty: 5
 requires: [triangle-inequality, point-line-distance]
 ---
 

@@ -1,8 +1,9 @@
 ---
 title: Triangle Area via Sine
 tag: THM
+track: school
+grade: 9
 year: 1000
-difficulty: 2
 requires: [triangle-area, trig-0-180]
 ---
 

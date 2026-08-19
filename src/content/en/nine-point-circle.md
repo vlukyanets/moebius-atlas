@@ -3,7 +3,6 @@ title: Nine-Point Circle
 tag: THM
 track: olympiad
 year: 1822
-difficulty: 4
 requires: [euler-line]
 ---
 

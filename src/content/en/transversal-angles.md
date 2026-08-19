@@ -1,9 +1,10 @@
 ---
 title: Angles at a Transversal
 tag: THM
+track: school
+grade: 7
 year: -300
-difficulty: 2
-requires: [parallel-lines, angle-measure]
+requires: [parallel-lines, vertical-angles]
 ---
 
 A transversal creates **alternate**, **corresponding** and **co-interior** angles; their equalities are exactly what parallelism means.

@@ -1,8 +1,9 @@
 ---
 title: Adjacent Angles
 tag: THM
+track: school
+grade: 7
 year: -300
-difficulty: 1
 requires: [angle-measure]
 ---
 

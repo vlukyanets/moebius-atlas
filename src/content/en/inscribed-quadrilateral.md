@@ -1,8 +1,9 @@
 ---
 title: Inscribed & Circumscribed Quadrilaterals
 tag: THM
+track: school
+grade: 8
 year: -300
-difficulty: 3
 requires: [central-inscribed-angles, triangle-circumcircle]
 ---
 

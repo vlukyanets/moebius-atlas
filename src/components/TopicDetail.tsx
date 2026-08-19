@@ -2,9 +2,9 @@ import ReactMarkdown from 'react-markdown';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
 import 'katex/dist/katex.min.css';
-import { N, dependents, formatYear, tagOf, topicName, wikiUrl } from '../data/graph';
+import { N, dependents, formatGrade, formatYear, tagOf, topicName, wikiUrl } from '../data/graph';
 import { UI, tr, useLang } from '../i18n';
-import { EraIcon } from './Icons';
+import { EraIcon, GradeIcon } from './Icons';
 import { TagBadge } from './TagBadge';
 
 interface Props {
@@ -36,12 +36,20 @@ export function TopicDetail({ id, onBack, onOpen, onShowPath }: Props) {
             </button>
           )}
         </div>
-        {t.year !== undefined && (
+        {(t.year !== undefined || t.grade !== undefined) && (
           <div className="detail-meta">
-            <span className="meta-item">
-              <EraIcon />
-              {formatYear(t.year, lang, true)}
-            </span>
+            {t.year !== undefined && (
+              <span className="meta-item">
+                <EraIcon />
+                {formatYear(t.year, lang, true)}
+              </span>
+            )}
+            {t.grade !== undefined && (
+              <span className="meta-item">
+                <GradeIcon />
+                {formatGrade(t.grade, lang)}
+              </span>
+            )}
           </div>
         )}
         <div className="detail-body">

@@ -1,8 +1,9 @@
 ---
 title: Similar Triangles
 tag: DEF
+track: school
+grade: 8
 year: -300
-difficulty: 2
 requires: [proportional-segments]
 ---
 

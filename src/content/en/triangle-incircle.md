@@ -1,8 +1,9 @@
 ---
 title: Incircle of a Triangle
 tag: THM
+track: school
+grade: 7
 year: -300
-difficulty: 2
 requires: [angle-bisector-locus, circle-tangent]
 ---
 

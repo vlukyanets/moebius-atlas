@@ -1,8 +1,9 @@
 ---
 title: Trapezoid & Its Elements
 tag: DEF
+track: school
+grade: 8
 year: -300
-difficulty: 1
 requires: [transversal-angles]
 ---
 

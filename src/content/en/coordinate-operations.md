@@ -1,8 +1,9 @@
 ---
 title: Vector Operations in Coordinates
 tag: THM
+track: school
+grade: 9
 year: 1637
-difficulty: 2
 requires: [vector-coordinates]
 ---
 

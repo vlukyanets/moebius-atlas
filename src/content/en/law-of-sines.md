@@ -1,8 +1,9 @@
 ---
 title: Law of Sines
 tag: THM
+track: school
+grade: 9
 year: 1000
-difficulty: 2
 requires: [area-sine]
 ---
 

@@ -1,8 +1,9 @@
 ---
 title: Congruence Criteria I & II (SAS, ASA)
 tag: THM
+track: school
+grade: 7
 year: -585
-difficulty: 2
 requires: [triangle-definition, congruent-figures]
 ---
 

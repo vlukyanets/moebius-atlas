@@ -1,8 +1,9 @@
 ---
 title: Area of a Disk & Sector
 tag: THM
+track: school
+grade: 9
 year: -250
-difficulty: 2
 requires: [circle-circumference, similar-areas]
 ---
 

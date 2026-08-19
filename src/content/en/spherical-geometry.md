@@ -3,7 +3,6 @@ title: Spherical Geometry
 tag: DEF
 track: advanced
 year: 100
-difficulty: 4
 requires: [triangle-angle-sum, circle-radius]
 ---
 

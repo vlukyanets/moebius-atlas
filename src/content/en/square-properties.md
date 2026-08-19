@@ -1,8 +1,9 @@
 ---
 title: Square
 tag: DEF
+track: school
+grade: 8
 year: -300
-difficulty: 1
 requires: [rectangle-properties, rhombus-properties]
 ---
 

@@ -3,7 +3,6 @@ title: Ceva's Theorem
 tag: THM
 track: olympiad
 year: 1678
-difficulty: 3
 requires: [triangle-cevians, similar-triangles]
 ---
 

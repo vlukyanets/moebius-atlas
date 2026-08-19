@@ -3,7 +3,6 @@ title: Inscribed Square Problem
 tag: CNJ
 track: olympiad
 year: 1911
-difficulty: 5
 requires: [convex-hull]
 ---
 

@@ -1,8 +1,9 @@
 ---
 title: Isosceles Trapezoid
 tag: THM
+track: school
+grade: 8
 year: -300
-difficulty: 2
 requires: [trapezoid-definition, isosceles-triangle]
 ---
 

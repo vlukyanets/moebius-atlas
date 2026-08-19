@@ -1,8 +1,9 @@
 ---
 title: Central & Inscribed Angles
 tag: THM
+track: school
+grade: 8
 year: -300
-difficulty: 2
 requires: [chord-diameter, exterior-angle]
 ---
 

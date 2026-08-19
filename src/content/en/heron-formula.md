@@ -1,8 +1,9 @@
 ---
 title: Heron's Formula
 tag: THM
+track: school
+grade: 9
 year: 60
-difficulty: 3
 requires: [triangle-area, pythagorean-theorem]
 ---
 

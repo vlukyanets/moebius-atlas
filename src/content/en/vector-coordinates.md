@@ -1,8 +1,9 @@
 ---
 title: Vector Coordinates
 tag: DEF
+track: school
+grade: 9
 year: 1637
-difficulty: 2
 requires: [vector-basis]
 ---
 

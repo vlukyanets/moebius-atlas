@@ -1,8 +1,9 @@
 ---
 title: Reduction Formulas for 180° − α
 tag: THM
+track: school
+grade: 9
 year: 1748
-difficulty: 2
 requires: [trig-0-180]
 ---
 

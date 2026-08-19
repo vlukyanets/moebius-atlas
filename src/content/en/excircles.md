@@ -3,7 +3,6 @@ title: Excircles
 tag: THM
 track: olympiad
 year: -300
-difficulty: 3
 requires: [triangle-incircle]
 ---
 

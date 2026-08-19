@@ -3,7 +3,6 @@ title: Barycentric Coordinates
 tag: MTD
 track: olympiad
 year: 1827
-difficulty: 5
 requires: [mass-points, vector-basis]
 ---
 

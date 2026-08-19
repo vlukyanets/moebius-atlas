@@ -1,8 +1,9 @@
 ---
 title: Area of a Parallelogram
 tag: THM
+track: school
+grade: 8
 year: -300
-difficulty: 2
 requires: [rectangle-area]
 ---
 

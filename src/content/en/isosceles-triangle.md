@@ -1,8 +1,9 @@
 ---
 title: Isosceles Triangle
 tag: DEF
+track: school
+grade: 7
 year: -585
-difficulty: 1
 requires: [triangle-definition]
 ---
 

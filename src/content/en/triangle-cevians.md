@@ -1,8 +1,9 @@
 ---
 title: Median, Bisector and Altitude
 tag: DEF
+track: school
+grade: 7
 year: -300
-difficulty: 1
 requires: [triangle-definition, perpendicular-lines]
 ---
 

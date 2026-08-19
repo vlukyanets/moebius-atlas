@@ -1,8 +1,9 @@
 ---
 title: Radii of a Regular Polygon
 tag: THM
+track: school
+grade: 9
 year: -300
-difficulty: 3
 requires: [regular-polygon, trig-values]
 ---
 

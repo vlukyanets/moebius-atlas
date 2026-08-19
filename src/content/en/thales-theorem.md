@@ -1,8 +1,9 @@
 ---
 title: Thales' Theorem
 tag: THM
+track: school
+grade: 8
 year: -585
-difficulty: 2
 requires: [parallelogram-definition]
 ---
 

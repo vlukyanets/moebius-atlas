@@ -3,7 +3,6 @@ title: Fermat Point
 tag: THM
 track: olympiad
 year: 1640
-difficulty: 4
 requires: [rotation-motion, ptolemy-theorem]
 ---
 

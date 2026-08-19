@@ -3,7 +3,6 @@ title: Coordinate Method
 tag: MTD
 track: olympiad
 year: 1637
-difficulty: 3
 requires: [line-equation, circle-equation]
 ---
 

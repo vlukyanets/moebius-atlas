@@ -1,8 +1,9 @@
 ---
 title: Translation
 tag: THM
+track: school
+grade: 9
 year: 1872
-difficulty: 2
 requires: [plane-motion, vector-definition]
 ---
 

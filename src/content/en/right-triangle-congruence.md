@@ -1,8 +1,9 @@
 ---
 title: "Right Triangles: Congruence Criteria"
 tag: THM
+track: school
+grade: 7
 year: -300
-difficulty: 2
 requires: [congruence-sas-asa, right-triangle]
 ---
 

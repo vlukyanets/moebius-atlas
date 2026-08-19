@@ -3,7 +3,6 @@ title: Gaussian Curvature
 tag: DEF
 track: advanced
 year: 1854
-difficulty: 5
 requires: [spherical-geometry, non-euclidean-geometry]
 ---
 

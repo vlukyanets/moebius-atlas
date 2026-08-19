@@ -1,8 +1,9 @@
 ---
 title: Midsegment of a Triangle
 tag: THM
+track: school
+grade: 8
 year: -300
-difficulty: 2
 requires: [thales-theorem]
 ---
 

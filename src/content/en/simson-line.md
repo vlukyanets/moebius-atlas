@@ -3,7 +3,6 @@ title: Simson Line
 tag: THM
 track: olympiad
 year: 1797
-difficulty: 4
 requires: [inscribed-quadrilateral]
 ---
 

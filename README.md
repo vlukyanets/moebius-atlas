@@ -61,8 +61,9 @@ and body. The id is the file name.
 ---
 title: Triangle Angle Sum
 tag: THM                # AXM|DEF|THM|LEM|CNJ|MTD
+track: school           # school|olympiad|advanced|other; missing -> other, with a console warning
+grade: 8                # school year; school-track topics only
 year: -300              # discovery year; negative = BCE
-difficulty: 2           # 1..5 (data only, not currently shown)
 requires: [parallel-properties, triangle-definition]
 resources: [Khan Academy](https://…), [Math is Fun](https://…)
 ---

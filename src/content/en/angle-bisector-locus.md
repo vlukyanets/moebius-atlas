@@ -1,8 +1,9 @@
 ---
 title: Angle Bisector as a Locus
 tag: THM
+track: school
+grade: 7
 year: -300
-difficulty: 2
 requires: [right-triangle-congruence, locus]
 ---
 

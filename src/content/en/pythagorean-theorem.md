@@ -1,8 +1,9 @@
 ---
 title: Pythagorean Theorem
 tag: THM
+track: school
+grade: 8
 year: -530
-difficulty: 2
 requires: [right-triangle-proportions]
 ---
 

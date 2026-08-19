@@ -1,8 +1,9 @@
 ---
 title: Chord & Diameter
 tag: DEF
+track: school
+grade: 7
 year: -300
-difficulty: 1
 requires: [circle-radius]
 ---
 

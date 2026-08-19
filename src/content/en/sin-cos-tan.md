@@ -1,8 +1,9 @@
 ---
 title: Sine, Cosine & Tangent of an Acute Angle
 tag: DEF
+track: school
+grade: 8
 year: -150
-difficulty: 2
 requires: [similarity-aa, right-triangle]
 ---
 

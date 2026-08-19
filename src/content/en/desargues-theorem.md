@@ -3,7 +3,6 @@ title: Desargues' Theorem
 tag: THM
 track: olympiad
 year: 1639
-difficulty: 4
 requires: [menelaus-theorem]
 ---
 

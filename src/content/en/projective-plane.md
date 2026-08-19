@@ -3,7 +3,6 @@ title: Projective Plane
 tag: DEF
 track: advanced
 year: 1822
-difficulty: 5
 requires: [parallel-lines]
 ---
 

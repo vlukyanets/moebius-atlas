@@ -3,7 +3,6 @@ title: Euler Line
 tag: THM
 track: olympiad
 year: 1765
-difficulty: 4
 requires: [triangle-centroid, triangle-orthocenter]
 ---
 

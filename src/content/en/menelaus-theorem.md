@@ -3,7 +3,6 @@ title: Menelaus' Theorem
 tag: THM
 track: olympiad
 year: 100
-difficulty: 3
 requires: [proportional-segments]
 ---
 

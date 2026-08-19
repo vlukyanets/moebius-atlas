@@ -1,8 +1,9 @@
 ---
 title: Arc Length
 tag: THM
+track: school
+grade: 9
 year: -250
-difficulty: 1
 requires: [circle-circumference]
 ---
 

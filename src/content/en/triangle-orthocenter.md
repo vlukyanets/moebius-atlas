@@ -1,8 +1,9 @@
 ---
 title: Orthocenter
 tag: THM
+track: school
+grade: 8
 year: -250
-difficulty: 2
 requires: [triangle-cevians, triangle-circumcircle]
 ---
 

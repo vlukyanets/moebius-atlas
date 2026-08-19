@@ -1,8 +1,9 @@
 ---
 title: Triangle Angle Sum
 tag: THM
+track: school
+grade: 7
 year: -300
-difficulty: 2
 requires: [parallel-properties, triangle-definition]
 resources: [Khan Academy](https://www.khanacademy.org/math/cc-eighth-grade-math/cc-8th-geometry/cc-8th-triangle-angles/v/sum-of-interior-angles-of-a-triangle), [Math is Fun](https://www.mathsisfun.com/proof180deg.html)
 ---

@@ -3,7 +3,6 @@ title: Pick's Theorem
 tag: THM
 track: olympiad
 year: 1899
-difficulty: 3
 requires: [area-axioms]
 ---
 
