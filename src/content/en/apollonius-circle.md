@@ -4,7 +4,7 @@ tag: THM
 track: olympiad
 year: -200
 difficulty: 4
-requires: [bisector-ratio, circle-equation]
+requires: [bisector-ratio, circle-radius]
 ---
 
 The points whose distances to two fixed points keep a constant ratio $k \ne 1$ form a circle:

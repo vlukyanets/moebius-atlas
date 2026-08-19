@@ -2,7 +2,7 @@
 title: Geometric Inequalities
 tag: MTD
 track: olympiad
-year: -300
+year: 60
 difficulty: 4
 requires: [triangle-inequality, heron-formula]
 ---

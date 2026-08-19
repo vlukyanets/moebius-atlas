@@ -4,7 +4,7 @@ tag: THM
 track: olympiad
 year: 1899
 difficulty: 3
-requires: [polygon-definition, area-axioms]
+requires: [area-axioms]
 ---
 
 The area of a polygon whose vertices are lattice points is computed by counting points alone:

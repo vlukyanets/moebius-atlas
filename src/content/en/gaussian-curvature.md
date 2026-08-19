@@ -2,9 +2,9 @@
 title: Gaussian Curvature
 tag: DEF
 track: advanced
-year: 1827
+year: 1854
 difficulty: 5
-requires: [spherical-geometry]
+requires: [spherical-geometry, non-euclidean-geometry]
 ---
 
 Curvature is what separates the three geometries: the plane has $K = 0$, the sphere has $K > 0$, the hyperbolic plane has $K < 0$. The angle sum of a triangle deviates from $180^\circ$ in proportion to the curvature enclosed.

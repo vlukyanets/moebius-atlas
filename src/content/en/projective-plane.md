@@ -4,7 +4,7 @@ tag: DEF
 track: advanced
 year: 1822
 difficulty: 5
-requires: [desargues-theorem]
+requires: [parallel-lines]
 ---
 
 Add to the plane one point at infinity for each direction and one line containing them all. Then any two lines meet, and the awkward case distinction between intersecting and parallel disappears.

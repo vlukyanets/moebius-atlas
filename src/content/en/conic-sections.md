@@ -4,7 +4,7 @@ tag: DEF
 track: advanced
 year: -200
 difficulty: 4
-requires: [analytic-method]
+requires: [circle-radius]
 ---
 
 A plane cutting a cone gives an ellipse, a parabola or a hyperbola. In coordinates each of them is the zero set of one quadratic equation:

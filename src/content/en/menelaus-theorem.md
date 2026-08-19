@@ -4,7 +4,7 @@ tag: THM
 track: olympiad
 year: 100
 difficulty: 3
-requires: [ceva-theorem]
+requires: [proportional-segments]
 ---
 
 A line crossing the sides of a triangle, or their extensions, at $D$, $E$, $F$ cuts off ratios whose product is one, with an odd number of the points lying outside the sides:

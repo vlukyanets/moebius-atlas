@@ -4,7 +4,7 @@ tag: THM
 track: advanced
 year: 1829
 difficulty: 5
-requires: [euclidean-axiomatics]
+requires: [parallel-postulate]
 ---
 
 Replacing the parallel postulate by its negation produces a consistent geometry rather than a contradiction. Lobachevsky and Bolyai built it, and Beltrami and Klein gave models inside Euclidean geometry, which proved the postulate independent of the rest.
