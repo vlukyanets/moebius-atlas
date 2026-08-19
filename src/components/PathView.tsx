@@ -35,13 +35,21 @@ export function PathView({ target, onTarget, onOpen }: Props) {
   const visible = Math.min(shown, levels.length);
   const hasMore = visible < levels.length;
   const nextCount = hasMore ? levels[visible].length : 0;
-  const nextLabel =
-    visible === 2 ? tr(UI.revealDeps, lang) : `${tr(UI.revealLevel, lang)} ${visible}`;
+  const nextLabel = `${tr(UI.revealNext, lang)} ${visible}`;
 
   return (
     <div className="path-view">
       <div className="path-picker">
-        <span className="lead">{tr(UI.pathLead, lang)}</span>
+        <div className="picker-row">
+          <span className="lead">{tr(UI.pathLead, lang)}</span>
+          <span className="spacer" />
+          <button className="chip-btn" onClick={() => setShown(levels.length)}>
+            {tr(UI.revealAll, lang)}
+          </button>
+          <button className="chip-btn" onClick={() => setShown(2)}>
+            {tr(UI.collapseAll, lang)}
+          </button>
+        </div>
         <select value={target} onChange={(e) => onTarget(e.target.value)}>
           {pathTargets(lang).map((id) => (
             <option key={id} value={id}>
@@ -49,13 +57,6 @@ export function PathView({ target, onTarget, onOpen }: Props) {
             </option>
           ))}
         </select>
-        <span className="spacer" />
-        <button className="chip-btn" onClick={() => setShown(levels.length)}>
-          {tr(UI.revealAll, lang)}
-        </button>
-        <button className="chip-btn" onClick={() => setShown(2)}>
-          {tr(UI.collapseAll, lang)}
-        </button>
       </div>
       <div className="path-hint">{tr(UI.pathHint, lang)}</div>
       <div className="path-lanes">

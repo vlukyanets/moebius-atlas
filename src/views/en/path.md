@@ -1,5 +1,5 @@
 ---
-title: Prereq path
+title: Learning Path
 kind: path
-order: 4
+order: 3
 ---
