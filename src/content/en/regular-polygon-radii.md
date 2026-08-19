@@ -1,0 +1,13 @@
+---
+title: Radii of a Regular Polygon
+tag: THM
+year: -300
+difficulty: 3
+requires: [regular-polygon, trig-values]
+---
+
+For a regular polygon with $n$ sides of length $a$, the radii of the circumscribed and inscribed circles are:
+
+$$
+R = \frac{a}{2\sin(180^\circ/n)},\quad r = \frac{a}{2\,\mathrm{tg}(180^\circ/n)}
+$$

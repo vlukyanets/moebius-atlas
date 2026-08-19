@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Moebius Atlas — explorable graph of geometry</title>
+    <meta name="description" content="School geometry (grades 7–9) as an explorable atlas: an A–Z topic index and step-by-step prerequisite paths." />
+    <link rel="icon" type="image/svg+xml" href="./logo.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+    <script>
+      // Pre-paint settings application — avoids a light-theme flash.
+      // Mirrors applySettings() in src/settings.ts; keep key/shape in sync.
+      (function () {
+        try {
+          var s = JSON.parse(localStorage.getItem('moebius-atlas-settings') || '{}');
+          var d = document.documentElement;
+          var t = s.theme || 'auto';
+          d.dataset.theme = t === 'auto' ? (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : t;
+          var a = s.anim || 'auto';
+          d.dataset.anim = a === 'auto' ? (matchMedia('(prefers-reduced-motion: reduce)').matches ? 'off' : 'on') : a;
+          d.dataset.text = s.text || 'normal';
+        } catch (e) {}
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
