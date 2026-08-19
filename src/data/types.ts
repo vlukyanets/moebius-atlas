@@ -20,6 +20,18 @@ export interface TagInfo {
   bg: string;
 }
 
+/** Curriculum track a topic belongs to. Topics without one count as `school`. */
+export type TrackId = 'school' | 'olympiad' | 'advanced';
+
+export interface TrackInfo {
+  /** Full name shown on the filter chip ("Olympiad"). */
+  full: L10n;
+  /** Chip accent color. */
+  color: string;
+  /** Chip background when active. */
+  bg: string;
+}
+
 /** Id of a view from `views.ts` ('az', 'path'). */
 export type ViewId = string;
 
@@ -37,6 +49,8 @@ export interface TopicSeed {
   /** Full Markdown body (KaTeX via $…$ / $$…$$), shown on the detail page. */
   body?: L10n;
   tag?: TagId;
+  /** Curriculum track; absent means `school`. */
+  track?: TrackId;
   /** 1..5 shown as ●●●○○. */
   difficulty?: number;
   /** Year of discovery; negative = BCE. */

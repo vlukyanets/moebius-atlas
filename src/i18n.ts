@@ -86,4 +86,5 @@ export const UI = {
   optXLarge: { en: 'Extra Large', uk: 'Дуже великий' },
   filterAll: { en: 'All', uk: 'Усі' },
   filterLead: { en: 'Filter by type', uk: 'Фільтр за типом' },
+  filterTrack: { en: 'Filter by track', uk: 'Фільтр за напрямом' },
 } satisfies Record<string, L10n>;

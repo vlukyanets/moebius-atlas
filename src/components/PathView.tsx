@@ -3,6 +3,7 @@ import { N, pathTargets, prereqLevels, tagOf, topicName } from '../data/graph';
 import { UI, tr, useLang, type Lang } from '../i18n';
 
 interface Props {
+  /** Empty falls back to the first target in alphabetical order. */
   target: string;
   onTarget: (id: string) => void;
   onOpen: (id: string) => void;
@@ -24,8 +25,10 @@ const topicsWord = (n: number, lang: Lang): string =>
  * prerequisites of the level above. Starts collapsed to the target plus
  * its direct prerequisites; deeper levels are revealed one at a time.
  */
-export function PathView({ target, onTarget, onOpen }: Props) {
+export function PathView({ target: picked, onTarget, onOpen }: Props) {
   const lang = useLang();
+  const targets = pathTargets(lang);
+  const target = picked && N[picked] ? picked : targets[0];
   const [shown, setShown] = useState(2);
   useEffect(() => setShown(2), [target]);
 
@@ -51,7 +54,7 @@ export function PathView({ target, onTarget, onOpen }: Props) {
           </button>
         </div>
         <select value={target} onChange={(e) => onTarget(e.target.value)}>
-          {pathTargets(lang).map((id) => (
+          {targets.map((id) => (
             <option key={id} value={id}>
               {topicName(id, lang)}
             </option>

@@ -1,0 +1,16 @@
+---
+title: Ceva's Theorem
+tag: THM
+track: olympiad
+year: 1678
+difficulty: 3
+requires: [triangle-cevians, similar-triangles]
+---
+
+Three cevians $AD$, $BE$, $CF$ of a triangle pass through one point exactly when the ratios they cut off multiply to one:
+
+$$
+\frac{BD}{DC}\cdot\frac{CE}{EA}\cdot\frac{AF}{FB} = 1
+$$
+
+This single identity settles the concurrency of the medians, the bisectors and the altitudes at once.

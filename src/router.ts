@@ -13,11 +13,16 @@ export type Route =
   | { screen: 'view'; view: ViewId; pathTarget: string }
   | { screen: 'detail'; view: ViewId; pathTarget: string; detailId: string };
 
-const DEFAULT_PATH_TARGET = 'triangle-angle-sum';
+/** Empty means "no explicit target": the path view then falls back to the
+ * first target in the current language's alphabetical order. */
+const DEFAULT_PATH_TARGET = '';
 
+/** The default view without an explicit target is the bare root URL. */
 export function routeToHash(r: Route): string {
   if (r.screen === 'detail') return `#/topic/${r.detailId}`;
-  return viewById(r.view)?.kind === 'path' ? `#/path/${r.pathTarget}` : `#/${r.view}`;
+  const isPath = viewById(r.view)?.kind === 'path';
+  if (isPath && r.pathTarget) return `#/${r.view}/${r.pathTarget}`;
+  return r.view === DEFAULT_VIEW ? '' : `#/${r.view}`;
 }
 
 export function parseHash(hash: string, prev?: Route): Route {
@@ -56,7 +61,9 @@ export function useRoute() {
     // "Back" restores the exact prior state.
     setRoute(r);
     const hash = routeToHash(r);
-    if (window.location.hash !== hash) window.history.pushState(null, '', hash);
+    // An empty hash means the root URL - push the bare path, not "#".
+    const url = hash || window.location.pathname + window.location.search;
+    if (window.location.hash !== hash) window.history.pushState(null, '', url);
     if (r.screen === 'detail') window.scrollTo(0, 0);
   }, []);
 

@@ -70,7 +70,7 @@ export default function App() {
           query={query}
           onHome={() => {
             setQuery('');
-            navigate(viewRoute(route, { view: DEFAULT_VIEW }));
+            navigate(viewRoute(route, { view: DEFAULT_VIEW, pathTarget: '' }));
           }}
           onView={setView}
           onQuery={setQuery}

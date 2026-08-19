@@ -24,7 +24,7 @@
  * page with KaTeX support ($…$ inline, $$…$$ display). The first plain
  * paragraph doubles as the short summary. The id is the file name.
  */
-import type { Resource, TagId, TopicMap } from './types';
+import type { Resource, TagId, TopicMap, TrackId } from './types';
 import type { L10n } from '../i18n';
 
 const TOPIC_RAW = import.meta.glob('../content/*/*.md', {
@@ -74,6 +74,7 @@ export function loadTopics(): TopicMap {
       summary: summary as L10n,
       body: body as L10n,
       tag: meta.tag as TagId | undefined,
+      track: (meta.track as TrackId | undefined) ?? 'school',
       difficulty: meta.difficulty as number | undefined,
       year: meta.year as number | undefined,
       requires: meta.requires as string[] | undefined,

@@ -1,5 +1,5 @@
-import { TAGS, TOPICS } from './topics';
-import type { TagInfo, TopicSeed } from './types';
+import { TAGS, TOPICS, TRACKS } from './topics';
+import type { TagInfo, TopicSeed, TrackId, TrackInfo } from './types';
 import { UI, tr, type Lang } from '../i18n';
 
 /** All topics by id. */
@@ -15,6 +15,10 @@ export const tagOf = (id: string): TagInfo | null => {
   const t = N[id];
   return t?.tag ? TAGS[t.tag] : null;
 };
+
+export const trackIdOf = (id: string): TrackId => N[id]?.track ?? 'school';
+
+export const trackOf = (id: string): TrackInfo => TRACKS[trackIdOf(id)];
 
 export const topicName = (id: string, lang: Lang): string => tr(N[id].name, lang);
 

@@ -147,8 +147,9 @@ button { font-family: inherit; }
 
 /* A–Z index view */
 .az { margin: 20px 24px 0; }
-.az-filters { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
-.az-filters .lead { font-size: 12.5px; color: var(--text-secondary); margin-right: 4px; }
+.az-filters { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 10px; }
+.az-filters:last-of-type { margin-bottom: 14px; }
+.az-filters .lead { min-width: 104px; font-size: 12.5px; color: var(--text-secondary); margin-right: 4px; }
 .filter-chip {
   display: inline-flex; align-items: center; gap: 7px;
   border: 1px solid var(--border-strong); background: var(--surface); color: var(--text-secondary);
