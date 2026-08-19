@@ -2,6 +2,7 @@
 title: Radical Axis
 tag: THM
 track: olympiad
+year: 1813
 difficulty: 4
 requires: [power-of-a-point]
 ---

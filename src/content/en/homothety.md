@@ -2,6 +2,7 @@
 title: Homothety
 tag: DEF
 track: olympiad
+year: 1837
 difficulty: 3
 requires: [similar-triangles, plane-motion]
 ---

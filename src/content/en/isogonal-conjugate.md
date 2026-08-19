@@ -2,6 +2,7 @@
 title: Isogonal Conjugates
 tag: DEF
 track: olympiad
+year: 1865
 difficulty: 5
 requires: [trig-ceva]
 ---

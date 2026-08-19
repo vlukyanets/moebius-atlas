@@ -2,6 +2,7 @@
 title: Complex Numbers in Geometry
 tag: MTD
 track: olympiad
+year: 1797
 difficulty: 4
 requires: [vector-coordinates, rotation-motion]
 ---

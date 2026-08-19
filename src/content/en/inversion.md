@@ -2,6 +2,7 @@
 title: Inversion
 tag: MTD
 track: olympiad
+year: 1824
 difficulty: 5
 requires: [power-of-a-point]
 ---

@@ -2,6 +2,7 @@
 title: Pigeonhole Principle in Geometry
 tag: MTD
 track: olympiad
+year: 1834
 difficulty: 3
 requires: [polygon-definition]
 ---

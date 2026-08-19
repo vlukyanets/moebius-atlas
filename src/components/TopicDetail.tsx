@@ -4,6 +4,7 @@ import rehypeKatex from 'rehype-katex';
 import 'katex/dist/katex.min.css';
 import { N, dependents, formatYear, tagOf, topicName, wikiUrl } from '../data/graph';
 import { UI, tr, useLang } from '../i18n';
+import { EraIcon } from './Icons';
 import { TagBadge } from './TagBadge';
 
 interface Props {
@@ -37,7 +38,10 @@ export function TopicDetail({ id, onBack, onOpen, onShowPath }: Props) {
         </div>
         {t.year !== undefined && (
           <div className="detail-meta">
-            <span>⌆ {formatYear(t.year, lang, true)}</span>
+            <span className="meta-item">
+              <EraIcon />
+              {formatYear(t.year, lang, true)}
+            </span>
           </div>
         )}
         <div className="detail-body">

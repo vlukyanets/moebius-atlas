@@ -2,6 +2,7 @@
 title: Mass Point Geometry
 tag: MTD
 track: olympiad
+year: -250
 difficulty: 3
 requires: [ceva-theorem]
 ---

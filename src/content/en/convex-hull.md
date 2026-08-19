@@ -2,6 +2,7 @@
 title: Convex Hull
 tag: DEF
 track: olympiad
+year: 1911
 difficulty: 3
 requires: [polygon-definition]
 ---

@@ -2,6 +2,7 @@
 title: Affine Transformations
 tag: DEF
 track: advanced
+year: 1748
 difficulty: 4
 requires: [homothety]
 ---

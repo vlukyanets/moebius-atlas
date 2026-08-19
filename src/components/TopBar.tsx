@@ -1,6 +1,7 @@
 import type { ViewId } from '../data/types';
 import { VIEWS } from '../data/views';
 import { UI, tr, useLang } from '../i18n';
+import { SearchIcon } from './Icons';
 import { Logo } from './Logo';
 import { SettingsMenu } from './SettingsMenu';
 
@@ -31,7 +32,9 @@ export function TopBar({ view, query, onHome, onView, onQuery }: Props) {
       </div>
       <div className="topbar-center">
         <div className="searchbox">
-          <span className="icon">⌕</span>
+          <span className="icon">
+            <SearchIcon />
+          </span>
           <input value={query} onChange={(e) => onQuery(e.target.value)} placeholder={tr(UI.searchPlaceholder, lang)} />
           {query && (
             <button className="clear" onClick={() => onQuery('')}>

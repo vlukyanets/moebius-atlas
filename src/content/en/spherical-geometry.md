@@ -2,6 +2,7 @@
 title: Spherical Geometry
 tag: DEF
 track: advanced
+year: 100
 difficulty: 4
 requires: [non-euclidean-geometry]
 ---

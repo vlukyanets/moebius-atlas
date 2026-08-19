@@ -2,6 +2,7 @@
 title: Focal Properties of Conics
 tag: THM
 track: advanced
+year: -200
 difficulty: 4
 requires: [conic-sections]
 ---

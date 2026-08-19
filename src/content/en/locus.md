@@ -1,6 +1,7 @@
 ---
 title: Locus of Points
 tag: DEF
+year: -300
 difficulty: 2
 requires: [point-and-line]
 ---

@@ -2,6 +2,7 @@
 title: Ratios of Areas
 tag: LEM
 track: olympiad
+year: -300
 difficulty: 3
 requires: [triangle-area]
 ---

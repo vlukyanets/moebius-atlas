@@ -1,6 +1,7 @@
 ---
 title: Orthocenter
 tag: THM
+year: -250
 difficulty: 2
 requires: [triangle-cevians, triangle-circumcircle]
 ---

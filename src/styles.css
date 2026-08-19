@@ -99,7 +99,7 @@ button { font-family: inherit; }
 }
 .tab.active { font-weight: 600; background: var(--surface); color: var(--text); box-shadow: 0 1px 3px rgba(20, 30, 50, .12); }
 .searchbox { position: relative; display: flex; align-items: center; width: 100%; }
-.searchbox .icon { position: absolute; left: 11px; color: var(--text-faint); font-size: 14px; }
+.searchbox .icon { position: absolute; left: 11px; display: flex; color: var(--text-faint); }
 .searchbox input {
   width: 100%; padding: 8px 30px 8px 32px;
   border: 1px solid var(--border-strong); border-radius: 9px;
@@ -255,6 +255,8 @@ button { font-family: inherit; }
   display: flex; gap: 22px; flex-wrap: wrap; margin-top: 12px;
   font-size: 12.5px; color: var(--text-secondary); font-family: var(--mono);
 }
+.detail-meta .meta-item { display: inline-flex; align-items: center; gap: 6px; }
+.detail-meta .meta-item svg { color: var(--text-muted); }
 /* "Prerequisite path" jump sits at the top-right corner of the card. */
 .detail-title-row .path-btn { margin-left: auto; }
 .detail-body { margin-top: 6px; }

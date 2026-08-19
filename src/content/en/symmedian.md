@@ -2,6 +2,7 @@
 title: Symmedian
 tag: THM
 track: olympiad
+year: 1873
 difficulty: 5
 requires: [isogonal-conjugate]
 ---
