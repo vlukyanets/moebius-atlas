@@ -22,7 +22,7 @@ change it without breaking it. Read both before a first edit.
 | `src/data/types.ts` | Object model: `TopicSeed`, `TagId`, `TrackId`, `SubjectId`, `Resource` |
 | `src/data/loadTopics.ts` | Build-time Markdown loader + frontmatter parser (`parseFile`), summary extraction |
 | `src/data/topics.ts` | Static tables: `TAGS`, `SUBJECTS`, `TRACKS` (labels + colors) and the loaded `TOPICS` |
-| `src/data/graph.ts` | Everything derived from the `requires` relation: reverse index (`dependents`), `search`, `prereqLevels`, formatting helpers |
+| `src/data/atlas.ts` | Everything derived from the `requires` relation: reverse index (`dependents`), `search`, `prereqLevels`, formatting helpers |
 | `src/data/views.ts` | Loads the tab definitions from `src/views/<lang>/*.md` |
 | `src/content/<lang>/<id>.md` | Topic content - one file per topic per language (~350 each) |
 | `src/views/<lang>/<id>.md` | Tab definitions (`kind`, `order`, localized title) |
@@ -95,7 +95,7 @@ script that also verifies its own result, not in 350 hand edits.
 - No new dependencies without a reason. The stack is deliberately small: React,
   react-markdown, remark-math, rehype-katex, KaTeX.
 - Components render. Anything derived from the `requires` relation belongs in
-  `src/data/graph.ts`.
+  `src/data/atlas.ts`.
 - Every user-visible string goes through `UI` in `src/i18n.ts` with **both** `en`
   and `uk`. No literal English in JSX.
 - Ukrainian plural forms are non-trivial (see `topicsWord` in `PathView.tsx`) -

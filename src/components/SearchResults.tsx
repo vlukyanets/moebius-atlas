@@ -1,4 +1,4 @@
-import { search, tagOf, topicName } from '../data/graph';
+import { search, tagOf, topicName } from '../data/atlas';
 import { UI, tr, useLang } from '../i18n';
 import { TagBadge } from './TagBadge';
 

@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { N, formatGrade, subjectIdOf, tagOf, topicName, trackIdOf } from '../data/graph';
+import { N, formatGrade, subjectIdOf, tagOf, topicName, trackIdOf } from '../data/atlas';
 import { SUBJECTS, TAGS, TRACKS } from '../data/topics';
 import type { L10n } from '../i18n';
 import type { SubjectId, TagId, TrackId } from '../data/types';

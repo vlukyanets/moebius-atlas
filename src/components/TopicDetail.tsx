@@ -2,7 +2,7 @@ import ReactMarkdown from 'react-markdown';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
 import 'katex/dist/katex.min.css';
-import { N, dependents, formatGrade, formatYear, tagOf, topicName, wikiUrl } from '../data/graph';
+import { N, dependents, formatGrade, formatYear, tagOf, topicName, wikiUrl } from '../data/atlas';
 import { UI, tr, useLang } from '../i18n';
 import { EraIcon, GradeIcon } from './Icons';
 import { TagBadge } from './TagBadge';

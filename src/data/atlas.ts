@@ -1,3 +1,8 @@
+/**
+ * Everything derived from the `requires` relation: the topic index, the reverse
+ * index ("leads to"), search, prerequisite levels for the path view, and the
+ * label helpers built on the static tables in `topics.ts`.
+ */
 import { SUBJECTS, TAGS, TOPICS, TRACKS } from './topics';
 import type { SubjectId, SubjectInfo, TagInfo, TopicSeed, TrackId, TrackInfo } from './types';
 import { UI, tr, type Lang } from '../i18n';

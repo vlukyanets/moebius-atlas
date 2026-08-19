@@ -141,7 +141,7 @@ title in each language file.
 Types in `src/data/types.ts` (`TopicSeed` with `requires` edges, plus the
 `tag` / `track` / `subject` / `grade` classification). Labels and colors for
 those classifications live in `src/data/topics.ts` - the filter chips are
-generated from them. Derived helpers in `src/data/graph.ts`: reverse `requires`
+generated from them. Derived helpers in `src/data/atlas.ts`: reverse `requires`
 index ("LEADS TO"), search across all translations, prerequisite levels for the
 path view (a topic needed on several levels sinks to its deepest one).
 

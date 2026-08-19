@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-import { N } from './data/graph';
+import { N } from './data/atlas';
 import { DEFAULT_VIEW, viewById } from './data/views';
 import type { ViewId } from './data/types';
 

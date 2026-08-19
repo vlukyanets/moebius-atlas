@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { N, tagOf, topicName } from '../data/graph';
+import { N, tagOf, topicName } from '../data/atlas';
 import { UI, tr, useLang } from '../i18n';
 import { SearchIcon } from './Icons';
 import { swatch } from './palette';

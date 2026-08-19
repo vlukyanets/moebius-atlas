@@ -1,5 +1,5 @@
 import { Fragment, useEffect, useState } from 'react';
-import { N, pathTargets, prereqLevels, tagOf, topicName } from '../data/graph';
+import { N, pathTargets, prereqLevels, tagOf, topicName } from '../data/atlas';
 import { UI, tr, useLang, type Lang } from '../i18n';
 import { swatch } from './palette';
 import { TopicPicker } from './TopicPicker';
