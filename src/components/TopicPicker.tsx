@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { N, tagOf, topicName } from '../data/graph';
 import { UI, tr, useLang } from '../i18n';
 import { SearchIcon } from './Icons';
+import { swatch } from './palette';
 
 interface Props {
   /** Selectable topic ids, already in display order. */
@@ -115,13 +116,14 @@ export function TopicPicker({ ids, value, onChange }: Props) {
                 className={
                   'option' + (i === active ? ' active' : '') + (id === value ? ' current' : '')
                 }
+                style={tag ? swatch(tag) : undefined}
                 onMouseEnter={() => setActive(i)}
                 onClick={() => commit(id)}
               >
-                <span className="dot" style={{ background: tag ? tag.color : 'var(--accent)' }} />
+                <span className="dot" />
                 <span className="name">{topicName(id, lang)}</span>
                 {tag && (
-                  <span className="tag-abbr" style={{ color: tag.color }}>
+                  <span className="tag-abbr">
                     {tr(tag.label, lang)}
                   </span>
                 )}

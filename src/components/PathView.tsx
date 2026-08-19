@@ -1,6 +1,7 @@
 import { Fragment, useEffect, useState } from 'react';
 import { N, pathTargets, prereqLevels, tagOf, topicName } from '../data/graph';
 import { UI, tr, useLang, type Lang } from '../i18n';
+import { swatch } from './palette';
 import { TopicPicker } from './TopicPicker';
 
 interface Props {
@@ -77,12 +78,13 @@ export function PathView({ target: picked, onTarget, onOpen }: Props) {
                     <div
                       key={id}
                       className={'path-pill' + (i === 0 ? ' target' : '')}
+                      style={tag ? swatch(tag) : undefined}
                       onClick={() => onOpen(id)}
                     >
-                      <span className="dot" style={{ background: tag ? tag.color : 'var(--accent)' }} />
+                      <span className="dot" />
                       {topicName(id, lang)}
                       {tag && (
-                        <span className="tag-abbr" style={{ color: tag.color }}>
+                        <span className="tag-abbr">
                           {tr(tag.label, lang)}
                         </span>
                       )}

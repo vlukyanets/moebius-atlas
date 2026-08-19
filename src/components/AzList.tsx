@@ -4,6 +4,7 @@ import { SUBJECTS, TAGS, TRACKS } from '../data/topics';
 import type { L10n } from '../i18n';
 import type { SubjectId, TagId, TrackId } from '../data/types';
 import { UI, tr, useLang } from '../i18n';
+import { swatch } from './palette';
 import { TagBadge } from './TagBadge';
 
 const TAG_IDS = Object.keys(TAGS) as TagId[];
@@ -59,6 +60,8 @@ interface ChipDef<K extends string> {
   label: L10n | string;
   color: string;
   bg: string;
+  colorDark: string;
+  bgDark: string;
   count: number;
 }
 
@@ -98,10 +101,10 @@ function ChipRow<K extends string>({
             className={'filter-chip' + (on ? ' on' : '')}
             aria-pressed={on}
             disabled={!c.count}
-            style={on ? { color: c.color, background: c.bg, borderColor: c.color } : undefined}
+            style={swatch(c)}
             onClick={() => onToggle(c.key)}
           >
-            <span className="dot" style={{ background: c.color }} />
+            <span className="dot" />
             {typeof c.label === 'string' ? c.label : tr(c.label, lang)}
             <span className="count">{c.count}</span>
           </button>
@@ -176,6 +179,7 @@ export function AzList({ onOpen }: { onOpen: (id: string) => void }) {
   }, [beforeGrade]);
 
   const gradeIds = [...gradeCount.keys()].sort((a, b) => a - b);
+  const gradedTotal = [...gradeCount.values()].reduce((a, b) => a + b, 0);
   const gradeKey = gradeIds.join(',');
 
   // Grades live in the school track only, so the row shows up when school
@@ -239,6 +243,8 @@ export function AzList({ onOpen }: { onOpen: (id: string) => void }) {
           label: SUBJECTS[s].full,
           color: SUBJECTS[s].color,
           bg: SUBJECTS[s].bg,
+          colorDark: SUBJECTS[s].colorDark,
+          bgDark: SUBJECTS[s].bgDark,
           count: subjectCount[s] ?? 0,
         }))}
       />
@@ -253,13 +259,15 @@ export function AzList({ onOpen }: { onOpen: (id: string) => void }) {
           label: TRACKS[t].full,
           color: TRACKS[t].color,
           bg: TRACKS[t].bg,
+          colorDark: TRACKS[t].colorDark,
+          bgDark: TRACKS[t].bgDark,
           count: trackCount[t] ?? 0,
         }))}
       />
       {showGrades && (
         <ChipRow
           lead={tr(UI.filterGrade, lang)}
-          total={beforeGrade.length}
+          total={gradedTotal}
           selected={grades}
           onToggle={(k) => toggle(setGrades, k)}
           onClear={() => setGrades([])}
@@ -268,6 +276,8 @@ export function AzList({ onOpen }: { onOpen: (id: string) => void }) {
             label: formatGrade(g, lang),
             color: TRACKS.school.color,
             bg: TRACKS.school.bg,
+            colorDark: TRACKS.school.colorDark,
+            bgDark: TRACKS.school.bgDark,
             count: gradeCount.get(g) ?? 0,
           }))}
         />
@@ -283,6 +293,8 @@ export function AzList({ onOpen }: { onOpen: (id: string) => void }) {
           label: TAGS[t].full,
           color: TAGS[t].color,
           bg: TAGS[t].bg,
+          colorDark: TAGS[t].colorDark,
+          bgDark: TAGS[t].bgDark,
           count: tagCount[t] ?? 0,
         }))}
       />
@@ -292,8 +304,8 @@ export function AzList({ onOpen }: { onOpen: (id: string) => void }) {
         {shown.map((id) => {
           const tag = tagOf(id)!;
           return (
-            <div key={id} className="az-row" onClick={() => onOpen(id)}>
-              <span className="dot" style={{ background: tag.color }} />
+            <div key={id} className="az-row" style={swatch(tag)} onClick={() => onOpen(id)}>
+              <span className="dot" />
               <span className="name">{topicName(id, lang)}</span>
               <TagBadge tag={tag} />
             </div>

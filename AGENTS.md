@@ -104,7 +104,9 @@ script that also verifies its own result, not in 350 hand edits.
 ### CSS
 
 - Plain CSS, one file, no framework and no CSS-in-JS. An inline `style` is for
-  values that come from data (tag and track colors), nothing else.
+  values that come from data, and it publishes them as custom properties
+  (`swatch()` in `components/palette.ts`) so the stylesheet can still pick a
+  per-theme palette. A finished `color`/`background` in JSX is a dark-mode bug.
 - A new color is a token: add it to `:root` **and** to `:root[data-theme='dark']`.
   A hard-coded hex inside a rule is a dark-mode bug.
 - Delete rules together with the markup they styled. `styles.css` is audited for

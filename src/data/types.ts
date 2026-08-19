@@ -18,6 +18,10 @@ export interface TagInfo {
   color: string;
   /** Badge background color. */
   bg: string;
+  /** Badge text color on the dark theme. */
+  colorDark: string;
+  /** Badge background on the dark theme. */
+  bgDark: string;
 }
 
 /** Branch of mathematics a topic belongs to. Topics without one count as `geometry`. */
@@ -30,6 +34,10 @@ export interface SubjectInfo {
   color: string;
   /** Chip background when active. */
   bg: string;
+  /** Chip accent color on the dark theme. */
+  colorDark: string;
+  /** Chip background when active, dark theme. */
+  bgDark: string;
 }
 
 /** Curriculum track a topic belongs to. Declared by every topic. */
@@ -42,6 +50,10 @@ export interface TrackInfo {
   color: string;
   /** Chip background when active. */
   bg: string;
+  /** Chip accent color on the dark theme. */
+  colorDark: string;
+  /** Chip background when active, dark theme. */
+  bgDark: string;
 }
 
 /** Id of a view from `views.ts` ('az', 'path'). */
