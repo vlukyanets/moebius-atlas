@@ -15,7 +15,7 @@ change it without breaking it. Read both before a first edit.
 | `index.html` | Shell + pre-paint settings script (theme/anim/text stamped on `<html>` before React boots) |
 | `src/main.tsx` | React entry point |
 | `src/App.tsx` | Top-level composition: settings/language providers, route switch, search overlay, footer |
-| `src/router.ts` | Hash router (`#/az`, `#/path/<id>`, `#/topic/<id>`), `useRoute`, route builders |
+| `src/router.ts` | Hash router (`#/index`, `#/path/<id>`, `#/topic/<id>`), `useRoute`, route builders |
 | `src/settings.ts` | `Settings` type, `localStorage` load/save, `applySettings` (writes `data-theme`/`data-anim`/`data-text`) |
 | `src/i18n.ts` | `Lang`, `L10n`, `tr()`, browser language detection, and `UI` - every UI chrome string |
 | `src/styles.css` | All styling. Design tokens in `:root`, dark palette in `:root[data-theme='dark']` |
@@ -24,14 +24,15 @@ change it without breaking it. Read both before a first edit.
 | `src/data/topics.ts` | Static tables: `TAGS`, `SUBJECTS`, `TRACKS` (labels + colors) and the loaded `TOPICS` |
 | `src/data/atlas.ts` | Everything derived from the `requires` relation: reverse index (`dependents`), `search`, `prereqLevels`, formatting helpers |
 | `src/data/views.ts` | Loads the tab definitions from `src/views/<lang>/*.md` |
-| `src/content/<lang>/<id>.md` | Topic content - one file per topic per language (~350 each) |
+| `src/content/<lang>/<id>.md` | Topic content - one file per topic per language (~485 each) |
 | `src/views/<lang>/<id>.md` | Tab definitions (`kind`, `order`, localized title) |
 | `src/components/` | Presentation only - see below |
 | `public/logo.svg` | Favicon; must stay visually in sync with `src/components/Logo.tsx` |
+| `tools/check_graph.py` | Content invariants: ids resolve, relation is acyclic, transitively reduced, grade-ordered |
 | `.github/workflows/deploy.yml` | Builds and publishes `dist/` to GitHub Pages on push to `master` |
 
 Components: `TopBar` (brand, tabs, search field, settings gear), `SettingsMenu`,
-`AzList` (A-Z index + filter chip rows), `PathView` (layered prerequisite tree),
+`IndexList` (alphabetical index + filter chip rows), `PathView` (layered prerequisite tree),
 `TopicPicker` (searchable combobox for the path target), `TopicDetail` (Markdown
 body, meta line, REQUIRES / LEADS TO / RESOURCES columns), `SearchResults`,
 `TagBadge`, `Icons`, `Logo`.
@@ -63,7 +64,7 @@ throws with the offending file name.
 - `track` is one of `school`, `olympiad`, `advanced`, `other`. A missing or
   unknown value falls back to `other` with a console warning - treat that
   warning as a bug to fix, not as noise.
-- `grade` (5-9) is for school-track topics only. Other tracks must omit it.
+- `grade` (5-11) is for school-track topics only. Other tracks must omit it.
 - `subject` defaults to `geometry` when absent; set `algebra` explicitly.
 - `year` is the year of discovery; negative means BCE.
 - `resources` is a comma-separated list of Markdown links, authored per
@@ -83,8 +84,13 @@ throws with the offending file name.
 - Inserting a topic into the middle of a chain means rewiring its neighbours,
   not only appending an edge.
 
-With ~350 topics per language, a bulk content change belongs in a throwaway
-script that also verifies its own result, not in 350 hand edits.
+With ~485 topics per language, a bulk content change belongs in a throwaway
+script that also verifies its own result, not in 485 hand edits.
+
+`python tools/check_graph.py` is the standing check for the content itself: it
+resolves every `requires` id, and fails on a cycle, on a redundant edge, on a
+prerequisite taught in a later grade than the topic needing it, and on a school
+topic that depends on an olympiad or advanced one.
 
 ## Code rules
 
@@ -121,7 +127,7 @@ script that also verifies its own result, not in 350 hand edits.
   `TRACKS` there would be circular).
 - `src/components/Logo.tsx` and `public/logo.svg` are the same drawing.
 - `localStorage` keys: `moebius-atlas-settings` (preferences, owned by the
-  settings menu) and `moebius-atlas-az-filters` (A-Z filter chips, view state).
+  settings menu) and `moebius-atlas-index-filters` (index filter chips, view state).
   They are separate on purpose - do not merge them. Unknown ids read back from
   storage are discarded rather than trusted.
 
@@ -130,7 +136,7 @@ script that also verifies its own result, not in 350 hand edits.
 - **A topic** - `src/content/en/<id>.md` with full frontmatter, plus optionally
   `src/content/uk/<id>.md` with title and resources. Wire its `requires`, and add
   the new id to the `requires` of whatever now depends on it.
-- **A tab / view** - `src/views/en/<id>.md` with `kind: az|path` and `order`,
+- **A tab / view** - `src/views/en/<id>.md` with `kind: index|path` and `order`,
   plus `src/views/uk/<id>.md` with the localized title. `kind` decides which
   component `App.tsx` renders; a genuinely new kind needs a new component and a
   new branch there.

@@ -4,7 +4,7 @@ tag: DEF
 track: school
 grade: 9
 year: 1637
-requires: [vector-basis]
+requires: [vector-basis, coordinate-plane]
 ---
 
 The *coordinates of a vector* are the coefficients of its decomposition over the unit coordinate vectors $\vec{i}$ and $\vec{j}$:

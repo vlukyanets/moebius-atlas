@@ -4,7 +4,7 @@ tag: THM
 track: school
 grade: 8
 year: -250
-requires: [triangle-cevians, triangle-midsegment]
+requires: [median-bisector-altitude, triangle-midsegment]
 ---
 
 The three medians of a triangle meet at one point, the *centroid*, which cuts each of them in the ratio $2:1$ counting from the vertex:

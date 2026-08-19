@@ -5,7 +5,7 @@ track: school
 grade: 6
 year: -300
 subject: algebra
-requires: [fractions]
+requires: [common-fractions]
 ---
 
 Numerator times numerator, denominator times denominator, with reduction done before multiplying:

@@ -3,7 +3,7 @@ title: Angle Bisector Ratio
 tag: LEM
 track: olympiad
 year: -300
-requires: [similarity-aa, triangle-cevians]
+requires: [similarity-aa, median-bisector-altitude]
 ---
 
 The bisector drawn from a vertex divides the opposite side in the ratio of the two adjacent sides:

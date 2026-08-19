@@ -2,20 +2,20 @@ import { parseFile, type ParsedFile } from './loadTopics';
 import type { L10n } from '../i18n';
 
 /**
- * Views - the top-level tabs ("A–Z", "Prerequisite path") - are authored as
+ * Views - the top-level tabs ("Index", "Learning path") - are authored as
  * `src/views/<lang>/<id>.md`. The English file carries `kind` and `order`;
  * translations carry the localized title. Adding a tab is a pair of files.
  */
 export interface ViewDef {
   id: string;
-  kind: 'az' | 'path';
+  kind: 'index' | 'path';
   /** Tab label. */
   name: L10n;
 }
 
 const VIEW_RAW = import.meta.glob('../views/*/*.md', { query: '?raw', import: 'default', eager: true }) as Record<string, string>;
 
-const KINDS = new Set(['az', 'path']);
+const KINDS = new Set(['index', 'path']);
 
 function loadViews(): ViewDef[] {
   const byId: Record<string, Record<string, ParsedFile>> = {};
@@ -30,7 +30,7 @@ function loadViews(): ViewDef[] {
     const en = langs.en;
     if (!en) throw new Error(`views: "${id}" has translations but no canonical views/en/${id}.md`);
     const kind = en.meta.kind as ViewDef['kind'];
-    if (!KINDS.has(kind)) throw new Error(`views/en/${id}.md: kind must be az|path`);
+    if (!KINDS.has(kind)) throw new Error(`views/en/${id}.md: kind must be index|path`);
     const name: Record<string, string> = {};
     for (const [lang, f] of Object.entries(langs)) name[lang] = f.title;
     views.push({ id, kind, name: name as L10n });

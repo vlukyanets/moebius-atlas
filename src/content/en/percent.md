@@ -5,7 +5,7 @@ track: school
 grade: 5
 year: 1500
 subject: algebra
-requires: [fractions]
+requires: [decimal-fractions]
 ---
 
 One percent is one hundredth of a quantity, so every percent problem is a proportion in disguise:

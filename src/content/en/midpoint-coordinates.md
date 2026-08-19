@@ -4,7 +4,7 @@ tag: THM
 track: school
 grade: 9
 year: 1637
-requires: [coordinate-operations]
+requires: [distance-formula]
 ---
 
 Each coordinate of the *midpoint* of a segment is the arithmetic mean of the corresponding coordinates of its endpoints:

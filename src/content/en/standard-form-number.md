@@ -5,7 +5,7 @@ track: school
 grade: 8
 year: 1863
 subject: algebra
-requires: [degree-integer]
+requires: [power-integer-exponent]
 ---
 
 Every positive number is written as a number between one and ten times a power of ten:

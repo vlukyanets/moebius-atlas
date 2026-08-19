@@ -3,7 +3,7 @@ title: Circle of Apollonius
 tag: THM
 track: olympiad
 year: -200
-requires: [bisector-ratio, circle-radius]
+requires: [bisector-ratio, circle-and-disk]
 ---
 
 The points whose distances to two fixed points keep a constant ratio $k \ne 1$ form a circle:

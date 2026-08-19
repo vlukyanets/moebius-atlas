@@ -5,7 +5,7 @@ track: school
 grade: 6
 year: -300
 subject: algebra
-requires: [fractions]
+requires: [common-fractions]
 ---
 
 A ratio compares two quantities by division; an equality of two ratios is a proportion. Its main property is that the products of the outer and of the inner terms agree:

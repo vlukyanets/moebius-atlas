@@ -5,7 +5,7 @@ track: school
 grade: 7
 year: 1591
 subject: algebra
-requires: [abbreviated-multiplication]
+requires: [special-products]
 ---
 
 Four standard moves, usually in this order: take out the common factor, group the terms, apply a special product, use the roots of a quadratic.

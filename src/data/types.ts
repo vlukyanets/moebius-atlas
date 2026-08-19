@@ -56,7 +56,7 @@ export interface TrackInfo {
   bgDark: string;
 }
 
-/** Id of a view from `views.ts` ('az', 'path'). */
+/** Id of a view from `views.ts` ('index', 'path'). */
 export type ViewId = string;
 
 /** An external learning resource linked from a topic page. */

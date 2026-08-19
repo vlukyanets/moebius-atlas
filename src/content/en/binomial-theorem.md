@@ -5,7 +5,7 @@ track: school
 grade: 9
 year: 1665
 subject: algebra
-requires: [pascal-triangle, cube-formulas]
+requires: [pascal-triangle, cube-of-sum-and-difference]
 ---
 
 $$

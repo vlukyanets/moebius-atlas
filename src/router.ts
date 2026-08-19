@@ -5,7 +5,7 @@ import type { ViewId } from './data/types';
 
 /**
  * Hash-based routes (GitHub Pages friendly - no server rewrites needed):
- *   #/az                           A–Z index
+ *   #/index                        alphabetical index of topics
  *   #/path/triangle-angle-sum      prerequisite path to a target topic
  *   #/topic/triangle-angle-sum     topic detail page
  */

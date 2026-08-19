@@ -3,7 +3,7 @@ title: Stewart's Theorem
 tag: THM
 track: olympiad
 year: 1746
-requires: [law-of-cosines, triangle-cevians]
+requires: [law-of-cosines, median-bisector-altitude]
 ---
 
 For a cevian of length $d$ splitting the side $a$ into parts $m$ and $n$ adjacent to sides $c$ and $b$:

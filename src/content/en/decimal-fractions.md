@@ -5,7 +5,7 @@ track: school
 grade: 5
 year: 1585
 subject: algebra
-requires: [fractions]
+requires: [common-fractions]
 ---
 
 A decimal extends place value past the units digit, so the denominator is always a power of ten:

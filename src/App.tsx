@@ -5,7 +5,7 @@ import type { ViewId } from './data/types';
 import { LangContext, UI, tr, useDetectedLang } from './i18n';
 import { SettingsContext, applySettings, loadSettings, saveSettings, type Settings } from './settings';
 import { TopBar } from './components/TopBar';
-import { AzList } from './components/AzList';
+import { IndexList } from './components/IndexList';
 import { SearchResults } from './components/SearchResults';
 import { PathView } from './components/PathView';
 import { TopicDetail } from './components/TopicDetail';
@@ -59,7 +59,7 @@ export default function App() {
     navigate(viewRoute(route, { view: v }));
   };
 
-  const viewKind = viewById(route.view)?.kind ?? 'az';
+  const viewKind = viewById(route.view)?.kind ?? 'index';
 
   return (
     <SettingsContext.Provider value={{ settings, update: updateSettings }}>
@@ -93,7 +93,7 @@ export default function App() {
 
         {!hasQuery && route.screen === 'view' && (
           <>
-            {viewKind === 'az' && <AzList onOpen={openTopic} />}
+            {viewKind === 'index' && <IndexList onOpen={openTopic} />}
             {viewKind === 'path' && (
               <PathView
                 target={route.pathTarget}

@@ -3,7 +3,7 @@ title: Ceva's Theorem
 tag: THM
 track: olympiad
 year: 1678
-requires: [triangle-cevians, similar-triangles]
+requires: [median-bisector-altitude, similar-triangles]
 ---
 
 Three cevians $AD$, $BE$, $CF$ of a triangle pass through one point exactly when the ratios they cut off multiply to one:

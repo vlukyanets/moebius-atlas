@@ -5,7 +5,7 @@ track: school
 grade: 9
 year: 1713
 subject: algebra
-requires: [average, statistics-sample]
+requires: [arithmetic-mean, statistics-sample]
 ---
 
 The mean of a sample is computed with weights - the frequencies:

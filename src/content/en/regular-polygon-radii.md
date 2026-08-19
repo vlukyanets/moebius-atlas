@@ -4,7 +4,7 @@ tag: THM
 track: school
 grade: 9
 year: -300
-requires: [regular-polygon, trig-values]
+requires: [regular-polygon, trig-values-30-45-60]
 ---
 
 For a regular polygon with $n$ sides of length $a$, the radii of the circumscribed and inscribed circles are:

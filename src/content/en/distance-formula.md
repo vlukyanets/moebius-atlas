@@ -4,7 +4,7 @@ tag: THM
 track: school
 grade: 9
 year: 1637
-requires: [pythagorean-theorem, coordinate-operations]
+requires: [pythagorean-theorem, coordinate-plane]
 ---
 
 The distance between two points is the Pythagorean theorem written in coordinates:

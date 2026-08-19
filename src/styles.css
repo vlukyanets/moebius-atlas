@@ -149,9 +149,9 @@ button { font-family: inherit; }
 .seg button.on { background: var(--surface); color: var(--text); font-weight: 600; box-shadow: 0 1px 3px rgba(20, 30, 50, .12); }
 .seg .flag { width: 16px; height: 11px; border-radius: 2px; flex: none; }
 
-/* A–Z index view */
-.az { margin: 20px 24px 0; }
-.az-filter-head { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+/* Index view */
+.index-view { margin: 20px 24px 0; }
+.index-filter-head { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
 .filters-toggle {
   display: inline-flex; align-items: center; gap: 7px;
   border: 1px solid var(--border-strong); background: var(--surface); color: var(--text);
@@ -163,7 +163,7 @@ button { font-family: inherit; }
   font-family: var(--mono); font-size: 10px; color: var(--link);
   background: var(--accent-soft); padding: 1px 6px; border-radius: 999px;
 }
-.az-filter-head .summary {
+.index-filter-head .summary {
   flex: 1; min-width: 0; font-size: 12.5px; color: var(--text-muted);
   overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
 }
@@ -173,10 +173,10 @@ button { font-family: inherit; }
 }
 .filters-clear:hover:not(:disabled) { text-decoration: underline; }
 .filters-clear:disabled { color: var(--text-muted); opacity: .5; cursor: default; }
-.az-filter-head .shown-count { font-family: var(--mono); font-size: 11px; color: var(--text-muted); }
-.az-filters { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 10px; }
-.az-filters:last-of-type { margin-bottom: 14px; }
-.az-filters .lead { min-width: 104px; font-size: 12.5px; color: var(--text-secondary); margin-right: 4px; }
+.index-filter-head .shown-count { font-family: var(--mono); font-size: 11px; color: var(--text-muted); }
+.index-filters { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 10px; }
+.index-filters:last-of-type { margin-bottom: 14px; }
+.index-filters .lead { min-width: 104px; font-size: 12.5px; color: var(--text-secondary); margin-right: 4px; }
 .filter-chip {
   display: inline-flex; align-items: center; gap: 7px;
   border: 1px solid var(--border-strong); background: var(--surface); color: var(--text-secondary);
@@ -198,15 +198,15 @@ button { font-family: inherit; }
 .filter-chip .dot { width: 7px; height: 7px; border-radius: 50%; flex: none; }
 .filter-chip .count { font-family: var(--mono); font-size: 10.5px; color: var(--text-muted); }
 .filter-chip.on .count { color: inherit; opacity: .75; }
-.az-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); gap: 8px; }
-.az-row {
+.index-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); gap: 8px; }
+.index-row {
   display: flex; align-items: center; gap: 10px;
   background: var(--surface); border: 1px solid var(--border); border-radius: 9px;
   padding: 9px 13px; cursor: pointer;
 }
-.az-row:hover { border-color: var(--accent); }
-.az-row .name { flex: 1; min-width: 0; font-size: 13.5px; font-weight: 500; line-height: 1.3; }
-.az-row .dot { width: 7px; height: 7px; border-radius: 50%; flex: none; }
+.index-row:hover { border-color: var(--accent); }
+.index-row .name { flex: 1; min-width: 0; font-size: 13.5px; font-weight: 500; line-height: 1.3; }
+.index-row .dot { width: 7px; height: 7px; border-radius: 50%; flex: none; }
 
 /* Tag, track and subject colors arrive from the data as --sw* custom
    properties (see components/palette.ts); the theme picks the palette here,

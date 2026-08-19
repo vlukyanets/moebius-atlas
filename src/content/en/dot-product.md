@@ -4,7 +4,7 @@ tag: DEF
 track: school
 grade: 9
 year: 1844
-requires: [sin-cos-tan, vector-coordinates]
+requires: [acute-angle-trig-ratios, vector-coordinates]
 ---
 
 The *dot product* of two vectors is the product of their lengths and the cosine of the angle between them:

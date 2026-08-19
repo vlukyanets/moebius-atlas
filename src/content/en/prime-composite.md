@@ -5,7 +5,7 @@ track: school
 grade: 6
 year: -300
 subject: algebra
-requires: [divisibility]
+requires: [divisibility-tests]
 ---
 
 A prime has exactly two divisors, one and itself; every other number above one is composite. Any natural number factors into primes in exactly one way up to order:

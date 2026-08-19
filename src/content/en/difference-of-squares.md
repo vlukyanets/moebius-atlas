@@ -5,7 +5,7 @@ track: school
 grade: 7
 year: 1591
 subject: algebra
-requires: [abbreviated-multiplication]
+requires: [special-products]
 ---
 
 $$

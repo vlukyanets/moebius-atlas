@@ -1,12 +1,13 @@
 # Moebius Atlas / Атлас Мебіуса
 
-School and extracurricular mathematics as an explorable atlas of topics — 350
-of them: the Ukrainian school curriculum for grades 5–9 (algebra and geometry),
-plus olympiad topics and the first steps into higher maths. Every topic declares
+School and extracurricular mathematics as an explorable atlas of topics — 484
+of them: the Ukrainian school curriculum for grades 5–11 (arithmetic, algebra
+and the beginnings of analysis, plane and solid geometry), plus olympiad topics
+and the first steps into higher maths. Every topic declares
 what has to be learned before it, so the whole subject forms one connected map
 of prerequisites. Two views over the same content:
 
-- **A–Z** - alphabetical index of every topic, with filter chips
+- **Index** - every topic in alphabetical order, with filter chips
 - **Prereq path** - for a chosen target topic, the layered tree of everything
   to learn first: the target on top, each level below holds the prerequisites
   of the level above, down to the basics. Starts collapsed; levels are
@@ -18,12 +19,12 @@ topics in both languages.
 
 ## Filters
 
-The A–Z index has four independent chip rows, collapsed behind a **Filters**
+The index has four independent chip rows, collapsed behind a **Filters**
 header that summarizes the active selection and shows the number of matches:
 
 - **Subject** - Geometry / Algebra / Others
 - **Track** - School / Olympiad / Higher maths / Others
-- **Grade** - 5 to 9; shown only while school topics are on screen, and only
+- **Grade** - 5 to 11; shown only while school topics are on screen, and only
   for grades that still have something behind the other filters
 - **Type** - Axiom / Definition / Theorem / Lemma / Conjecture / Method
 
@@ -85,7 +86,7 @@ and body. The id is the file name.
 title: Triangle Angle Sum
 tag: THM                # AXM|DEF|THM|LEM|CNJ|MTD
 track: school           # school|olympiad|advanced|other; missing -> other, with a console warning
-grade: 8                # school year 5-9; school-track topics only
+grade: 8                # school year 5-11; school-track topics only
 subject: algebra        # geometry|algebra|other; missing -> geometry
 year: -300              # discovery year; negative = BCE
 requires: [parallel-properties, triangle-definition]
@@ -133,7 +134,7 @@ Parsing lives in `src/data/loadTopics.ts`; malformed files fail the build with
 a file-name error.
 
 The view tabs themselves are also Markdown-authored: `src/views/<lang>/<id>.md`
-with `kind: az|path` and `order` in the English frontmatter, localized tab
+with `kind: index|path` and `order` in the English frontmatter, localized tab
 title in each language file.
 
 ## Data model
@@ -149,7 +150,7 @@ path view (a topic needed on several levels sinks to its deepest one).
 
 Hash-based, deep-linkable:
 
-- `#/az` - A–Z index
+- `#/index` - alphabetical index of topics
 - `#/path/triangle-angle-sum` - prerequisite path to a target
 - `#/topic/triangle-angle-sum` - topic page
 

@@ -5,7 +5,7 @@ track: school
 grade: 6
 year: 1631
 subject: algebra
-requires: [rational-numbers]
+requires: [opposite-numbers]
 ---
 
 Fix an origin, a unit and a direction, and every number becomes a point of a line. Order turns into position: the number to the left is the smaller one, and the distance between points is the difference of the numbers.

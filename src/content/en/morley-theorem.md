@@ -3,7 +3,7 @@ title: Morley's Trisector Theorem
 tag: THM
 track: olympiad
 year: 1899
-requires: [law-of-sines, triangle-cevians]
+requires: [law-of-sines, median-bisector-altitude]
 ---
 
 Trisect every angle of an arbitrary triangle. The three intersection points of adjacent trisectors are the vertices of an equilateral triangle with side

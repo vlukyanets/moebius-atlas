@@ -3,7 +3,7 @@ title: Conic Sections
 tag: DEF
 track: advanced
 year: -200
-requires: [circle-radius]
+requires: [circle-and-disk]
 ---
 
 A plane cutting a cone gives an ellipse, a parabola or a hyperbola. In coordinates each of them is the zero set of one quadratic equation:
