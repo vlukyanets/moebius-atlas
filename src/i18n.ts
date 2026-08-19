@@ -41,10 +41,10 @@ export function useDetectedLang(): Lang {
 /** All UI chrome strings. */
 export const UI = {
   brand: { en: 'Moebius Atlas', uk: 'Атлас Мебіуса' },
-  appTitle: { en: 'Moebius Atlas - explorable graph of geometry', uk: 'Атлас Мебіуса — інтерактивний граф геометрії' },
+  appTitle: { en: 'Moebius Atlas - school and extracurricular mathematics', uk: 'Атлас Мебіуса — шкільна та позашкільна математика' },
   searchPlaceholder: { en: 'Search topics…', uk: 'Пошук тем…' },
   resultsFor: { en: 'RESULTS FOR', uk: 'РЕЗУЛЬТАТІВ ЗА ЗАПИТОМ' },
-  noResults: { en: 'No topics match. Try “angle” or “triangle”.', uk: 'Нічого не знайдено. Спробуйте «кут» або «трикутник».' },
+  noResults: { en: 'No topics match. Try “fraction” or “triangle”.', uk: 'Нічого не знайдено. Спробуйте «дріб» або «трикутник».' },
   footerIdea: { en: 'Idea - Serhii Ivanyshak', uk: 'Автор ідеї — Сергій Іванишак' },
   footerDev: { en: 'Developer - Valentyn Lukianets', uk: 'Розробник — Валентин Лук’янець' },
   pickerEmpty: { en: 'No topics match', uk: 'Нічого не знайдено' },
@@ -62,7 +62,7 @@ export const UI = {
   revealNext: { en: 'next level', uk: 'наступний рівень' },
   allBasics: { en: 'ALL BASICS REACHED', uk: 'ДОСЯГНУТО ВСІХ ОСНОВ' },
   basicBadge: { en: 'BASIC', uk: 'БАЗА' },
-  backToGraph: { en: '← Back', uk: '← Назад' },
+  back: { en: '← Back', uk: '← Назад' },
   openPath: { en: 'Learning path', uk: 'Навчальний шлях' },
   colRequires: { en: 'REQUIRES', uk: 'ПОТРЕБУЄ' },
   colLeadsTo: { en: 'LEADS TO', uk: 'ВЕДЕ ДО' },

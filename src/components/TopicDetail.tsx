@@ -24,7 +24,7 @@ export function TopicDetail({ id, onBack, onOpen, onShowPath }: Props) {
   return (
     <div className="detail-page">
       <button className="back-link" onClick={onBack}>
-        {tr(UI.backToGraph, lang)}
+        {tr(UI.back, lang)}
       </button>
       <div className="detail-card">
         <div className="detail-title-row">

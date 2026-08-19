@@ -3,9 +3,9 @@
  * `src/content/<lang>/<id>.md`.
  *
  * The `en/` file is canonical and required: its frontmatter carries the
- * graph metadata plus the English title. Translation files (e.g.
+ * topic metadata plus the English title. Translation files (e.g.
  * `content/uk/triangle-angle-sum.md`) carry only their localized `title`;
- * any graph metadata they declare is ignored.
+ * any topic metadata they declare is ignored.
  *
  *   content/en/triangle-angle-sum.md
  *   ---

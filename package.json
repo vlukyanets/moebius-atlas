@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.1.0",
   "type": "module",
-  "description": "Moebius Atlas — school geometry (grades 7–9) as an explorable atlas of topics",
+  "description": "Moebius Atlas — school and extracurricular mathematics as an explorable atlas of topics",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
