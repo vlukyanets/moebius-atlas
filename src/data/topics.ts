@@ -10,5 +10,5 @@ export const TAGS: Record<TagId, TagInfo> = {
   MTD: { label: { en: 'MTD', uk: 'МЕТ' }, full: { en: 'Method', uk: 'Метод' }, color: '#3f7a1e', bg: '#ebf5e2' },
 };
 
-/** Topic content lives in `src/content/<lang>/<id>.md` — one file per topic per language. */
+/** Topic content lives in `src/content/<lang>/<id>.md` - one file per topic per language. */
 export const TOPICS: TopicMap = loadTopics();

@@ -1,5 +1,5 @@
 /**
- * Loads topic content at build time — one file per topic per language:
+ * Loads topic content at build time - one file per topic per language:
  * `src/content/<lang>/<id>.md`.
  *
  * The `en/` file is canonical and required: its frontmatter carries the
@@ -86,7 +86,7 @@ export function loadTopics(): TopicMap {
 const LIST_KEYS = new Set(['requires']);
 const NUM_KEYS = new Set(['year', 'difficulty', 'order']);
 
-/** Shared frontmatter+body parser — also used for the view files in `src/views/`. */
+/** Shared frontmatter+body parser - also used for the view files in `src/views/`. */
 export function parseFile(src: string, path: string): ParsedFile {
   const m = /^---\r?\n([\s\S]*?)\r?\n---\r?\n?([\s\S]*)$/.exec(src.trim());
   if (!m) throw new Error(`${path}: missing frontmatter block`);
@@ -111,7 +111,7 @@ export function parseFile(src: string, path: string): ParsedFile {
       if (Number.isNaN(n)) throw new Error(`${path}: bad number for ${key}: "${value}"`);
       meta[key] = n;
     } else {
-      // title, tag — literal strings; surrounding quotes optional
+      // title, tag - literal strings; surrounding quotes optional
       // (needed when the value itself contains a colon).
       meta[key] = /^(["']).*\1$/.test(value) ? value.slice(1, -1) : value;
     }

@@ -2,7 +2,7 @@ import { parseFile, type ParsedFile } from './loadTopics';
 import type { L10n } from '../i18n';
 
 /**
- * Views — the top-level tabs ("A–Z", "Prerequisite path") — are authored as
+ * Views - the top-level tabs ("A–Z", "Prerequisite path") - are authored as
  * `src/views/<lang>/<id>.md`. The English file carries `kind` and `order`;
  * translations carry the localized title. Adding a tab is a pair of files.
  */

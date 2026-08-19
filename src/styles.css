@@ -1,4 +1,4 @@
-/* ── Design tokens (from the high-fidelity handoff) ─────────────────── */
+/* Design tokens (from the high-fidelity handoff) */
 :root {
   --accent: #2563c7;
   --accent-soft: #e8effa;
@@ -20,7 +20,7 @@
   --mono: 'IBM Plex Mono', monospace;
 }
 
-/* Dark palette — activated by the settings ('Auto' resolves against the
+/* Dark palette - activated by the settings ('Auto' resolves against the
    system preference in JS and stamps data-theme before first paint). */
 :root[data-theme='dark'] {
   --accent: #2f6fd6;
@@ -41,7 +41,7 @@
   --sep: #4a5568;
 }
 
-/* ── Settings side effects ──────────────────────────────────────────── */
+/* Settings side effects */
 html[data-anim='off'] *,
 html[data-anim='off'] *::before,
 html[data-anim='off'] *::after {
@@ -70,7 +70,7 @@ button { font-family: inherit; }
 
 .app { min-height: 100vh; padding-bottom: 48px; }
 
-/* ── Top bar ────────────────────────────────────────────────────────── */
+/* Top bar */
 .topbar {
   position: sticky; top: 0; z-index: 50;
   display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px;
@@ -84,7 +84,7 @@ button { font-family: inherit; }
 .topbar-center { display: flex; justify-content: center; flex: 1 1 220px; min-width: 220px; max-width: 340px; }
 .topbar-right { display: flex; justify-content: flex-end; flex: 1 1 0; }
 /* When the bar gets tight: search wraps below full-width, logo/tabs may wrap
-   inside the left block — the settings gear always stays on the first row. */
+   inside the left block - the settings gear always stays on the first row. */
 @media (max-width: 960px) {
   .topbar-center { order: 3; flex-basis: 100%; max-width: none; }
   .topbar-left { flex: 1 1 0; flex-wrap: wrap; min-width: 0; gap: 8px 20px; }
@@ -112,7 +112,7 @@ button { font-family: inherit; }
   color: var(--text-faint); font-size: 15px; padding: 4px;
 }
 
-/* ── Footer ─────────────────────────────────────────────────────────── */
+/* Footer */
 .footer {
   display: flex; justify-content: center; align-items: center; gap: 8px; flex-wrap: wrap;
   margin-top: 32px; padding: 8px 16px;
@@ -120,7 +120,7 @@ button { font-family: inherit; }
   font-size: 11px; color: var(--text-faint);
 }
 
-/* ── Settings menu ──────────────────────────────────────────────────── */
+/* Settings menu */
 .settings { position: relative; }
 .settings-btn {
   display: flex; align-items: center; justify-content: center;
@@ -145,7 +145,7 @@ button { font-family: inherit; }
 .seg button.on { background: var(--surface); color: var(--text); font-weight: 600; box-shadow: 0 1px 3px rgba(20, 30, 50, .12); }
 .seg .flag { width: 16px; height: 11px; border-radius: 2px; flex: none; }
 
-/* ── A–Z index view ─────────────────────────────────────────────────── */
+/* A–Z index view */
 .az { margin: 20px 24px 0; }
 .az-filters { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
 .az-filters .lead { font-size: 12.5px; color: var(--text-secondary); margin-right: 4px; }
@@ -174,7 +174,7 @@ button { font-family: inherit; }
   padding: 2px 7px; border-radius: 4px; flex: none;
 }
 
-/* ── Search results ─────────────────────────────────────────────────── */
+/* Search results */
 .search-page { max-width: 760px; margin: 20px auto 0; padding: 0 24px; }
 .search-label { font-size: 12px; font-family: var(--mono); color: var(--text-muted); margin-bottom: 10px; }
 .search-list { display: flex; flex-direction: column; gap: 8px; }
@@ -189,7 +189,7 @@ button { font-family: inherit; }
 .search-row .tag-badge { font-size: 10px; padding: 2px 8px; }
 .search-empty { color: var(--text-muted); font-size: 14px; padding: 24px 0; text-align: center; }
 
-/* ── Prerequisite tree view ─────────────────────────────────────────── */
+/* Prerequisite tree view */
 .path-view { max-width: 860px; margin: 24px auto 0; padding: 0 24px; }
 .path-picker { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; margin-bottom: 8px; }
 .path-picker .picker-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; width: 100%; }
@@ -239,7 +239,7 @@ button { font-family: inherit; }
 .reveal-btn:hover { border-color: var(--accent); background: var(--accent-soft); }
 .all-basics { text-align: center; font-size: 11px; font-family: var(--mono); color: #3f7a1e; margin-top: 8px; }
 
-/* ── Topic detail ───────────────────────────────────────────────────── */
+/* Topic detail */
 .detail-page { max-width: 1080px; margin: 24px auto 0; padding: 0 24px; }
 .back-link {
   border: none; background: none; color: var(--link); font-size: 13.5px;

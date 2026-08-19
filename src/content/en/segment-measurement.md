@@ -6,7 +6,7 @@ difficulty: 1
 requires: [line-segment]
 ---
 
-Every segment has a length — a positive number that adds up along a segment: if $C$ lies between $A$ and $B$, then
+Every segment has a length - a positive number that adds up along a segment: if $C$ lies between $A$ and $B$, then
 
 $$
 AC + CB = AB

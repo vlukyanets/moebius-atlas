@@ -5,7 +5,7 @@ import type { Lang } from './i18n';
  * User preferences, persisted in localStorage. `lang: null` and the 'auto'
  * values mean "follow the browser/system"; explicit values override it.
  * The same storage key is read by the pre-paint script in index.html to
- * avoid a theme flash on load — keep the key and value shapes in sync.
+ * avoid a theme flash on load - keep the key and value shapes in sync.
  */
 export interface Settings {
   lang: Lang | null;
@@ -31,7 +31,7 @@ export function saveSettings(s: Settings): void {
   try {
     localStorage.setItem(KEY, JSON.stringify(s));
   } catch {
-    /* private mode etc. — settings just won't persist */
+    /* private mode etc. - settings just won't persist */
   }
 }
 

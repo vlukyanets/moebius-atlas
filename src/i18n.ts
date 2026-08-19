@@ -11,7 +11,7 @@ export const tr = (s: L10n, lang: Lang): string => s[lang] ?? s.en;
 /**
  * The displayed language follows the browser preference list
  * (`navigator.languages`); the first supported language wins, otherwise
- * English. `?lang=uk|en` in the query string overrides — handy for testing
+ * English. `?lang=uk|en` in the query string overrides - handy for testing
  * and for sharing a link in a specific language.
  */
 export function detectLang(): Lang {
@@ -41,12 +41,12 @@ export function useDetectedLang(): Lang {
 /** All UI chrome strings. */
 export const UI = {
   brand: { en: 'Moebius Atlas', uk: 'Атлас Мебіуса' },
-  appTitle: { en: 'Moebius Atlas — explorable graph of geometry', uk: 'Атлас Мебіуса — інтерактивний граф геометрії' },
+  appTitle: { en: 'Moebius Atlas - explorable graph of geometry', uk: 'Атлас Мебіуса — інтерактивний граф геометрії' },
   searchPlaceholder: { en: 'Search topics…', uk: 'Пошук тем…' },
   resultsFor: { en: 'RESULTS FOR', uk: 'РЕЗУЛЬТАТІВ ЗА ЗАПИТОМ' },
   noResults: { en: 'No topics match. Try “angle” or “triangle”.', uk: 'Нічого не знайдено. Спробуйте «кут» або «трикутник».' },
-  footerIdea: { en: 'Idea — Serhii Ivanyshak', uk: 'Автор ідеї — Сергій Іванишак' },
-  footerDev: { en: 'Developer — Valentyn Lukianets', uk: 'Розробник — Валентин Лук’янець' },
+  footerIdea: { en: 'Idea - Serhii Ivanyshak', uk: 'Автор ідеї — Сергій Іванишак' },
+  footerDev: { en: 'Developer - Valentyn Lukianets', uk: 'Розробник — Валентин Лук’янець' },
   pathLead: { en: 'Show everything you need to learn before', uk: 'Показати все, що треба вивчити перед темою' },
   pathHint: {
     en: 'TARGET AT TOP · EACH LEVEL BELOW HOLDS THE PREREQUISITES OF THE LEVEL ABOVE · DOWN TO THE BASICS',
@@ -66,7 +66,7 @@ export const UI = {
   colRequires: { en: 'REQUIRES', uk: 'ПОТРЕБУЄ' },
   colLeadsTo: { en: 'LEADS TO', uk: 'ВЕДЕ ДО' },
   colResources: { en: 'RESOURCES', uk: 'ДЖЕРЕЛА' },
-  noPrereqs: { en: 'Nothing — a starting point.', uk: 'Нічого — це відправна точка.' },
+  noPrereqs: { en: 'Nothing - a starting point.', uk: 'Нічого — це відправна точка.' },
   noDeps: { en: 'No dependents in this map yet.', uk: 'Поки що жодна тема не спирається на цю.' },
   wikipedia: { en: 'Wikipedia', uk: 'Вікіпедія' },
   bce: { en: 'BCE', uk: 'до н. е.' },

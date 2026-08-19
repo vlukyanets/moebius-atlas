@@ -5,7 +5,7 @@ import { UI, tr, type Lang } from '../i18n';
 /** All topics by id. */
 export const N: Record<string, TopicSeed> = TOPICS;
 
-/** reverse `requires` index: topic → topics that list it as a prerequisite. */
+/** reverse `requires` index: topic -> topics that list it as a prerequisite. */
 const dependentsOf: Record<string, string[]> = {};
 for (const id of Object.keys(N)) {
   for (const p of N[id].requires ?? []) (dependentsOf[p] ??= []).push(id);

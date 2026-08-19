@@ -8,7 +8,7 @@ requires: [triangle-definition, congruent-figures]
 
 Two minimal checks that force whole triangles to be equal:
 
-1. **SAS** — two sides and the *included* angle
-2. **ASA** — a side and its two *adjacent* angles
+1. **SAS** - two sides and the *included* angle
+2. **ASA** - a side and its two *adjacent* angles
 
-No need to compare all six elements — three well-chosen ones suffice.
+No need to compare all six elements - three well-chosen ones suffice.

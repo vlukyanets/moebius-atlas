@@ -6,7 +6,7 @@ difficulty: 2
 requires: [circle-circumference, similar-areas]
 ---
 
-The area of a *disk* — the part of the plane bounded by a circle of radius $R$ — is
+The area of a *disk* - the part of the plane bounded by a circle of radius $R$ - is
 
 $$
 S = \pi R^2

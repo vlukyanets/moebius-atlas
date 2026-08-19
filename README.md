@@ -3,8 +3,8 @@
 School geometry (Ukrainian curriculum, grades 7–9) as an explorable atlas of
 topics. Two views over the same content:
 
-- **A–Z** — alphabetical index of every topic
-- **Prereq path** — for a chosen target topic, the layered tree of everything
+- **A–Z** - alphabetical index of every topic
+- **Prereq path** - for a chosen target topic, the layered tree of everything
   to learn first: the target on top, each level below holds the prerequisites
   of the level above, down to the basics. Starts collapsed; levels are
   revealed one at a time.
@@ -27,10 +27,10 @@ An explicit choice in Settings overrides the auto-detection.
 The gear menu in the top bar (persisted in `localStorage`, applied before
 first paint by an inline script in `index.html`):
 
-- **Language** — English / Українська (default: browser language)
-- **Theme** — Auto / Dark / Light (Auto follows `prefers-color-scheme`)
-- **Animation** — Auto / On / Off (Auto follows `prefers-reduced-motion`)
-- **Text size** — Normal / Large / Extra Large (interface scale)
+- **Language** - English / Українська (default: browser language)
+- **Theme** - Auto / Dark / Light (Auto follows `prefers-color-scheme`)
+- **Animation** - Auto / On / Off (Auto follows `prefers-reduced-motion`)
+- **Text size** - Normal / Large / Extra Large (interface scale)
 
 The dark palette lives next to the light tokens in `src/styles.css`
 (`:root[data-theme='dark']`). Logic: `src/settings.ts` + `SettingsMenu.tsx`.
@@ -51,7 +51,7 @@ The dark palette lives next to the light tokens in `src/styles.css`
 
 One Markdown file per topic **per language**: `src/content/<lang>/<id>.md`.
 Languages are never mixed inside a file. `content/en/` is canonical and
-required — its frontmatter carries the graph metadata. Translation files
+required - its frontmatter carries the graph metadata. Translation files
 (e.g. `content/uk/triangle-angle-sum.md`) carry only their localized `title`
 and body. The id is the file name.
 
@@ -96,7 +96,7 @@ stripped). Quote a frontmatter value if it contains a colon
 (`title: "Right Triangles: …"`).
 
 `requires` lists prerequisite topic ids. The graph must stay **acyclic and
-transitively reduced**: never add `A → C` when a chain `A → B → … → C`
+transitively reduced**: never add `A -> C` when a chain `A -> B -> … -> C`
 already exists.
 
 `resources` is a comma-separated list of Markdown links, authored **per
@@ -122,16 +122,16 @@ needed on several levels sinks to its deepest one).
 
 Hash-based, deep-linkable:
 
-- `#/az` — A–Z index
-- `#/path/triangle-angle-sum` — prerequisite path to a target
-- `#/topic/triangle-angle-sum` — topic page
+- `#/az` - A–Z index
+- `#/path/triangle-angle-sum` - prerequisite path to a target
+- `#/topic/triangle-angle-sum` - topic page
 
 ## Logo
 
 A stylized 3D Möbius band: a figure-eight ribbon with light-to-shade
 gradients, a receding under-strand and a soft cast shadow at the
 over-crossing. Sources: `src/components/Logo.tsx` (top bar) and
-`public/logo.svg` (favicon) — keep them in sync.
+`public/logo.svg` (favicon) - keep them in sync.
 
 ## Development
 
@@ -146,4 +146,4 @@ npm run preview   # serve the production build locally
 
 Pushing to `master` triggers `.github/workflows/deploy.yml`, which builds and
 publishes `dist/` to GitHub Pages. One-time setup in the repository settings:
-**Settings → Pages → Source: GitHub Actions**.
+**Settings -> Pages -> Source: GitHub Actions**.

@@ -2,7 +2,7 @@ import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { UI, tr, useLang, type L10n, type Lang } from '../i18n';
 import { useSettings, type Settings } from '../settings';
 
-/** Simplified Union Jack — flag emojis don't render on Windows. */
+/** Simplified Union Jack - flag emojis don't render on Windows. */
 const FlagGB = () => (
   <svg className="flag" viewBox="0 0 60 40" aria-hidden="true">
     <rect width="60" height="40" fill="#012169" />

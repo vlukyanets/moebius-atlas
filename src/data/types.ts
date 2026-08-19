@@ -32,7 +32,7 @@ export interface Resource {
 /** A topic, authored in `src/content/<lang>/<id>.md`. */
 export interface TopicSeed {
   name: L10n;
-  /** Short plain-text summary (cards, tooltips) — derived from the body. */
+  /** Short plain-text summary (cards, tooltips) - derived from the body. */
   summary: L10n;
   /** Full Markdown body (KaTeX via $…$ / $$…$$), shown on the detail page. */
   body?: L10n;
@@ -41,7 +41,7 @@ export interface TopicSeed {
   difficulty?: number;
   /** Year of discovery; negative = BCE. */
   year?: number;
-  /** Prerequisite topic ids (edges point prereq → this). */
+  /** Prerequisite topic ids (edges point prereq -> this). */
   requires?: string[];
   /**
    * External resources per language, authored in each language file's

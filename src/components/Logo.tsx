@@ -1,6 +1,6 @@
 /**
  * The Moebius Atlas mark: a Möbius band as a figure-eight ribbon with a 3D
- * feel — light-to-shade gradients along each ribbon segment, a receding
+ * feel - light-to-shade gradients along each ribbon segment, a receding
  * (darker) under-strand and a soft cast shadow beneath the over-crossing.
  * The same artwork lives in `public/logo.svg` (favicon); keep both in sync.
  */

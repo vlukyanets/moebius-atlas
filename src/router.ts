@@ -4,7 +4,7 @@ import { DEFAULT_VIEW, viewById } from './data/views';
 import type { ViewId } from './data/types';
 
 /**
- * Hash-based routes (GitHub Pages friendly — no server rewrites needed):
+ * Hash-based routes (GitHub Pages friendly - no server rewrites needed):
  *   #/az                           A–Z index
  *   #/path/triangle-angle-sum      prerequisite path to a target topic
  *   #/topic/triangle-angle-sum     topic detail page
