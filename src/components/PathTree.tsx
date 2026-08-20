@@ -20,6 +20,7 @@
 import { useState } from 'react';
 import { linkKey, tagOf, topicName, treeLayout, type TreeEdge } from '../data/atlas';
 import { UI, tr, useLang } from '../i18n';
+import { useSettings } from '../settings';
 import { EDGE, EdgeTips, PathField, TIP, hover, type Hot } from './PathField';
 import { ProgressBox } from './ProgressBox';
 import { swatch } from './palette';
@@ -41,6 +42,7 @@ interface Props {
 
 export function PathTree({ levels, onOpen }: Props): JSX.Element {
   const lang = useLang();
+  const arrows = useSettings().settings.pathArrows;
   const [hot, setHot] = useState<Hot>(null);
   const cool = (): void => setHot(null);
 
@@ -85,7 +87,9 @@ export function PathTree({ levels, onOpen }: Props): JSX.Element {
         aria-hidden="true"
       >
         <EdgeTips />
-        {drawn.map((e) => {
+        {/* Hidden arrows leave the edges undrawn, not unknown: the hover trail
+            still runs up them, so a card lights the way to the target. */}
+        {arrows && drawn.map((e) => {
           const d = line(e);
           const r = lit.rank(e);
           return (

@@ -12,6 +12,12 @@
  * The hover helpers live here rather than in either view because both paint the
  * same two tones: what the pointer touches in `--accent`, and the rest of the
  * way up to the target in `--trail`.
+ *
+ * The arrow toggle sits with the zoom tools for the same reason: it is the same
+ * question in both drawings, so it is asked once here and answered by the
+ * setting the views read. It only puts the lines away - the cards keep their
+ * places, and hovering one still lights the trail up to the target, because
+ * that trail is what a reader who hid the lines is left to follow the path by.
  */
 import {
   useEffect,
@@ -23,6 +29,7 @@ import {
 } from 'react';
 import { linkKey, upward, type Link } from '../data/atlas';
 import { UI, tr, useLang } from '../i18n';
+import { useSettings } from '../settings';
 import { Icon } from './Icons';
 
 /** Past this much movement a press is a pan, and the click it ends with is
@@ -36,6 +43,19 @@ const DRAG_SLOP = 3;
 const ZOOM_MIN = 0.1;
 const ZOOM_MAX = 1.5;
 const ZOOM_STEP = 1.2;
+/** deltaMode 1 counts lines and 2 counts pages; both have to become pixels
+ *  before anything below can measure them. */
+const WHEEL_MODE = [1, 16, 400];
+/** A wheel event carries a distance, not a number of steps, and the two devices
+ *  that produce it are nothing alike: a mouse notch arrives once and is worth a
+ *  hundred pixels or more, a trackpad pinch arrives as dozens of deltas of a
+ *  few pixels each. Anything past this is a notch and takes a whole step -
+ *  giving each pinch delta one is what made the field shoot past both bounds. */
+const WHEEL_NOTCH = 50;
+/** What a pinch delta of one pixel is worth. A pinch of the width of a small
+ *  trackpad is then about two steps, which is roughly the gesture people
+ *  expect it to be. */
+const PINCH_PIXEL = 12;
 const clampZoom = (z: number): number => Math.min(ZOOM_MAX, Math.max(ZOOM_MIN, z));
 
 /**
@@ -121,6 +141,8 @@ interface Props {
 
 export function PathField({ canvas, focus, focusKey, children }: Props): JSX.Element {
   const lang = useLang();
+  const { settings, update } = useSettings();
+  const arrows = settings.pathArrows;
   const box = useRef<HTMLDivElement>(null);
   const grab = useRef<{ x: number; y: number; left: number; top: number } | null>(null);
   const panned = useRef(false);
@@ -199,7 +221,9 @@ export function PathField({ canvas, focus, focusKey, children }: Props): JSX.Ele
     const wheel = (e: WheelEvent): void => {
       if (!e.ctrlKey && !e.metaKey) return;
       e.preventDefault();
-      applyZoom(zoom * (e.deltaY < 0 ? ZOOM_STEP : 1 / ZOOM_STEP), e.clientX, e.clientY);
+      const dy = e.deltaY * (WHEEL_MODE[e.deltaMode] ?? 1);
+      const steps = Math.abs(dy) >= WHEEL_NOTCH ? Math.sign(dy) : dy / PINCH_PIXEL;
+      applyZoom(zoom * ZOOM_STEP ** -steps, e.clientX, e.clientY);
     };
     el.addEventListener('wheel', wheel, { passive: false });
     return () => el.removeEventListener('wheel', wheel);
@@ -277,6 +301,15 @@ export function PathField({ canvas, focus, focusKey, children }: Props): JSX.Ele
           aria-label={tr(UI.pathZoomIn, lang)}
         >
           <Icon name="plus" size={15} />
+        </button>
+        <button
+          className="path-tool"
+          onClick={() => update({ pathArrows: !arrows })}
+          aria-pressed={arrows}
+          title={tr(arrows ? UI.pathArrowsHide : UI.pathArrowsShow, lang)}
+          aria-label={tr(arrows ? UI.pathArrowsHide : UI.pathArrowsShow, lang)}
+        >
+          <Icon name={arrows ? 'arrows' : 'arrows-off'} size={15} />
         </button>
         <button
           className="path-tool"
