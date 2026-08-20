@@ -23,17 +23,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - id: master
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           ref: master
           path: master
       - id: staging
         continue-on-error: true
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           ref: staging
           path: staging
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v7
         with:
           node-version: 24
           cache: npm
@@ -54,7 +54,7 @@ jobs:
         run: |
           mv master/dist site
           if [ -d staging/dist ]; then mv staging/dist site/staging; fi
-      - uses: actions/upload-pages-artifact@v3
+      - uses: actions/upload-pages-artifact@v5
         with:
           path: site
 
@@ -66,4 +66,4 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5
