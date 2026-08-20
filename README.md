@@ -10,8 +10,9 @@ of prerequisites. Two views over the same content:
 - **Index** - every topic in alphabetical order, with filter chips
 - **Prereq path** - for a chosen target topic, the layered tree of everything
   to learn first: the target on top, each level below holds the prerequisites
-  of the level above, down to the basics. Starts collapsed; levels are
-  revealed one at a time.
+  of the level above, down to the basics. Two ways to see it: stacked steps,
+  which start collapsed and reveal a level at a time, and a scrollable tree,
+  which shows the whole path at once with an arrow along every prerequisite.
 
 Each topic opens a dedicated page (Markdown body with KaTeX formulas,
 prerequisites, dependents, external resources), and global search covers all
@@ -36,8 +37,13 @@ every row at once. The selection survives opening a topic and coming back, and
 survives a reload (`localStorage`, separate from the settings key).
 
 The path view has its own searchable target picker: type to filter, arrows and
-Enter to choose, and a layout switch in its top-right corner (steps / tree /
-rings - only the stacked steps are drawn so far).
+Enter to choose, and a layout switch in its top-right corner. The chosen layout
+is remembered with the rest of the settings, so the next path opens the same
+way. In the tree, a straight arrow runs from a prerequisite up to the topic it
+unlocks. Only neighbouring levels are joined: a topic sits at its deepest
+level, so some prerequisites end up further apart than one step and are left
+undrawn - the topic's own page is what lists all of them. Hovering a card
+lights up its lines.
 
 ## Progress
 
