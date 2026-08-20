@@ -221,6 +221,16 @@ points it at another checkout. Its own docstring states what it reads and writes
   target in the middle, and no turn makes those arrows anything but radial.
   Spacing and angles depend on each other, so `ringLayout` settles them by
   repetition; widening the rings only ever shrinks the turn, so it terminates.
+- Each card is then let wander around its own place on the ring by an amount
+  of its own. Evenly spaced is what a ring wants, but it is also what leaves a
+  path of two or three topics a level sitting in one narrow sector with the
+  rest of the circle bare, because the barycenter files every card directly
+  behind what it unlocks. The wander is bounded by whatever room is left once
+  the card's own width at that radius is taken out of its share of the circle,
+  so cards can never close up on each other and force the rings apart, and a
+  ring with barely enough room for its cards does not move at all. The amount
+  is drawn from a hash of the topic id, not from a random number: a topic keeps
+  its place between renders, between languages and between visits.
 - An arrow between two rings is a transfer between two orbits, not a straight
   line: its radius eases from the near edge of one band of cards to the near
   edge of the other while its angle sweeps the short way round, and the easing

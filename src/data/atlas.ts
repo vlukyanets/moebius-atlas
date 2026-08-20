@@ -322,6 +322,25 @@ const swing = (a: number, b: number): number => {
 /** How many straight pieces one transfer arc is drawn with. */
 const ARC_STEPS = 24;
 
+/** How far a topic may wander from the place its ring would file it in. */
+const SCATTER = (50 * Math.PI) / 180;
+
+/**
+ * A fixed number in [-1, 1) for an id - FNV-1a, taken for its spread rather
+ * than for anything cryptographic. The scatter has to be random-looking but not
+ * random: a topic keeps the same place on its ring between renders, between
+ * languages and between visits, or the reader would watch the atlas rearrange
+ * itself every time they came back to it.
+ */
+const spray = (id: string): number => {
+  let h = 2166136261;
+  for (let i = 0; i < id.length; i++) {
+    h ^= id.charCodeAt(i);
+    h = Math.imul(h, 16777619);
+  }
+  return ((h >>> 0) / 2 ** 32) * 2 - 1;
+};
+
 /**
  * Lay the levels out as concentric rings: the target in the middle, and every
  * level one ring further out, so distance from the centre is how deep into the
@@ -400,9 +419,20 @@ export function ringLayout(
       // radial.
       const twist = k === 1 ? 0 : Math.min(Math.PI / n, (size.w + size.gap) / (k * step));
 
+      // Evenly spaced is what a ring wants; evenly spaced is also what makes a
+      // path of two or three topics a level sit in one narrow sector with the
+      // rest of the circle bare, since the barycenter files every card directly
+      // behind what it unlocks. So each one is then let wander around its own
+      // place by a fixed amount of its own - as far as it likes, up to whatever
+      // room is left once the card's own width at this radius is taken out of
+      // its share of the circle. A ring with barely enough room to hold its
+      // cards has none left to give, and does not move.
+      const room = Math.max(0, Math.PI / n - (size.w + size.gap) / (k * step));
+      const wander = Math.min(room, SCATTER);
+
       laid.push(
         ids.map((id, i) => {
-          const a = even(i) + turn + twist;
+          const a = even(i) + turn + twist + spray(id) * wander;
           angle[id] = a;
           return { id, a };
         }),
