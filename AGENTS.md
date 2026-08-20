@@ -175,9 +175,25 @@ points it at another checkout. Its own docstring states what it reads and writes
 - The steps reveal a level at a time; the tree draws the whole path, so the
   reveal controls are hidden with it rather than left doing nothing.
 - `PathTree` places cards and arrows from the same numbers - `treeLayout`
-  returns each slot centred on its level - so nothing is ever measured from the
+  returns each slot centred on its level - so no card is ever measured from the
   DOM. The card and gap sizes are constants in the component mirrored by
-  `.tree-row`/`.tree-node` in `styles.css`; change one, change the other.
+  `.tree-row`/`.tree-node` in `styles.css`; change one, change the other. The
+  size of the scroll field is the one thing read back, because scrolling needs
+  it and no constant can know it.
+- A wide level is several screens across, so the field opens centred on the
+  target instead of on the left edge, and re-centres when the target changes.
+  The reader moves from there by dragging the field. A drag that started on a
+  card swallows the click it ends with, or letting go would open a topic.
+- The tools floating over the top right corner zoom the field and undo both:
+  the crosshair puts the zoom back to 1 *and* the target back in the middle,
+  which together is the state the view opened in. The zoom itself is CSS
+  `zoom` on `.tree-canvas`, so the scroll box gets the scaled size for free
+  and only `centreLeft` has to multiply by it. Every zoom step keeps one point
+  still - the pointer for a ctrl-wheel, the centre of the box for a button -
+  by storing the scroll position it wants and applying it in a layout effect,
+  once the browser has laid the new size out. The wheel listener is added by
+  hand because React's `onWheel` is passive and could not take the event away
+  from the browser's own page zoom.
 - Only neighbouring levels are joined, and always by a straight line. A topic
   sinks to its deepest level, so a `requires` edge can span more than one -
   `treeLayout` leaves those undrawn (about a sixth of the edges, a third on the
