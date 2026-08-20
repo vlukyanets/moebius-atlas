@@ -8,8 +8,8 @@
  *
  * Every card is the same size, so where one lands is arithmetic and not a
  * measurement: `treeLayout` returns each slot centred on its level and the
- * bends every edge passes through, and both the cards and the arrows are
- * placed from those numbers without ever reading the DOM back. The constants
+ * two points every edge is drawn between, and both the cards and the arrows
+ * are placed from those numbers without ever reading the DOM back. The constants
  * below are mirrored by `.tree-row` and `.tree-node` in styles.css - change
  * one, change the other.
  *
@@ -31,17 +31,26 @@ const ROW_H = NODE_H + ROW_GAP;
 const GUTTER = 64;
 const PAD_Y = 18;
 
+const edgeKey = (e: TreeEdge): string => `${e.from}>${e.to}`;
+
 interface Props {
   /** Every level of the path, target first. */
   levels: string[][];
   onOpen: (id: string) => void;
 }
 
+/**
+ * What the pointer rests on. A card lights the edges that touch it; an arrow
+ * lights itself and the two cards it joins, which is the only way to tell
+ * which pair a line connects once a level is crowded. Either way the lit
+ * edges are drawn last, so they are never hidden under a neighbour.
+ */
+type Hot = { node: string } | { from: string; to: string } | null;
+
 export function PathTree({ levels, onOpen }: Props): JSX.Element {
   const lang = useLang();
-  // Which card the pointer is on: its edges are drawn last and highlighted,
-  // which is the only way to follow one line through a crowded level.
-  const [hot, setHot] = useState<string | null>(null);
+  const [hot, setHot] = useState<Hot>(null);
+  const cool = (): void => setHot(null);
 
   const { rows, edges, width } = treeLayout(levels, (id) => topicName(id, lang), {
     node: NODE_W,
@@ -55,8 +64,46 @@ export function PathTree({ levels, onOpen }: Props): JSX.Element {
   const line = (e: TreeEdge): string =>
     `M${cx(e.fromX)} ${e.row * ROW_H} L${cx(e.toX)} ${(e.row - 1) * ROW_H + NODE_H}`;
 
-  const lit = (e: TreeEdge): boolean => hot !== null && (e.from === hot || e.to === hot);
-  const drawn = [...edges].sort((a, b) => Number(lit(a)) - Number(lit(b)));
+  const litEdge = (e: TreeEdge): boolean =>
+    hot === null
+      ? false
+      : 'node' in hot
+        ? e.from === hot.node || e.to === hot.node
+        : e.from === hot.from && e.to === hot.to;
+  const litNode = (id: string): boolean =>
+    hot === null ? false : 'node' in hot ? hot.node === id : hot.from === id || hot.to === id;
+  /**
+   * The rest of the way up. From whatever is lit, every drawn edge above it is
+   * followed to the target, and the cards and lines along the way get a second,
+   * quieter colour: the hover answers "what does this connect to", the trail
+   * answers "and where does that get me". Only drawn edges are followed, so a
+   * chain that would continue through an edge `treeLayout` left out stops here
+   * rather than reappearing further up with nothing joining it.
+   */
+  const upFrom = new Map<string, TreeEdge[]>();
+  for (const e of edges) upFrom.set(e.from, [...(upFrom.get(e.from) ?? []), e]);
+  const trailNodes = new Set<string>();
+  const trailEdges = new Set<string>();
+  if (hot !== null) {
+    const seen = new Set<string>();
+    const queue = ['node' in hot ? hot.node : hot.to];
+    while (queue.length) {
+      const cur = queue.shift()!;
+      if (seen.has(cur)) continue;
+      seen.add(cur);
+      for (const e of upFrom.get(cur) ?? []) {
+        if (!litEdge(e)) trailEdges.add(edgeKey(e));
+        if (!litNode(e.to)) trailNodes.add(e.to);
+        queue.push(e.to);
+      }
+    }
+  }
+
+  /** 0 plain, 1 trail, 2 hovered - and also the order they are painted in. */
+  const rank = (e: TreeEdge): number => (litEdge(e) ? 2 : trailEdges.has(edgeKey(e)) ? 1 : 0);
+  const TIP = ['url(#tree-tip)', 'url(#tree-tip-trail)', 'url(#tree-tip-hot)'];
+  const EDGE = ['edge', 'edge trail', 'edge hot'];
+  const drawn = [...edges].sort((a, b) => rank(a) - rank(b));
 
   const levelTitle = (row: number): string =>
     row === 0
@@ -90,6 +137,19 @@ export function PathTree({ levels, onOpen }: Props): JSX.Element {
               <path d="M0 0 L8 4 L0 8 Z" />
             </marker>
             <marker
+              id="tree-tip-trail"
+              className="tip trail"
+              viewBox="0 0 8 8"
+              refX="8"
+              refY="4"
+              markerWidth="9"
+              markerHeight="9"
+              markerUnits="userSpaceOnUse"
+              orient="auto"
+            >
+              <path d="M0 0 L8 4 L0 8 Z" />
+            </marker>
+            <marker
               id="tree-tip-hot"
               className="tip hot"
               viewBox="0 0 8 8"
@@ -103,14 +163,22 @@ export function PathTree({ levels, onOpen }: Props): JSX.Element {
               <path d="M0 0 L8 4 L0 8 Z" />
             </marker>
           </defs>
-          {drawn.map((e) => (
-            <path
-              key={`${e.from}>${e.to}`}
-              className={lit(e) ? 'edge hot' : 'edge'}
-              d={line(e)}
-              markerEnd={lit(e) ? 'url(#tree-tip-hot)' : 'url(#tree-tip)'}
-            />
-          ))}
+          {drawn.map((e) => {
+            const d = line(e);
+            const r = rank(e);
+            return (
+              // The hairline itself is too thin to aim at, so an invisible wide
+              // stroke on top of it is what actually catches the pointer.
+              <g
+                key={edgeKey(e)}
+                onMouseEnter={() => setHot({ from: e.from, to: e.to })}
+                onMouseLeave={cool}
+              >
+                <path className={EDGE[r]} d={d} markerEnd={TIP[r]} />
+                <path className="edge-hit" d={d} />
+              </g>
+            );
+          })}
         </svg>
         {rows.map((slots, row) => (
           <div className="tree-row" key={row} style={{ height: ROW_H }}>
@@ -124,7 +192,11 @@ export function PathTree({ levels, onOpen }: Props): JSX.Element {
                 return (
                   <div
                     key={id}
-                    className={'tree-node' + (row === 0 ? ' target' : '') + (hot === id ? ' hot' : '')}
+                    className={
+                      'tree-node' +
+                      (row === 0 ? ' target' : '') +
+                      (litNode(id) ? ' hot' : trailNodes.has(id) ? ' trail' : '')
+                    }
                     style={{
                       ...(tag ? swatch(tag) : null),
                       width: NODE_W,
@@ -132,8 +204,8 @@ export function PathTree({ levels, onOpen }: Props): JSX.Element {
                       left: cx(x) - NODE_W / 2,
                     }}
                     title={name}
-                    onMouseEnter={() => setHot(id)}
-                    onMouseLeave={() => setHot(null)}
+                    onMouseEnter={() => setHot({ node: id })}
+                    onMouseLeave={cool}
                     onClick={() => onOpen(id)}
                   >
                     <div className="head">

@@ -185,6 +185,13 @@ points it at another checkout. Its own docstring states what it reads and writes
   page is what lists every prerequisite; the tree shows the shape.
 - The lines of one card get evenly spaced ports along its edge, ordered by
   where their other end sits, so two arrows never arrive at the same spot.
+- Hovering is two-toned. A card or an arrow lights what it touches in
+  `--accent`; from there the tree keeps going up to the target in `--trail`,
+  a colour of its own rather than a shade of the accent. The trail follows
+  only edges the tree actually drew, so it stops where a long edge was left
+  out instead of resuming further up with nothing joining it. The three
+  states are painted plain, trail, hovered - in that order, so the line the
+  pointer is on is never under another one.
 
 ### Bundle
 
