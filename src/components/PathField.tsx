@@ -43,14 +43,19 @@ const DRAG_SLOP = 3;
 const ZOOM_MIN = 0.1;
 const ZOOM_MAX = 1.5;
 const ZOOM_STEP = 1.2;
-/** One mouse notch in pixels. A wheel reports the distance it turned, not the
- *  number of steps, so the step above is what a notch is worth and anything
- *  else is scaled to it - a trackpad pinch arrives as dozens of small deltas,
- *  and giving each one a full notch is what makes it shoot past both bounds. */
-const WHEEL_NOTCH = 100;
 /** deltaMode 1 counts lines and 2 counts pages; both have to become pixels
- *  before they can be measured against a notch. */
+ *  before anything below can measure them. */
 const WHEEL_MODE = [1, 16, 400];
+/** A wheel event carries a distance, not a number of steps, and the two devices
+ *  that produce it are nothing alike: a mouse notch arrives once and is worth a
+ *  hundred pixels or more, a trackpad pinch arrives as dozens of deltas of a
+ *  few pixels each. Anything past this is a notch and takes a whole step -
+ *  giving each pinch delta one is what made the field shoot past both bounds. */
+const WHEEL_NOTCH = 50;
+/** What a pinch delta of one pixel is worth. A pinch of the width of a small
+ *  trackpad is then about two steps, which is roughly the gesture people
+ *  expect it to be. */
+const PINCH_PIXEL = 12;
 const clampZoom = (z: number): number => Math.min(ZOOM_MAX, Math.max(ZOOM_MIN, z));
 
 /**
@@ -217,7 +222,8 @@ export function PathField({ canvas, focus, focusKey, children }: Props): JSX.Ele
       if (!e.ctrlKey && !e.metaKey) return;
       e.preventDefault();
       const dy = e.deltaY * (WHEEL_MODE[e.deltaMode] ?? 1);
-      applyZoom(zoom * ZOOM_STEP ** (-dy / WHEEL_NOTCH), e.clientX, e.clientY);
+      const steps = Math.abs(dy) >= WHEEL_NOTCH ? Math.sign(dy) : dy / PINCH_PIXEL;
+      applyZoom(zoom * ZOOM_STEP ** -steps, e.clientX, e.clientY);
     };
     el.addEventListener('wheel', wheel, { passive: false });
     return () => el.removeEventListener('wheel', wheel);
