@@ -413,10 +413,24 @@ button { font-family: inherit; }
    Every size here mirrors a constant in components/PathTree.tsx, which places
    both the cards and the arrows by arithmetic - change one, change the other. */
 .path-view.wide { max-width: 1120px; }
+/* Holds the scroll field and the button that floats over it. */
+.tree-field { position: relative; }
 .path-tree {
-  height: clamp(420px, 66vh, 760px); overflow: auto;
+  height: clamp(420px, 66vh, 760px); overflow: auto; cursor: grab;
   background: var(--formula-bg); border: 1px solid var(--border); border-radius: 14px;
 }
+.path-tree.panning { cursor: grabbing; user-select: none; }
+/* Floats over the field, clear of the target card centred beneath it. */
+.tree-tools { position: absolute; right: 14px; top: 14px; z-index: 3; display: flex; gap: 6px; }
+.tree-tool {
+  display: flex; align-items: center; justify-content: center;
+  width: 30px; height: 30px; padding: 0; cursor: pointer;
+  background: var(--surface); color: var(--text-secondary);
+  border: 1px solid var(--border-strong); border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(20, 30, 50, .12);
+}
+.tree-tool:hover:not(:disabled) { border-color: var(--accent); color: var(--link); }
+.tree-tool:disabled { color: var(--text-faint); cursor: default; }
 .tree-canvas { position: relative; margin: 0 auto; padding-bottom: 20px; }
 .tree-edges { position: absolute; overflow: visible; pointer-events: none; }
 .tree-edges .edge { fill: none; stroke: var(--sep); stroke-width: 1.4; stroke-linejoin: round; }

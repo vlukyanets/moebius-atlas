@@ -17,11 +17,13 @@ import flagGb from '../icons/flag-gb.svg?raw';
 import flagUa from '../icons/flag-ua.svg?raw';
 import grade from '../icons/grade.svg?raw';
 import logo from '../icons/logo.svg?raw';
+import minus from '../icons/minus.svg?raw';
 import pathRings from '../icons/path-rings.svg?raw';
 import pathSteps from '../icons/path-steps.svg?raw';
 import pathTree from '../icons/path-tree.svg?raw';
 import plus from '../icons/plus.svg?raw';
 import progress from '../icons/progress.svg?raw';
+import recenter from '../icons/recenter.svg?raw';
 import question from '../icons/question.svg?raw';
 import search from '../icons/search.svg?raw';
 import settings from '../icons/settings.svg?raw';
@@ -42,6 +44,9 @@ const SOURCES = {
   'path-steps': pathSteps,
   'path-tree': pathTree,
   'path-rings': pathRings,
+  /** Crosshair and the two zoom steps - the tools floating over the tree. */
+  recenter,
+  minus,
   /** Progress marks. */
   check,
   cross,
