@@ -16,6 +16,10 @@
   --chip-bg: #f0f3f8;
   --formula-bg: #f6f8fb;
   --sep: #b6bfce;
+  /* Second highlight, for the rest of the way up to the target in the tree -
+     next to --accent, not a shade of it. */
+  --trail: #7a52c4;
+  --trail-glow: rgba(122, 82, 196, .13);
   --ok: #3f7a1e;
   --ok-soft: #ebf5e2;
   --bad: #c0392b;
@@ -43,6 +47,8 @@
   --chip-bg: #1f2839;
   --formula-bg: #1a2334;
   --sep: #4a5568;
+  --trail: #a98ae0;
+  --trail-glow: rgba(169, 138, 224, .16);
   --ok: #a3d183;
   --ok-soft: #22321a;
   --bad: #f0907f;
@@ -415,13 +421,18 @@ button { font-family: inherit; }
 .tree-edges { position: absolute; overflow: visible; pointer-events: none; }
 .tree-edges .edge { fill: none; stroke: var(--sep); stroke-width: 1.4; stroke-linejoin: round; }
 .tree-edges .edge.hot { stroke: var(--accent); stroke-width: 2.2; }
+.tree-edges .edge.trail { stroke: var(--trail); stroke-width: 1.8; }
+/* Invisible and far wider than the line it covers - the target the pointer
+   actually hits. It lives in the gap between two levels, never over a card. */
+.tree-edges .edge-hit { fill: none; stroke: transparent; stroke-width: 12; pointer-events: stroke; }
 .tree-edges .tip path { fill: var(--sep); }
 .tree-edges .tip.hot path { fill: var(--accent); }
-.tree-row { display: flex; align-items: flex-start; position: relative; }
+.tree-edges .tip.trail path { fill: var(--trail); }
+.tree-row { display: flex; align-items: flex-start; position: relative; pointer-events: none; }
 /* Sticks to the left edge while the field is scrolled sideways, so a wide
    level never leaves the reader without its number. */
 .tree-row .lvl {
-  position: sticky; left: 0; z-index: 2; flex: none; align-self: center;
+  position: sticky; pointer-events: auto; left: 0; z-index: 2; flex: none; align-self: center;
   font-family: var(--mono); font-size: 10.5px; letter-spacing: .08em; text-align: center;
   color: var(--text-muted); background: var(--formula-bg); padding: 3px 0; border-radius: 6px;
 }
@@ -430,12 +441,16 @@ button { font-family: inherit; }
    are laid out in the same coordinates, so both come from the same numbers. */
 .tree-nodes { position: relative; flex: none; align-self: stretch; }
 .tree-node {
-  position: absolute; top: 0; box-sizing: border-box; display: flex; flex-direction: column; gap: 4px;
+  position: absolute; top: 0; pointer-events: auto; box-sizing: border-box; display: flex; flex-direction: column; gap: 4px;
   padding: 8px 10px; cursor: pointer;
   background: var(--surface); border: 1px solid var(--border-strong); border-radius: 10px;
 }
-.tree-node:hover { border-color: var(--accent); box-shadow: 0 2px 10px rgba(37, 99, 199, .14); }
 .tree-node.target { background: var(--accent-soft); border-color: var(--accent); }
+/* After .target on purpose: the target is where a trail ends, so it has to be
+   able to take the trail colour too. */
+.tree-node:hover,
+.tree-node.hot { border-color: var(--accent); box-shadow: 0 2px 10px rgba(37, 99, 199, .14); }
+.tree-node.trail { border-color: var(--trail); box-shadow: 0 2px 10px var(--trail-glow); }
 .tree-node .head { display: flex; align-items: center; gap: 6px; height: 16px; }
 .tree-node .dot { width: 7px; height: 7px; border-radius: 50%; flex: none; }
 .tree-node .tag-abbr { font-family: var(--mono); font-size: 9px; margin-left: auto; }
