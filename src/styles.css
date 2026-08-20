@@ -403,6 +403,48 @@ button { font-family: inherit; }
 .reveal-btn:hover { border-color: var(--accent); background: var(--accent-soft); }
 .all-basics { text-align: center; font-size: 11px; font-family: var(--mono); color: var(--ok); margin-top: 8px; }
 
+/* Tree layout: a scrollable field with the arrows drawn underneath the cards.
+   Every size here mirrors a constant in components/PathTree.tsx, which places
+   both the cards and the arrows by arithmetic - change one, change the other. */
+.path-view.wide { max-width: 1120px; }
+.path-tree {
+  height: clamp(420px, 66vh, 760px); overflow: auto;
+  background: var(--formula-bg); border: 1px solid var(--border); border-radius: 14px;
+}
+.tree-canvas { position: relative; margin: 0 auto; padding-bottom: 20px; }
+.tree-edges { position: absolute; overflow: visible; pointer-events: none; }
+.tree-edges .edge { fill: none; stroke: var(--sep); stroke-width: 1.4; stroke-linejoin: round; }
+.tree-edges .edge.hot { stroke: var(--accent); stroke-width: 2.2; }
+.tree-edges .tip path { fill: var(--sep); }
+.tree-edges .tip.hot path { fill: var(--accent); }
+.tree-row { display: flex; align-items: flex-start; position: relative; }
+/* Sticks to the left edge while the field is scrolled sideways, so a wide
+   level never leaves the reader without its number. */
+.tree-row .lvl {
+  position: sticky; left: 0; z-index: 2; flex: none; align-self: center;
+  font-family: var(--mono); font-size: 10.5px; letter-spacing: .08em; text-align: center;
+  color: var(--text-muted); background: var(--formula-bg); padding: 3px 0; border-radius: 6px;
+}
+.tree-row:first-child .lvl { color: var(--link); }
+/* The cards are placed by `left` rather than by flow: the arrows underneath
+   are laid out in the same coordinates, so both come from the same numbers. */
+.tree-nodes { position: relative; flex: none; align-self: stretch; }
+.tree-node {
+  position: absolute; top: 0; box-sizing: border-box; display: flex; flex-direction: column; gap: 4px;
+  padding: 8px 10px; cursor: pointer;
+  background: var(--surface); border: 1px solid var(--border-strong); border-radius: 10px;
+}
+.tree-node:hover { border-color: var(--accent); box-shadow: 0 2px 10px rgba(37, 99, 199, .14); }
+.tree-node.target { background: var(--accent-soft); border-color: var(--accent); }
+.tree-node .head { display: flex; align-items: center; gap: 6px; height: 16px; }
+.tree-node .dot { width: 7px; height: 7px; border-radius: 50%; flex: none; }
+.tree-node .tag-abbr { font-family: var(--mono); font-size: 9px; margin-left: auto; }
+.tree-node .name {
+  font-size: 11.5px; line-height: 1.3; font-weight: 500; color: var(--text);
+  display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; overflow: hidden;
+}
+.tree-node.target .name { font-weight: 600; }
+
 /* Topic detail */
 .detail-page { max-width: 1080px; margin: 24px auto 0; padding: 0 24px; }
 .back-link {
