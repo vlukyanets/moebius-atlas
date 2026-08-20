@@ -4,6 +4,7 @@ import { UI, topicsWord, tr, useLang } from '../i18n';
 import { useSettings, type PathLayout } from '../settings';
 import { Icon } from './Icons';
 import { Segmented } from './Menu';
+import { PathRings } from './PathRings';
 import { PathTree } from './PathTree';
 import { ProgressBox } from './ProgressBox';
 import { swatch } from './palette';
@@ -21,11 +22,10 @@ interface Props {
  * prerequisites of the level above. Starts collapsed to the target plus
  * its direct prerequisites; deeper levels are revealed one at a time.
  *
- * The lanes reveal a level at a time; the tree in `PathTree` draws the whole
- * path at once, so the reveal controls disappear with it. The layout is a
- * setting rather than view state: it survives a reload and is what any later
- * path view will open in. `rings` is not drawn yet - its button is off the
- * page until it is, and a stored `rings` falls back to the lanes.
+ * The lanes reveal a level at a time; the two graph layouts - `PathTree` and
+ * `PathRings` - draw the whole path at once, so the reveal controls disappear
+ * with them. Which layout is drawn is a setting rather than view state: it
+ * survives a reload and is what any later path view will open in.
  */
 export function PathView({ target: picked, onTarget, onOpen }: Props) {
   const lang = useLang();
@@ -43,15 +43,16 @@ export function PathView({ target: picked, onTarget, onOpen }: Props) {
   const hasMore = visible < levels.length;
   const nextCount = hasMore ? levels[visible].length : 0;
   const nextLabel = `${tr(UI.revealNext, lang)} ${visible}`;
-  const tree = layout === 'tree';
+  /** Both graph layouts want the room and neither has anything to reveal. */
+  const graph = layout === 'tree' || layout === 'rings';
 
   return (
-    <div className={tree ? 'path-view wide' : 'path-view'}>
+    <div className={graph ? 'path-view wide' : 'path-view'}>
       <div className="path-picker">
         <div className="picker-row">
           <span className="lead">{tr(UI.pathLead, lang)}</span>
           <span className="spacer" />
-          {!tree && (
+          {!graph && (
             <>
               <button className="chip-btn" onClick={() => setShown(levels.length)}>
                 {tr(UI.revealAll, lang)}
@@ -66,6 +67,7 @@ export function PathView({ target: picked, onTarget, onOpen }: Props) {
             options={[
               { v: 'steps', label: '', title: tr(UI.layoutSteps, lang), icon: <Icon name="path-steps" size={15} /> },
               { v: 'tree', label: '', title: tr(UI.layoutTree, lang), icon: <Icon name="path-tree" size={15} /> },
+              { v: 'rings', label: '', title: tr(UI.layoutRings, lang), icon: <Icon name="path-rings" size={15} /> },
             ]}
             value={layout}
             onChange={(v) => update({ pathLayout: v })}
@@ -73,9 +75,13 @@ export function PathView({ target: picked, onTarget, onOpen }: Props) {
         </div>
         <TopicPicker ids={targets} value={target} onChange={onTarget} />
       </div>
-      <div className="path-hint">{tr(tree ? UI.treeHint : UI.pathHint, lang)}</div>
-      {tree ? (
+      <div className="path-hint">
+        {tr(layout === 'tree' ? UI.treeHint : layout === 'rings' ? UI.ringsHint : UI.pathHint, lang)}
+      </div>
+      {layout === 'tree' ? (
         <PathTree levels={levels} onOpen={onOpen} />
+      ) : layout === 'rings' ? (
+        <PathRings levels={levels} onOpen={onOpen} />
       ) : (
         <div className="path-lanes">
           {levels.slice(0, visible).map((ids, i) => (

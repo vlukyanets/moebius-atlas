@@ -1,9 +1,9 @@
 import { createContext, useContext } from 'react';
 import type { Lang } from './i18n';
 
-/** How a prerequisite path is drawn. Outlives the page: the reader picks a
- * layout once and every path view - here and in whatever comes later - opens
- * in it. `rings` is not drawn yet and falls back to the stacked lanes. */
+/** How a prerequisite path is drawn: stacked lanes, a layered tree, or rings
+ * around the target. Outlives the page: the reader picks a layout once and
+ * every path view - here and in whatever comes later - opens in it. */
 export type PathLayout = 'steps' | 'tree' | 'rings';
 
 /**

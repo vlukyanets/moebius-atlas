@@ -24,7 +24,7 @@ change it without breaking it. Read both before a first edit.
 | `src/data/loadTopics.ts` | Reads the frontmatter of every topic (`virtual:atlas-meta`) + the shared parser (`parseFile`) |
 | `src/data/bodies.ts` | Fetches topic bodies, one language chunk at a time, and caches them |
 | `src/data/topics.ts` | Static tables: `TAGS`, `SUBJECTS`, `TRACKS` (labels + colors) and the loaded `TOPICS` |
-| `src/data/atlas.ts` | Everything derived from the `requires` relation: reverse index (`dependents`), `search`, `prereqLevels`, `treeLayout`, formatting helpers |
+| `src/data/atlas.ts` | Everything derived from the `requires` relation: reverse index (`dependents`), `search`, `prereqLevels`, `treeLayout`, `ringLayout`, the upward walk the hover trail follows, formatting helpers |
 | `src/data/views.ts` | Loads the tab definitions from `src/views/<lang>/*.md` |
 | `src/content/<lang>/<id>.md` | Topic content - one file per topic per language (~485 each) |
 | `src/views/<lang>/<id>.md` | Tab definitions (`kind`, `order`, localized title) |
@@ -40,8 +40,10 @@ Components: `TopBar` (brand, tabs, search field, progress and settings menus),
 `ProgressMenu` (the tracking switch plus the profile rows), `ProgressBox` (the per-topic
 checkbox and the question a locked one asks),
 `IndexList` (alphabetical index + filter chip rows), `PathView` (layered prerequisite tree
-plus the layout switch), `PathTree` (the tree layout: a scrollable field of cards with an
-arrow along every `requires` edge), `TopicPicker` (searchable combobox for the path target),
+plus the layout switch), `PathField` (the scrollable field the two graph layouts share -
+panning, zoom, the tools, and the hover-and-trail helpers), `PathTree` (the tree layout:
+levels stacked bottom-up, an arrow along every `requires` edge), `PathRings` (the same
+path as rings around the target), `TopicPicker` (searchable combobox for the path target),
 `TopicDetail` (Markdown body, meta line, REQUIRES / LEADS TO / RESOURCES columns),
 `SearchResults`, `TagBadge`, `Markdown` (react-markdown + KaTeX, loaded on demand),
 `Icons`, `Logo`.
@@ -49,9 +51,10 @@ arrow along every `requires` edge), `TopicPicker` (searchable combobox for the p
 Icons: `src/icons/<name>.svg` is registered in `components/Icons.tsx` and inlined
 with Vite's `?raw` import, so `currentColor` keeps working and no svgr-style
 dependency is needed. A new icon is a file plus one line in that registry -
-never `<svg>` written into a component. The one `<svg>` written in a component
-is the edge layer in `PathTree`: it is computed from the data, and no static
-file could hold it.
+never `<svg>` written into a component. The only `<svg>` written in a component
+is the edge layer of the two graph layouts (`PathTree`, `PathRings`, and the
+arrowheads they share in `PathField`): it is computed from the data, and no
+static file could hold it.
 
 ## Commands
 
@@ -169,36 +172,82 @@ points it at another checkout. Its own docstring states what it reads and writes
 
 - Which layout the path view draws is a *setting*, not view state: it lives in
   `Settings.pathLayout` and so survives a reload and carries to any later view
-  that offers the same switch. `rings` is in the union and in `UI`, but its
-  button is off the page until something draws it; a stored `rings` falls back
-  to the steps.
-- The steps reveal a level at a time; the tree draws the whole path, so the
-  reveal controls are hidden with it rather than left doing nothing.
-- `PathTree` places cards and arrows from the same numbers - `treeLayout`
-  returns each slot centred on its level - so no card is ever measured from the
-  DOM. The card and gap sizes are constants in the component mirrored by
-  `.tree-row`/`.tree-node` in `styles.css`; change one, change the other. The
-  size of the scroll field is the one thing read back, because scrolling needs
-  it and no constant can know it.
-- A wide level is several screens across, so the field opens centred on the
-  target instead of on the left edge, and re-centres when the target changes.
-  The reader moves from there by dragging the field. A drag that started on a
-  card swallows the click it ends with, or letting go would open a topic.
+  that offers the same switch. All three - `steps`, `tree`, `rings` - are drawn.
+- The steps reveal a level at a time; both graph layouts draw the whole path, so
+  the reveal controls are hidden with them rather than left doing nothing.
+- `PathField` is the scrollable field both graph layouts are drawn in. It knows
+  nothing about the drawing beyond the size of the canvas and the one point the
+  view opens on and returns to; everything else - panning, zoom, the tools, the
+  two-toned hover - is the same for both, and a third layout gets it for free.
+- Cards and arrows come from the same numbers - `treeLayout` returns each slot
+  centred on its level, `ringLayout` each card's point and each arrow's two
+  ends - so no card is ever measured from the DOM. The card and gap sizes are
+  constants in the components mirrored by `.tree-row`/`.path-node` in
+  `styles.css`; change one, change the other. The size of the scroll field is
+  the one thing read back, because scrolling needs it and no constant can know it.
+- A path is regularly several screens across, so the field opens centred on the
+  target instead of on a corner, and re-centres when the target changes. The
+  reader moves from there by dragging the field. A drag that started on a card
+  swallows the click it ends with, or letting go would open a topic.
 - The tools floating over the top right corner zoom the field and undo both:
   the crosshair puts the zoom back to 1 *and* the target back in the middle,
   which together is the state the view opened in. The zoom itself is CSS
-  `zoom` on `.tree-canvas`, so the scroll box gets the scaled size for free
-  and only `centreLeft` has to multiply by it. Every zoom step keeps one point
+  `zoom` on `.path-canvas`, so the scroll box gets the scaled size for free
+  and only the centring has to multiply by it. Every zoom step keeps one point
   still - the pointer for a ctrl-wheel, the centre of the box for a button -
   by storing the scroll position it wants and applying it in a layout effect,
   once the browser has laid the new size out. The wheel listener is added by
   hand because React's `onWheel` is passive and could not take the event away
   from the browser's own page zoom.
-- Only neighbouring levels are joined, and always by a straight line. A topic
-  sinks to its deepest level, so a `requires` edge can span more than one -
-  `treeLayout` leaves those undrawn (about a sixth of the edges, a third on the
-  worst target) rather than routing them across the cards in between. The topic
-  page is what lists every prerequisite; the tree shows the shape.
+- The rings put the target in the middle and each level one ring further out,
+  so depth reads as distance from the centre. The rings are evenly spaced -
+  that is what lets the distance be read at all - and the spacing is the
+  smallest one at which no two cards in the drawing overlap. It is not searched
+  for: every card sits at the spacing times its ring number, so the whole
+  drawing scales with it and each pair of cards is clear from one spacing
+  upwards, which makes the spacing a pair needs a division and the answer the
+  largest of them.
+- Where a card lands on its ring is the tree's barycenter idea turned polar - a
+  topic wants the average angle of what it unlocks one ring in, the wants fix
+  the order, and the ring is then spread evenly and rotated by the average
+  error, so it stays regular while still facing the right way. Angles are
+  averaged as unit vectors; the mean of 10 and 350 degrees is not 180.
+- Every ring past the first is then turned off the angles it asked for, by about
+  one card's width along its own circumference and never by more than half its
+  own pitch. Without that the barycenter puts ring after ring on the same angle:
+  the path becomes a couple of spokes, every arrow along them points straight at
+  the target, and the spacing has to grow from a card's height to its full width
+  to keep them apart. Ring 1 is left alone - everything on it points at the
+  target in the middle, and no turn makes those arrows anything but radial.
+  Spacing and angles depend on each other, so `ringLayout` settles them by
+  repetition; widening the rings only ever shrinks the turn, so it terminates.
+- Each card is then let wander around its own place on the ring by an amount
+  of its own. Evenly spaced is what a ring wants, but it is also what leaves a
+  path of two or three topics a level sitting in one narrow sector with the
+  rest of the circle bare, because the barycenter files every card directly
+  behind what it unlocks. The wander is bounded by whatever room is left once
+  the card's own width at that radius is taken out of its share of the circle,
+  so cards can never close up on each other and force the rings apart, and a
+  ring with barely enough room for its cards does not move at all. The amount
+  is drawn from a hash of the topic id, not from a random number: a topic keeps
+  its place between renders, between languages and between visits.
+- An arrow between two rings is a transfer between two orbits, not a straight
+  line: its radius eases from the near edge of one band of cards to the near
+  edge of the other while its angle sweeps the short way round, and the easing
+  stands still at both ends, so the arc peels off the outer ring along it and
+  settles onto the inner one along it. The whole of it stays inside the empty
+  band between the two rings, which is why the band has to be wider than the
+  gap between two cards, and why an arc can cross nothing: there is nothing in
+  there to cross. What is left is a straight run in and out to the two card
+  centres; the cards are painted over the arrows and cover it. The head is
+  still cut back to the target's border - an arrowhead under a card is an arrow
+  pointing at nothing.
+- Only neighbouring levels are joined, and always by a straight line - in the
+  rings as in the tree. A topic sinks to its deepest level, so a `requires` edge
+  can span more than one, and both layouts leave those undrawn (about a sixth of
+  the edges, a third on the worst target) rather than routing them across the
+  cards in between. The topic page is what lists every prerequisite; the graph
+  shows the shape.
 - The lines of one card get evenly spaced ports along its edge, ordered by
   where their other end sits, so two arrows never arrive at the same spot.
 - Hovering is two-toned. A card or an arrow lights what it touches in
