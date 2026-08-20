@@ -16,7 +16,7 @@ change it without breaking it. Read both before a first edit.
 | `src/main.tsx` | React entry point |
 | `src/App.tsx` | Top-level composition: settings / progress / language providers, route switch, search overlay, footer |
 | `src/router.ts` | Hash router (`#/index`, `#/path/<id>`, `#/topic/<id>`), `useRoute`, route builders |
-| `src/settings.ts` | `Settings` type, `localStorage` load/save, `applySettings` (writes `data-theme`/`data-anim`/`data-text`) |
+| `src/settings.ts` | `Settings` type (theme, animation, text size, path layout), `localStorage` load/save, `applySettings` (writes `data-theme`/`data-anim`/`data-text`) |
 | `src/progress.ts` | Learning progress: the profiles (v4 UUID + name + ticked topics), their `localStorage` key and cross-tab sync, and the `none`/`done`/`broken` rules |
 | `src/i18n.ts` | `Lang`, `L10n`, `tr()`, browser language detection, and `UI` - every UI chrome string |
 | `src/styles.css` | All styling. Design tokens in `:root`, dark palette in `:root[data-theme='dark']` |
@@ -24,7 +24,7 @@ change it without breaking it. Read both before a first edit.
 | `src/data/loadTopics.ts` | Reads the frontmatter of every topic (`virtual:atlas-meta`) + the shared parser (`parseFile`) |
 | `src/data/bodies.ts` | Fetches topic bodies, one language chunk at a time, and caches them |
 | `src/data/topics.ts` | Static tables: `TAGS`, `SUBJECTS`, `TRACKS` (labels + colors) and the loaded `TOPICS` |
-| `src/data/atlas.ts` | Everything derived from the `requires` relation: reverse index (`dependents`), `search`, `prereqLevels`, formatting helpers |
+| `src/data/atlas.ts` | Everything derived from the `requires` relation: reverse index (`dependents`), `search`, `prereqLevels`, `treeLayout`, formatting helpers |
 | `src/data/views.ts` | Loads the tab definitions from `src/views/<lang>/*.md` |
 | `src/content/<lang>/<id>.md` | Topic content - one file per topic per language (~485 each) |
 | `src/views/<lang>/<id>.md` | Tab definitions (`kind`, `order`, localized title) |
@@ -40,8 +40,8 @@ Components: `TopBar` (brand, tabs, search field, progress and settings menus),
 `ProgressMenu` (the tracking switch plus the profile rows), `ProgressBox` (the per-topic
 checkbox and the question a locked one asks),
 `IndexList` (alphabetical index + filter chip rows), `PathView` (layered prerequisite tree
-plus the steps/tree/rings layout switch - only `steps` is drawn so far, the other two
-select and do nothing), `TopicPicker` (searchable combobox for the path target),
+plus the layout switch), `PathTree` (the tree layout: a scrollable field of cards with an
+arrow along every `requires` edge), `TopicPicker` (searchable combobox for the path target),
 `TopicDetail` (Markdown body, meta line, REQUIRES / LEADS TO / RESOURCES columns),
 `SearchResults`, `TagBadge`, `Markdown` (react-markdown + KaTeX, loaded on demand),
 `Icons`, `Logo`.
@@ -49,7 +49,9 @@ select and do nothing), `TopicPicker` (searchable combobox for the path target),
 Icons: `src/icons/<name>.svg` is registered in `components/Icons.tsx` and inlined
 with Vite's `?raw` import, so `currentColor` keeps working and no svgr-style
 dependency is needed. A new icon is a file plus one line in that registry -
-never `<svg>` written into a component.
+never `<svg>` written into a component. The one `<svg>` written in a component
+is the edge layer in `PathTree`: it is computed from the data, and no static
+file could hold it.
 
 ## Commands
 
@@ -159,6 +161,27 @@ points it at another checkout. Its own docstring states what it reads and writes
   question is view state inside `ProgressBox` - it dies on no, on Escape, on a
   click or scroll elsewhere and on a timeout, and it never touches storage.
 
+### Path layouts
+
+- Which layout the path view draws is a *setting*, not view state: it lives in
+  `Settings.pathLayout` and so survives a reload and carries to any later view
+  that offers the same switch. `rings` is in the union and in `UI`, but its
+  button is off the page until something draws it; a stored `rings` falls back
+  to the steps.
+- The steps reveal a level at a time; the tree draws the whole path, so the
+  reveal controls are hidden with it rather than left doing nothing.
+- `PathTree` places cards and arrows from the same numbers - `treeLayout`
+  returns each slot centred on its level - so nothing is ever measured from the
+  DOM. The card and gap sizes are constants in the component mirrored by
+  `.tree-row`/`.tree-node` in `styles.css`; change one, change the other.
+- Only neighbouring levels are joined, and always by a straight line. A topic
+  sinks to its deepest level, so a `requires` edge can span more than one -
+  `treeLayout` leaves those undrawn (about a sixth of the edges, a third on the
+  worst target) rather than routing them across the cards in between. The topic
+  page is what lists every prerequisite; the tree shows the shape.
+- The lines of one card get evenly spaced ports along its edge, ordered by
+  where their other end sits, so two arrows never arrive at the same spot.
+
 ### Bundle
 
 The app is one page, but it is not one download. Three things are kept out of
@@ -188,8 +211,9 @@ regression, not as noise:
   plugin, which cuts the file in two, and by `parseFile`, which reads the block
   it cut off. Both accept `---` on its own line, CRLF or LF.
 - `src/icons/logo.svg` and `public/logo.svg` are the same drawing.
-- `localStorage` keys: `moebius-atlas-settings` (preferences, owned by the
-  settings menu), `moebius-atlas-index-filters` (index filter chips, view state)
+- `localStorage` keys: `moebius-atlas-settings` (preferences - the settings
+  menu owns most of them, the path layout switch owns `pathLayout`),
+  `moebius-atlas-index-filters` (index filter chips, view state)
   and `moebius-atlas-progress` (the progress switch plus the profiles and their
   ticked topics). They are separate on purpose - do not merge them. Unknown ids
   read back from storage are discarded rather than trusted.

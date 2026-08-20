@@ -1,20 +1,34 @@
 import { createContext, useContext } from 'react';
 import type { Lang } from './i18n';
 
+/** How a prerequisite path is drawn. Outlives the page: the reader picks a
+ * layout once and every path view - here and in whatever comes later - opens
+ * in it. `rings` is not drawn yet and falls back to the stacked lanes. */
+export type PathLayout = 'steps' | 'tree' | 'rings';
+
 /**
  * User preferences, persisted in localStorage. `lang: null` and the 'auto'
  * values mean "follow the browser/system"; explicit values override it.
  * The same storage key is read by the pre-paint script in index.html to
  * avoid a theme flash on load - keep the key and value shapes in sync.
+ * `pathLayout` is not stamped on <html> and so is none of that script's
+ * business - it is read once React is up.
  */
 export interface Settings {
   lang: Lang | null;
   theme: 'auto' | 'dark' | 'light';
   anim: 'auto' | 'on' | 'off';
   text: 'normal' | 'large' | 'xlarge';
+  pathLayout: PathLayout;
 }
 
-export const DEFAULT_SETTINGS: Settings = { lang: null, theme: 'auto', anim: 'auto', text: 'normal' };
+export const DEFAULT_SETTINGS: Settings = {
+  lang: null,
+  theme: 'auto',
+  anim: 'auto',
+  text: 'normal',
+  pathLayout: 'steps',
+};
 
 const KEY = 'moebius-atlas-settings';
 

@@ -69,6 +69,10 @@ export const UI = {
     en: 'TARGET AT TOP · EACH LEVEL BELOW HOLDS THE PREREQUISITES OF THE LEVEL ABOVE · DOWN TO THE BASICS',
     uk: 'МЕТА ЗГОРИ · КОЖЕН РІВЕНЬ НИЖЧЕ — ПЕРЕДУМОВИ РІВНЯ ВИЩЕ · АЖ ДО ОСНОВ',
   },
+  treeHint: {
+    en: 'ARROWS RUN FROM A PREREQUISITE UP TO WHAT IT UNLOCKS · HOVER A CARD TO FOLLOW ITS OWN · THE FIELD SCROLLS',
+    uk: 'СТРІЛКИ ВЕДУТЬ ВІД ПЕРЕДУМОВИ ВГОРУ ДО ТЕМИ, ЯКУ ВОНА ВІДКРИВАЄ · НАВЕДІТЬ НА КАРТКУ, ЩОБ ПРОСТЕЖИТИ ЇЇ · ПОЛЕ ПРОКРУЧУЄТЬСЯ',
+  },
   target: { en: 'TARGET', uk: 'МЕТА' },
   directPrereqs: { en: 'DIRECT PREREQUISITES', uk: 'ПРЯМІ ПЕРЕДУМОВИ' },
   levelPrefix: { en: 'PREREQUISITES · LEVEL', uk: 'ПЕРЕДУМОВИ · РІВЕНЬ' },
