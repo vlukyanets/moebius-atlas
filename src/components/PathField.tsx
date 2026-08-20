@@ -251,7 +251,11 @@ export function PathField({ canvas, focus, focusKey, children }: Props): JSX.Ele
           e.stopPropagation();
         }}
       >
-        <div className="path-canvas" style={{ ...canvas, zoom }}>
+        {/* The zoom goes out as a custom property as well as a style: a hairline
+            scaled down with everything else stops being a line at all, so the
+            drawing takes its own zoom back off the strokes that have to stay
+            visible however far the field is pulled out. */}
+        <div className="path-canvas" style={{ ...canvas, zoom, '--zoom': zoom } as CSSProperties}>
           {children}
         </div>
       </div>
