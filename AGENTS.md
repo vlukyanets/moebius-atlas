@@ -55,6 +55,10 @@ file could hold it.
 
 ## Commands
 
+Node 24 or newer. `package.json` declares it in `engines` and `.npmrc` sets
+`engine-strict=true`, so an older runtime fails at `npm install` instead of
+halfway through a build; `.nvmrc` pins the same floor for `nvm use`.
+
 ```bash
 npm install
 npm run dev       # dev server
