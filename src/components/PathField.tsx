@@ -12,6 +12,12 @@
  * The hover helpers live here rather than in either view because both paint the
  * same two tones: what the pointer touches in `--accent`, and the rest of the
  * way up to the target in `--trail`.
+ *
+ * The arrow toggle sits with the zoom tools for the same reason: it is the same
+ * question in both drawings, so it is asked once here and answered by the
+ * setting the views read. It only puts the lines away - the cards keep their
+ * places, and hovering one still lights the trail up to the target, because
+ * that trail is what a reader who hid the lines is left to follow the path by.
  */
 import {
   useEffect,
@@ -23,6 +29,7 @@ import {
 } from 'react';
 import { linkKey, upward, type Link } from '../data/atlas';
 import { UI, tr, useLang } from '../i18n';
+import { useSettings } from '../settings';
 import { Icon } from './Icons';
 
 /** Past this much movement a press is a pan, and the click it ends with is
@@ -121,6 +128,8 @@ interface Props {
 
 export function PathField({ canvas, focus, focusKey, children }: Props): JSX.Element {
   const lang = useLang();
+  const { settings, update } = useSettings();
+  const arrows = settings.pathArrows;
   const box = useRef<HTMLDivElement>(null);
   const grab = useRef<{ x: number; y: number; left: number; top: number } | null>(null);
   const panned = useRef(false);
@@ -277,6 +286,15 @@ export function PathField({ canvas, focus, focusKey, children }: Props): JSX.Ele
           aria-label={tr(UI.pathZoomIn, lang)}
         >
           <Icon name="plus" size={15} />
+        </button>
+        <button
+          className="path-tool"
+          onClick={() => update({ pathArrows: !arrows })}
+          aria-pressed={arrows}
+          title={tr(arrows ? UI.pathArrowsHide : UI.pathArrowsShow, lang)}
+          aria-label={tr(arrows ? UI.pathArrowsHide : UI.pathArrowsShow, lang)}
+        >
+          <Icon name={arrows ? 'arrows' : 'arrows-off'} size={15} />
         </button>
         <button
           className="path-tool"

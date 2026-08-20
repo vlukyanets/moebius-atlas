@@ -11,8 +11,8 @@ export type PathLayout = 'steps' | 'tree' | 'rings';
  * values mean "follow the browser/system"; explicit values override it.
  * The same storage key is read by the pre-paint script in index.html to
  * avoid a theme flash on load - keep the key and value shapes in sync.
- * `pathLayout` is not stamped on <html> and so is none of that script's
- * business - it is read once React is up.
+ * `pathLayout` and `pathArrows` are not stamped on <html> and so are none of
+ * that script's business - they are read once React is up.
  */
 export interface Settings {
   lang: Lang | null;
@@ -20,6 +20,10 @@ export interface Settings {
   anim: 'auto' | 'on' | 'off';
   text: 'normal' | 'large' | 'xlarge';
   pathLayout: PathLayout;
+  /** Whether the two graph layouts draw the `requires` arrows at all. A dense
+   *  path is a lot of lines, and a reader who only wants the shape of the
+   *  levels can put them away; like the layout itself it outlives the page. */
+  pathArrows: boolean;
 }
 
 export const DEFAULT_SETTINGS: Settings = {
@@ -28,6 +32,7 @@ export const DEFAULT_SETTINGS: Settings = {
   anim: 'auto',
   text: 'normal',
   pathLayout: 'steps',
+  pathArrows: true,
 };
 
 const KEY = 'moebius-atlas-settings';

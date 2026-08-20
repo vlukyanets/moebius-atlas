@@ -18,6 +18,7 @@
 import { useState } from 'react';
 import { linkKey, ringLayout, tagOf, topicName, type RingEdge } from '../data/atlas';
 import { UI, tr, useLang } from '../i18n';
+import { useSettings } from '../settings';
 import { EDGE, EdgeTips, PathField, TIP, hover, type Hot } from './PathField';
 import { ProgressBox } from './ProgressBox';
 import { swatch } from './palette';
@@ -39,6 +40,7 @@ interface Props {
 
 export function PathRings({ levels, onOpen }: Props): JSX.Element {
   const lang = useLang();
+  const arrows = useSettings().settings.pathArrows;
   const [hot, setHot] = useState<Hot>(null);
   const cool = (): void => setHot(null);
 
@@ -93,7 +95,10 @@ export function PathRings({ levels, onOpen }: Props): JSX.Element {
             </text>
           </g>
         ))}
-        {drawn.map((e) => {
+        {/* Hidden arrows leave the edges undrawn, not unknown: the hover trail
+            still runs up them, so a card lights the way to the target. The
+            rings above stay - they are what the levels are read from. */}
+        {arrows && drawn.map((e) => {
           const d = line(e);
           const r = lit.rank(e);
           return (

@@ -9,6 +9,8 @@
  * Size comes from `--icon-size`; the stylesheet stretches the SVG to the box.
  */
 import type { CSSProperties } from 'react';
+import arrows from '../icons/arrows.svg?raw';
+import arrowsOff from '../icons/arrows-off.svg?raw';
 import check from '../icons/check.svg?raw';
 import cross from '../icons/cross.svg?raw';
 import edit from '../icons/edit.svg?raw';
@@ -47,6 +49,9 @@ const SOURCES = {
   /** Crosshair and the two zoom steps - the tools floating over the tree. */
   recenter,
   minus,
+  /** Arrow, and the same arrow struck out - the edge-visibility toggle. */
+  arrows,
+  'arrows-off': arrowsOff,
   /** Progress marks. */
   check,
   cross,

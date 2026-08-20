@@ -80,6 +80,8 @@ export const UI = {
   pathRecenter: { en: 'Back to the target', uk: 'Повернутися до мети' },
   pathZoomIn: { en: 'Zoom in', uk: 'Збільшити' },
   pathZoomOut: { en: 'Zoom out', uk: 'Зменшити' },
+  pathArrowsHide: { en: 'Hide the arrows', uk: 'Сховати стрілки' },
+  pathArrowsShow: { en: 'Show the arrows', uk: 'Показати стрілки' },
   target: { en: 'TARGET', uk: 'МЕТА' },
   directPrereqs: { en: 'DIRECT PREREQUISITES', uk: 'ПРЯМІ ПЕРЕДУМОВИ' },
   levelPrefix: { en: 'PREREQUISITES · LEVEL', uk: 'ПЕРЕДУМОВИ · РІВЕНЬ' },

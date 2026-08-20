@@ -179,6 +179,11 @@ points it at another checkout. Its own docstring states what it reads and writes
   nothing about the drawing beyond the size of the canvas and the one point the
   view opens on and returns to; everything else - panning, zoom, the tools, the
   two-toned hover - is the same for both, and a third layout gets it for free.
+- Whether the arrows are drawn at all is the tool next to the zoom, and like the
+  layout it is a setting (`Settings.pathArrows`) rather than view state. It only
+  takes the lines away: the cards keep the places the layout gave them, the rings
+  stay - they are what the levels are read from - and the hover trail still runs
+  up the undrawn edges, so a card lights the way to the target either way.
 - Cards and arrows come from the same numbers - `treeLayout` returns each slot
   centred on its level, `ringLayout` each card's point and each arrow's two
   ends - so no card is ever measured from the DOM. The card and gap sizes are
@@ -288,7 +293,8 @@ regression, not as noise:
   it cut off. Both accept `---` on its own line, CRLF or LF.
 - `src/icons/logo.svg` and `public/logo.svg` are the same drawing.
 - `localStorage` keys: `moebius-atlas-settings` (preferences - the settings
-  menu owns most of them, the path layout switch owns `pathLayout`),
+  menu owns most of them, the path layout switch owns `pathLayout` and the
+  field's arrow tool owns `pathArrows`),
   `moebius-atlas-index-filters` (index filter chips, view state)
   and `moebius-atlas-progress` (the progress switch plus the profiles and their
   ticked topics). They are separate on purpose - do not merge them. Unknown ids
