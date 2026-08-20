@@ -4,6 +4,7 @@ import { detailRoute, useRoute, viewRoute } from './router';
 import type { ViewId } from './data/types';
 import { LangContext, UI, tr, useDetectedLang } from './i18n';
 import { SettingsContext, applySettings, loadSettings, saveSettings, type Settings } from './settings';
+import { ProgressContext, useProgressStore } from './progress';
 import { TopBar } from './components/TopBar';
 import { IndexList } from './components/IndexList';
 import { SearchResults } from './components/SearchResults';
@@ -15,6 +16,7 @@ export default function App() {
   const [settings, setSettings] = useState<Settings>(loadSettings);
   const lang = settings.lang ?? detected;
   const { route, navigate } = useRoute();
+  const progress = useProgressStore();
   const [query, setQuery] = useState('');
   const hasQuery = query.trim().length > 0;
 
@@ -63,6 +65,7 @@ export default function App() {
 
   return (
     <SettingsContext.Provider value={{ settings, update: updateSettings }}>
+    <ProgressContext.Provider value={progress}>
     <LangContext.Provider value={lang}>
       <div className="app">
         <TopBar
@@ -113,6 +116,7 @@ export default function App() {
         </footer>
       </div>
     </LangContext.Provider>
+    </ProgressContext.Provider>
     </SettingsContext.Provider>
   );
 }

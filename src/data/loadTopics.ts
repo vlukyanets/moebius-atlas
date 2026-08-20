@@ -22,17 +22,17 @@
  *   $$\alpha + \beta + \gamma = 180^\circ$$
  *
  * The body below the frontmatter is full Markdown, rendered on the detail
- * page with KaTeX support ($…$ inline, $$…$$ display). The first plain
- * paragraph doubles as the short summary. The id is the file name.
+ * page with KaTeX support ($…$ inline, $$…$$ display). The id is the file name.
+ *
+ * Only the frontmatter is read here. It arrives as `virtual:atlas-meta` from
+ * the `atlas-content` plugin in `vite.config.ts`, because the index, the search
+ * and the path view need the metadata of every topic on first paint, while the
+ * bodies - two thirds of the content - are fetched per language by `bodies.ts`
+ * when a topic page actually opens.
  */
+import META from 'virtual:atlas-meta';
 import type { Resource, SubjectId, TagId, TopicMap, TrackId } from './types';
 import type { L10n } from '../i18n';
-
-const TOPIC_RAW = import.meta.glob('../content/*/*.md', {
-  query: '?raw',
-  import: 'default',
-  eager: true,
-}) as Record<string, string>;
 
 export interface ParsedFile {
   meta: Record<string, unknown>;
@@ -41,15 +41,11 @@ export interface ParsedFile {
   resources?: Resource[];
 }
 
-function groupByIdLang(raw: Record<string, string>): Record<string, Record<string, ParsedFile>> {
+function parseAll(raw: Record<string, Record<string, string>>): Record<string, Record<string, ParsedFile>> {
   const byId: Record<string, Record<string, ParsedFile>> = {};
-  for (const [path, src] of Object.entries(raw)) {
-    const segs = path.split('/');
-    const id = segs.pop()!.replace(/\.md$/, '');
-    const lang = segs.pop()!;
-    (byId[id] ??= {})[lang] = parseFile(src, path);
-  }
-  for (const id of Object.keys(byId)) {
+  for (const [id, langs] of Object.entries(raw)) {
+    for (const [lang, src] of Object.entries(langs))
+      (byId[id] ??= {})[lang] = parseFile(src, `content/${lang}/${id}.md`);
     if (!byId[id].en)
       throw new Error(`content: "${id}" has translations but no canonical content/en/${id}.md`);
   }
@@ -58,22 +54,16 @@ function groupByIdLang(raw: Record<string, string>): Record<string, Record<strin
 
 export function loadTopics(): TopicMap {
   const out: TopicMap = {};
-  for (const [id, langs] of Object.entries(groupByIdLang(TOPIC_RAW))) {
+  for (const [id, langs] of Object.entries(parseAll(META))) {
     const meta = langs.en.meta;
     const name: Record<string, string> = {};
-    const body: Record<string, string> = {};
-    const summary: Record<string, string> = {};
     const resources: Record<string, Resource[]> = {};
     for (const [lang, f] of Object.entries(langs)) {
       name[lang] = f.title;
-      body[lang] = f.body;
-      summary[lang] = excerpt(f.body);
       if (f.resources?.length) resources[lang] = f.resources;
     }
     out[id] = {
       name: name as L10n,
-      summary: summary as L10n,
-      body: body as L10n,
       tag: meta.tag as TagId | undefined,
       track: resolveTrack(meta.track, id),
       grade: meta.grade as number | undefined,
@@ -136,18 +126,4 @@ export function parseFile(src: string, path: string): ParsedFile {
   }
   if (typeof meta.title !== 'string' || !meta.title) throw new Error(`${path}: missing "title" in frontmatter`);
   return { meta, title: meta.title, body: m[2].trim(), resources: meta.resources as Resource[] | undefined };
-}
-
-/** First plain paragraph of a Markdown body, stripped for summary use. */
-function excerpt(md: string): string {
-  const block = md
-    .split(/\r?\n\s*\r?\n/)
-    .map((s) => s.trim())
-    .find((b) => b && !b.startsWith('$$') && !b.startsWith('#') && !b.startsWith('|'));
-  return (block ?? '')
-    .replace(/\$\$[\s\S]*?\$\$/g, '')
-    .replace(/\$([^$]+)\$/g, '$1')
-    .replace(/[*_`]/g, '')
-    .replace(/\s+/g, ' ')
-    .trim();
 }

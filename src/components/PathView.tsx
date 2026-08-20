@@ -1,8 +1,18 @@
 import { Fragment, useEffect, useState } from 'react';
 import { N, pathTargets, prereqLevels, tagOf, topicName } from '../data/atlas';
-import { UI, tr, useLang, type Lang } from '../i18n';
+import { UI, topicsWord, tr, useLang } from '../i18n';
+import { Icon } from './Icons';
+import { Segmented } from './Menu';
+import { ProgressBox } from './ProgressBox';
 import { swatch } from './palette';
 import { TopicPicker } from './TopicPicker';
+
+/**
+ * How the levels are drawn. Only `steps` - the stacked lanes below - is
+ * implemented; the switch already offers the other two so the layouts can be
+ * added one at a time without moving the control again.
+ */
+type PathLayout = 'steps' | 'tree' | 'rings';
 
 interface Props {
   /** Empty falls back to the first target in alphabetical order. */
@@ -10,17 +20,6 @@ interface Props {
   onTarget: (id: string) => void;
   onOpen: (id: string) => void;
 }
-
-const topicsWord = (n: number, lang: Lang): string =>
-  lang === 'uk'
-    ? n % 10 === 1 && n % 100 !== 11
-      ? 'тема'
-      : [2, 3, 4].includes(n % 10) && ![12, 13, 14].includes(n % 100)
-        ? 'теми'
-        : 'тем'
-    : n === 1
-      ? 'topic'
-      : 'topics';
 
 /**
  * Prerequisite tree: target on top, each level below holds the
@@ -32,6 +31,7 @@ export function PathView({ target: picked, onTarget, onOpen }: Props) {
   const targets = pathTargets(lang);
   const target = picked && N[picked] ? picked : targets[0];
   const [shown, setShown] = useState(2);
+  const [layout, setLayout] = useState<PathLayout>('steps');
   useEffect(() => setShown(2), [target]);
 
   const levels = prereqLevels(target).map((ids) =>
@@ -54,6 +54,16 @@ export function PathView({ target: picked, onTarget, onOpen }: Props) {
           <button className="chip-btn" onClick={() => setShown(2)}>
             {tr(UI.collapseAll, lang)}
           </button>
+          <Segmented<PathLayout>
+            className="path-layouts"
+            options={[
+              { v: 'steps', label: '', title: tr(UI.layoutSteps, lang), icon: <Icon name="path-steps" size={15} /> },
+              { v: 'tree', label: '', title: tr(UI.layoutTree, lang), icon: <Icon name="path-tree" size={15} /> },
+              { v: 'rings', label: '', title: tr(UI.layoutRings, lang), icon: <Icon name="path-rings" size={15} /> },
+            ]}
+            value={layout}
+            onChange={setLayout}
+          />
         </div>
         <TopicPicker ids={targets} value={target} onChange={onTarget} />
       </div>
@@ -81,6 +91,7 @@ export function PathView({ target: picked, onTarget, onOpen }: Props) {
                       style={tag ? swatch(tag) : undefined}
                       onClick={() => onOpen(id)}
                     >
+                      <ProgressBox id={id} />
                       <span className="dot" />
                       {topicName(id, lang)}
                       {tag && (

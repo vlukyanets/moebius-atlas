@@ -36,6 +36,29 @@ export function dependents(id: string): string[] {
 }
 
 /**
+ * Every prerequisite of `id`, transitively - the whole chain the topic rests
+ * on, itself excluded. Memoized: the progress checkboxes ask for this on every
+ * render, and the answer only changes when the content does. The `seen` guard
+ * keeps a hand-authored cycle from hanging the page.
+ */
+const ancestorsOf: Record<string, string[]> = {};
+
+export function ancestors(id: string): string[] {
+  const cached = ancestorsOf[id];
+  if (cached) return cached;
+  const seen = new Set<string>();
+  const walk = (cur: string) => {
+    for (const p of N[cur]?.requires ?? []) {
+      if (!N[p] || seen.has(p)) continue;
+      seen.add(p);
+      walk(p);
+    }
+  };
+  walk(id);
+  return (ancestorsOf[id] = [...seen]);
+}
+
+/**
  * Name-substring search over topics, max 12 results.
  * Matches against every translation so users can type in either language.
  */

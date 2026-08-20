@@ -68,10 +68,10 @@ export interface Resource {
 /** A topic, authored in `src/content/<lang>/<id>.md`. */
 export interface TopicSeed {
   name: L10n;
-  /** Short plain-text summary (cards, tooltips) - derived from the body. */
-  summary: L10n;
-  /** Full Markdown body (KaTeX via $…$ / $$…$$), shown on the detail page. */
-  body?: L10n;
+  /**
+   * The Markdown body is no part of the seed: it is fetched per language when
+   * a topic page opens - see `src/data/bodies.ts`.
+   */
   tag?: TagId;
   /** Curriculum track; a missing or unknown value becomes `other`. */
   track: TrackId;

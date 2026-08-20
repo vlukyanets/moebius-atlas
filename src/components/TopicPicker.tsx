@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { N, tagOf, topicName } from '../data/atlas';
 import { UI, tr, useLang } from '../i18n';
-import { SearchIcon } from './Icons';
+import { Icon } from './Icons';
 import { swatch } from './palette';
 
 interface Props {
@@ -83,7 +83,7 @@ export function TopicPicker({ ids, value, onChange }: Props) {
   return (
     <div className={'topic-picker' + (open ? ' open' : '')} ref={root}>
       <span className="icon">
-        <SearchIcon />
+        <Icon name="search" size={14} />
       </span>
       <input
         ref={input}

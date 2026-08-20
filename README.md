@@ -15,7 +15,8 @@ of prerequisites. Two views over the same content:
 
 Each topic opens a dedicated page (Markdown body with KaTeX formulas,
 prerequisites, dependents, external resources), and global search covers all
-topics in both languages.
+topics in both languages. The layout is built for a desktop-sized window: below
+720px the page scrolls sideways rather than reflowing.
 
 ## Filters
 
@@ -35,7 +36,36 @@ every row at once. The selection survives opening a topic and coming back, and
 survives a reload (`localStorage`, separate from the settings key).
 
 The path view has its own searchable target picker: type to filter, arrows and
-Enter to choose.
+Enter to choose, and a layout switch in its top-right corner (steps / tree /
+rings - only the stacked steps are drawn so far).
+
+## Progress
+
+The chart icon in the top bar switches learning progress on and off. While it
+is on, every topic - in the index, in the path, in search results and on its own
+page - carries a checkbox:
+
+- **empty** - not learned yet
+- **green tick** - learned
+- **red cross** - marked as learned, but something it rests on is not
+
+A topic can only be ticked once its whole prerequisite chain is ticked, so
+progress grows from the basics upwards. Clearing a tick lower down leaves
+everything above it crossed rather than silently learned.
+
+A checkbox that is still locked is not dead: clicking it asks whether the
+prerequisites count as learned too, showing how many that would be. **Yes**
+ticks the topic together with its whole chain - the way in for a reader who
+already knows the subject. **No**, a click elsewhere, Escape, or a few seconds
+of doing nothing takes the question back with nothing changed.
+
+The same menu lists **profiles** - one set of marks each, so a family or a
+classroom can share a browser. There is always at least one; a reader who has
+none gets `Profile 1`, and deleting the last profile leaves a new, empty
+`Profile 1` behind. A row can be renamed, made the active one, or deleted -
+deletion asks first: the bin turns into a question mark and only the second
+click removes the profile. Everything lives in `localStorage` under its own key
+and is shared live by every open tab of the site.
 
 ## Languages
 
@@ -59,6 +89,9 @@ first paint by an inline script in `index.html`):
 The dark palette lives next to the light tokens in `src/styles.css`
 (`:root[data-theme='dark']`). Logic: `src/settings.ts` + `SettingsMenu.tsx`.
 
+Icons are plain SVG files in `src/icons/`, inlined at build time so they follow
+the current text color in either theme.
+
 ## Stack
 
 | Concern | Choice | Why |
@@ -68,8 +101,9 @@ The dark palette lives next to the light tokens in `src/styles.css`
 | Routing | Hand-rolled hash router (`src/router.ts`) | Deep links work on GitHub Pages without server rewrites |
 | Math | KaTeX (npm) | Formula rendering, display mode |
 | Styling | Plain CSS with custom properties | Design tokens map 1:1 to `:root` variables in `src/styles.css` |
-| Content | Markdown files (`src/content/<lang>/*.md`) | One file per topic per language; loaded at build time via `import.meta.glob` |
+| Content | Markdown files (`src/content/<lang>/*.md`) | One file per topic per language; a build plugin ships the frontmatter with the app and the bodies as one chunk per language |
 | Markdown | react-markdown + remark-math + rehype-katex | Full Markdown bodies with inline/display KaTeX |
+| Ids | uuid | v4 ids for the progress profiles, so a rename never detaches one from its marks |
 
 ## Content format
 
@@ -117,8 +151,7 @@ $$
 
 The body is full Markdown rendered on the topic page (react-markdown) with
 KaTeX math: `$…$` inline, `$$` fenced blocks (on their own lines) for display
-formulas. The first plain paragraph doubles as the short summary (markup
-stripped). Quote a frontmatter value if it contains a colon
+formulas. Quote a frontmatter value if it contains a colon
 (`title: "Right Triangles: …"`).
 
 `requires` lists prerequisite topic ids. The prerequisite relation must stay
@@ -132,6 +165,15 @@ all gets an automatic Wikipedia search link in the interface language.
 
 Parsing lives in `src/data/loadTopics.ts`; malformed files fail the build with
 a file-name error.
+
+Only the frontmatter travels with the app. The `atlas-content` plugin in
+`vite.config.ts` cuts every file at the `---` block: the metadata of all 484
+topics is what the index, the search and the path view need on first paint,
+while the bodies are grouped into one chunk per language and fetched by
+`src/data/bodies.ts` when a topic page opens. The Markdown renderer itself -
+react-markdown plus KaTeX, the heaviest dependency here - is loaded with the
+first body. Opening the site costs 303 kB of JavaScript (83 kB gzipped)
+instead of the 972 kB a single eager bundle used to cost.
 
 The view tabs themselves are also Markdown-authored: `src/views/<lang>/<id>.md`
 with `kind: index|path` and `order` in the English frontmatter, localized tab

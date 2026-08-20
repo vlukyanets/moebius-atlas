@@ -1,5 +1,6 @@
 import { search, tagOf, topicName } from '../data/atlas';
 import { UI, tr, useLang } from '../i18n';
+import { ProgressBox } from './ProgressBox';
 import { TagBadge } from './TagBadge';
 
 export function SearchResults({ query, onOpen }: { query: string; onOpen: (id: string) => void }) {
@@ -15,6 +16,7 @@ export function SearchResults({ query, onOpen }: { query: string; onOpen: (id: s
           const tag = tagOf(id);
           return (
             <div key={id} className="search-row" onClick={() => onOpen(id)}>
+              <ProgressBox id={id} />
               <div className="main">
                 <div className="name">{topicName(id, lang)}</div>
               </div>

@@ -5,6 +5,7 @@ import type { L10n } from '../i18n';
 import type { SubjectId, TagId, TrackId } from '../data/types';
 import { UI, tr, useLang } from '../i18n';
 import { swatch } from './palette';
+import { ProgressBox } from './ProgressBox';
 import { TagBadge } from './TagBadge';
 
 const TAG_IDS = Object.keys(TAGS) as TagId[];
@@ -305,6 +306,7 @@ export function IndexList({ onOpen }: { onOpen: (id: string) => void }) {
           const tag = tagOf(id)!;
           return (
             <div key={id} className="index-row" style={swatch(tag)} onClick={() => onOpen(id)}>
+              <ProgressBox id={id} />
               <span className="dot" />
               <span className="name">{topicName(id, lang)}</span>
               <TagBadge tag={tag} />

@@ -24,6 +24,22 @@ export function detectLang(): Lang {
   return 'en';
 }
 
+/**
+ * Plural of "topic" for a count. Ukrainian has three forms and picks by the
+ * last digit, so an English `n === 1 ? ... : ...` written into the Ukrainian
+ * branch would be wrong for 2, 22, 104 and so on.
+ */
+export const topicsWord = (n: number, lang: Lang): string =>
+  lang === 'uk'
+    ? n % 10 === 1 && n % 100 !== 11
+      ? 'тема'
+      : [2, 3, 4].includes(n % 10) && ![12, 13, 14].includes(n % 100)
+        ? 'теми'
+        : 'тем'
+    : n === 1
+      ? 'topic'
+      : 'topics';
+
 export const LangContext = createContext<Lang>('en');
 export const useLang = (): Lang => useContext(LangContext);
 
@@ -94,4 +110,30 @@ export const UI = {
   filters: { en: 'Filters', uk: 'Фільтри' },
   filtersNone: { en: 'showing everything', uk: 'показано всі теми' },
   filtersReset: { en: 'reset all', uk: 'скинути все' },
+  pathLayout: { en: 'Layout', uk: 'Вигляд' },
+  layoutSteps: { en: 'Steps', uk: 'Ступені' },
+  layoutTree: { en: 'Tree', uk: 'Дерево' },
+  layoutRings: { en: 'Rings', uk: 'Кільця' },
+  progress: { en: 'Progress', uk: 'Прогрес' },
+  setProgress: { en: 'Track learning progress', uk: 'Відстежувати прогрес навчання' },
+  progTodo: { en: 'Mark as learned', uk: 'Позначити як вивчену' },
+  progDone: { en: 'Learned - click to clear', uk: 'Вивчено — натисніть, щоб зняти' },
+  progBroken: {
+    en: 'Marked as learned, but some prerequisites below are not',
+    uk: 'Позначено як вивчену, але нижче є невивчені передумови',
+  },
+  progLocked: { en: 'Prerequisites are missing - click to ask', uk: 'Бракує передумов — натисніть, щоб запитати' },
+  progAsk: {
+    en: 'Some prerequisites are not marked yet. Count them as learned too?',
+    uk: 'Деякі передумови ще не позначені. Вважати їх теж вивченими?',
+  },
+  optYes: { en: 'Yes', uk: 'Так' },
+  optNo: { en: 'No', uk: 'Ні' },
+  profiles: { en: 'Profiles', uk: 'Профілі' },
+  profileNew: { en: 'New profile', uk: 'Новий профіль' },
+  profileRename: { en: 'Rename profile', uk: 'Перейменувати профіль' },
+  profileActivate: { en: 'Use this profile', uk: 'Використовувати цей профіль' },
+  profileActive: { en: 'Active profile', uk: 'Активний профіль' },
+  profileDelete: { en: 'Delete profile', uk: 'Видалити профіль' },
+  profileDeleteConfirm: { en: 'Click again to delete', uk: 'Натисніть ще раз, щоб видалити' },
 } satisfies Record<string, L10n>;

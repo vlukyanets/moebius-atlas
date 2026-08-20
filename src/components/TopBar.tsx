@@ -1,8 +1,9 @@
 import type { ViewId } from '../data/types';
 import { VIEWS } from '../data/views';
 import { UI, tr, useLang } from '../i18n';
-import { SearchIcon } from './Icons';
+import { Icon } from './Icons';
 import { Logo } from './Logo';
+import { ProgressMenu } from './ProgressMenu';
 import { SettingsMenu } from './SettingsMenu';
 
 interface Props {
@@ -33,7 +34,7 @@ export function TopBar({ view, query, onHome, onView, onQuery }: Props) {
       <div className="topbar-center">
         <div className="searchbox">
           <span className="icon">
-            <SearchIcon />
+            <Icon name="search" size={14} />
           </span>
           <input value={query} onChange={(e) => onQuery(e.target.value)} placeholder={tr(UI.searchPlaceholder, lang)} />
           {query && (
@@ -44,6 +45,7 @@ export function TopBar({ view, query, onHome, onView, onQuery }: Props) {
         </div>
       </div>
       <div className="topbar-right">
+        <ProgressMenu />
         <SettingsMenu />
       </div>
     </header>
