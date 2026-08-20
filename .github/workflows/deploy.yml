@@ -1,8 +1,12 @@
 name: Deploy to GitHub Pages
 
+# Pages serves one artifact per site, so a branch cannot publish on its own.
+# Both branches are built here and packed into a single tree: master at the
+# site root, staging under /staging. A push to either branch rebuilds both,
+# which keeps the other half of the site from disappearing.
 on:
   push:
-    branches: [master]
+    branches: [master, staging]
   workflow_dispatch:
 
 permissions:
@@ -18,16 +22,41 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - id: master
+        uses: actions/checkout@v4
+        with:
+          ref: master
+          path: master
+      - id: staging
+        continue-on-error: true
+        uses: actions/checkout@v4
+        with:
+          ref: staging
+          path: staging
       - uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: npm
-      - run: npm ci
-      - run: npm run build
+          cache-dependency-path: master/package-lock.json
+      - name: Build master
+        working-directory: master
+        run: |
+          npm ci
+          npm run build
+      - name: Build staging
+        if: steps.staging.outcome == 'success'
+        working-directory: staging
+        run: |
+          npm ci
+          npm run build
+      # base is './', so the same build works at the root and one level down.
+      - name: Pack the site
+        run: |
+          mv master/dist site
+          if [ -d staging/dist ]; then mv staging/dist site/staging; fi
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: dist
+          path: site
 
   deploy:
     needs: build
