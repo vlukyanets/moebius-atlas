@@ -462,13 +462,17 @@ button { font-family: inherit; }
    whose dashes fell below a pixel the moment the field was zoomed out. */
 .ring-guide circle {
   fill: none; stroke: var(--border);
-  /* Under the faintest token there is, so the ring is a hint of a ring. */
-  opacity: .5;
-  stroke-width: calc(1px / var(--zoom, 1));
+  /* Barely there on purpose. Opacity is the weak lever here - the token is
+     already close to the field, so half of it only moves 1.15:1 to 1.09:1, and
+     the second of those is not faint but absent. What actually sets how loud a
+     ring reads is how much of it is inked, so the dashes carry a fifth of the
+     circle and the line under them is thinner than a hairline. */
+  opacity: .7;
+  stroke-width: calc(.9px / var(--zoom, 1));
   /* Dashed so a ring never reads as one more arrow, and both sizes are divided
      by the field's zoom, so neither the line nor its dashes thin away to
      nothing as the field is pulled out - which is how the rings are looked at. */
-  stroke-dasharray: calc(6px / var(--zoom, 1)) calc(14px / var(--zoom, 1));
+  stroke-dasharray: calc(4px / var(--zoom, 1)) calc(17px / var(--zoom, 1));
 }
 .ring-guide text {
   fill: var(--text-muted); font-family: var(--mono); font-size: 10.5px;
