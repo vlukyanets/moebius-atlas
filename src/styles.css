@@ -461,7 +461,9 @@ button { font-family: inherit; }
    them invisible before was never the colour on its own - it was a hairline
    whose dashes fell below a pixel the moment the field was zoomed out. */
 .ring-guide circle {
-  fill: none; stroke: var(--border-strong);
+  /* A tenth of the way from the field it sits on towards the text: darker in
+     the light theme, lighter in the dark one, a touch louder in both. */
+  fill: none; stroke: color-mix(in srgb, var(--border-strong) 90%, var(--text));
   /* How loud a ring reads is its contrast times how much of it is inked, and
      the two are not interchangeable: below about 1.2:1 against the field a
      dash stops being faint and is simply not there, however many of them there
