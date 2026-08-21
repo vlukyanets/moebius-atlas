@@ -421,6 +421,14 @@ button { font-family: inherit; }
   background: var(--formula-bg); border: 1px solid var(--border); border-radius: 14px;
 }
 .path-scroll.panning { cursor: grabbing; user-select: none; }
+/* Fullscreen is taken by the field itself, so the tools floating over it come
+   along and nothing else has to move. The browser paints its own black behind
+   a fullscreen element, hence the explicit background - and the field loses the
+   frame it needed as a box on a page. */
+.path-field:fullscreen { background: var(--page-bg); }
+.path-field:fullscreen .path-scroll {
+  height: 100vh; border: none; border-radius: 0;
+}
 /* Floats over the field, clear of the target card centred beneath it. */
 .path-tools { position: absolute; right: 14px; top: 14px; z-index: 3; display: flex; gap: 6px; }
 .path-tool {

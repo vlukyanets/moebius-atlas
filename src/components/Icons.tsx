@@ -17,6 +17,8 @@ import edit from '../icons/edit.svg?raw';
 import era from '../icons/era.svg?raw';
 import flagGb from '../icons/flag-gb.svg?raw';
 import flagUa from '../icons/flag-ua.svg?raw';
+import fullscreen from '../icons/fullscreen.svg?raw';
+import fullscreenExit from '../icons/fullscreen-exit.svg?raw';
 import grade from '../icons/grade.svg?raw';
 import logo from '../icons/logo.svg?raw';
 import minus from '../icons/minus.svg?raw';
@@ -52,6 +54,9 @@ const SOURCES = {
   /** Arrow, and the same arrow struck out - the edge-visibility toggle. */
   arrows,
   'arrows-off': arrowsOff,
+  /** Corners pushed out and pulled back in - the field's fullscreen toggle. */
+  fullscreen,
+  'fullscreen-exit': fullscreenExit,
   /** Progress marks. */
   check,
   cross,
