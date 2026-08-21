@@ -1,5 +1,5 @@
 ---
-title: Law of Sines & the Circumradius
+title: Law of Sines & the Circumradius (TBD)
 tag: THM
 track: school
 grade: 9

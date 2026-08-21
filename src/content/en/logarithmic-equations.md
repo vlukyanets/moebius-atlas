@@ -1,5 +1,5 @@
 ---
-title: Logarithmic Equations
+title: Logarithmic Equations (TBD)
 tag: MTD
 track: school
 grade: 11

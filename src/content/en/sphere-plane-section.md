@@ -1,5 +1,5 @@
 ---
-title: Section of a Sphere by a Plane
+title: Section of a Sphere by a Plane (TBD)
 tag: THM
 track: school
 grade: 11

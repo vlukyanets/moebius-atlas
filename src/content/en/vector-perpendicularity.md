@@ -1,5 +1,5 @@
 ---
-title: Perpendicularity Condition
+title: Perpendicularity Condition (TBD)
 tag: THM
 track: school
 grade: 9

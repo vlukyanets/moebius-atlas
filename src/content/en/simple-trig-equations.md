@@ -1,5 +1,5 @@
 ---
-title: Simplest Trigonometric Equations
+title: Simplest Trigonometric Equations (TBD)
 tag: MTD
 track: school
 grade: 10

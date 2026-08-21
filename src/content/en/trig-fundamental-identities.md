@@ -1,5 +1,5 @@
 ---
-title: Fundamental Trigonometric Identities
+title: Fundamental Trigonometric Identities (TBD)
 tag: THM
 track: school
 grade: 10

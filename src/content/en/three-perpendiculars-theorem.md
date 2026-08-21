@@ -1,5 +1,5 @@
 ---
-title: Theorem of the Three Perpendiculars
+title: Theorem of the Three Perpendiculars (TBD)
 tag: THM
 track: school
 grade: 10

@@ -1,5 +1,5 @@
 ---
-title: Graphs of Sine and Cosine
+title: Graphs of Sine and Cosine (TBD)
 tag: DEF
 track: school
 grade: 10

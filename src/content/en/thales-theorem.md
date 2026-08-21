@@ -1,5 +1,5 @@
 ---
-title: Thales' Theorem
+title: Thales' Theorem (TBD)
 tag: THM
 track: school
 grade: 8

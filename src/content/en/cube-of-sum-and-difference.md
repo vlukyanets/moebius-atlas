@@ -1,5 +1,5 @@
 ---
-title: Cube of a Sum and Difference
+title: Cube of a Sum and Difference (TBD)
 tag: THM
 track: school
 grade: 7

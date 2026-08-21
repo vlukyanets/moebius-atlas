@@ -1,5 +1,5 @@
 ---
-title: Radii of a Regular Polygon
+title: Radii of a Regular Polygon (TBD)
 tag: THM
 track: school
 grade: 9

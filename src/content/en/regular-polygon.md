@@ -1,5 +1,5 @@
 ---
-title: Regular Polygon
+title: Regular Polygon (TBD)
 tag: DEF
 track: school
 grade: 9

@@ -1,5 +1,5 @@
 ---
-title: nth Term of an Arithmetic Progression
+title: nth Term of an Arithmetic Progression (TBD)
 tag: THM
 track: school
 grade: 9

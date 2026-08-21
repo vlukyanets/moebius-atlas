@@ -1,5 +1,5 @@
 ---
-title: Simplest Trigonometric Inequalities
+title: Simplest Trigonometric Inequalities (TBD)
 tag: MTD
 track: school
 grade: 10

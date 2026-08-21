@@ -1,5 +1,5 @@
 ---
-title: Values for 30°, 45°, 60°
+title: Values for 30°, 45°, 60° (TBD)
 tag: THM
 track: school
 grade: 8

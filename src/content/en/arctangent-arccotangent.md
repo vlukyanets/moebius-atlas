@@ -1,5 +1,5 @@
 ---
-title: Arctangent and Arccotangent
+title: Arctangent and Arccotangent (TBD)
 tag: DEF
 track: school
 grade: 10

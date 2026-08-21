@@ -1,5 +1,5 @@
 ---
-title: Geometric Progression
+title: Geometric Progression (TBD)
 tag: DEF
 track: school
 grade: 9

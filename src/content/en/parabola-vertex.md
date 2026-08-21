@@ -1,5 +1,5 @@
 ---
-title: Vertex of a Parabola
+title: Vertex of a Parabola (TBD)
 tag: THM
 track: school
 grade: 9

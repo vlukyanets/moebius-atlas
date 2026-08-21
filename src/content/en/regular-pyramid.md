@@ -1,5 +1,5 @@
 ---
-title: Regular Pyramid and Its Apothem
+title: Regular Pyramid and Its Apothem (TBD)
 tag: DEF
 track: school
 grade: 11

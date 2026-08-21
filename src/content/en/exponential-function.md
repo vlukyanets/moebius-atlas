@@ -1,5 +1,5 @@
 ---
-title: Exponential Function
+title: Exponential Function (TBD)
 tag: DEF
 track: school
 grade: 11

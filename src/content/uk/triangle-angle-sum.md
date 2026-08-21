@@ -1,5 +1,5 @@
 ---
-title: Сума кутів трикутника
+title: Сума кутів трикутника (TBD)
 resources: [Академія Хана](https://uk.khanacademy.org/math/geometry), [GeoGebra](https://www.geogebra.org/m/mdcnvcvq)
 ---
 

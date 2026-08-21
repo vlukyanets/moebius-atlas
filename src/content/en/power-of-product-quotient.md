@@ -1,5 +1,5 @@
 ---
-title: Power of a Product and a Quotient
+title: Power of a Product and a Quotient (TBD)
 tag: THM
 track: school
 grade: 7

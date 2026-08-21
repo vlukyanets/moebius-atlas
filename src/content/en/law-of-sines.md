@@ -1,5 +1,5 @@
 ---
-title: Law of Sines
+title: Law of Sines (TBD)
 tag: THM
 track: school
 grade: 9

@@ -1,5 +1,5 @@
 ---
-title: Decimal and Natural Logarithms
+title: Decimal and Natural Logarithms (TBD)
 tag: DEF
 track: school
 grade: 11

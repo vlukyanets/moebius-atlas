@@ -1,5 +1,5 @@
 ---
-title: Surface Area of a Regular Pyramid
+title: Surface Area of a Regular Pyramid (TBD)
 tag: THM
 track: school
 grade: 11

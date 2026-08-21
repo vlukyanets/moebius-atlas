@@ -1,5 +1,5 @@
 ---
-title: Half Angle and Degree Reduction
+title: Half Angle and Degree Reduction (TBD)
 tag: THM
 track: school
 grade: 10

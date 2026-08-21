@@ -1,5 +1,5 @@
 ---
-title: Symmedian
+title: Symmedian (TBD)
 tag: THM
 track: olympiad
 year: 1873

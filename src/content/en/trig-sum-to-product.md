@@ -1,5 +1,5 @@
 ---
-title: Sum into Product
+title: Sum into Product (TBD)
 tag: THM
 track: school
 grade: 10

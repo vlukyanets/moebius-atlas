@@ -1,5 +1,5 @@
 ---
-title: Characteristic Property
+title: Characteristic Property (TBD)
 tag: THM
 track: school
 grade: 9

@@ -1,5 +1,5 @@
 ---
-title: Power with a Rational Exponent
+title: Power with a Rational Exponent (TBD)
 tag: DEF
 track: school
 grade: 10

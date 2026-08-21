@@ -1,5 +1,5 @@
 ---
-title: Kinds of Triangles by Angles
+title: Kinds of Triangles by Angles (TBD)
 tag: DEF
 track: school
 grade: 7

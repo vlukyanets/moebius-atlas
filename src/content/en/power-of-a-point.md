@@ -1,5 +1,5 @@
 ---
-title: Power of a Point
+title: Power of a Point (TBD)
 tag: THM
 track: olympiad
 year: 1826

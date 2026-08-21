@@ -1,5 +1,5 @@
 ---
-title: Power Function
+title: Power Function (TBD)
 tag: DEF
 track: school
 grade: 10

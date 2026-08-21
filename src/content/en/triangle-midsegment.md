@@ -1,5 +1,5 @@
 ---
-title: Midsegment of a Triangle
+title: Midsegment of a Triangle (TBD)
 tag: THM
 track: school
 grade: 8

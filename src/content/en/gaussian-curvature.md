@@ -1,5 +1,5 @@
 ---
-title: Gaussian Curvature
+title: Gaussian Curvature (TBD)
 tag: DEF
 track: advanced
 year: 1854

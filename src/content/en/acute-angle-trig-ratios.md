@@ -1,5 +1,5 @@
 ---
-title: Sine, Cosine & Tangent of an Acute Angle
+title: Sine, Cosine & Tangent of an Acute Angle (TBD)
 tag: DEF
 track: school
 grade: 8

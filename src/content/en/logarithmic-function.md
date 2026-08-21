@@ -1,5 +1,5 @@
 ---
-title: Logarithmic Function
+title: Logarithmic Function (TBD)
 tag: DEF
 track: school
 grade: 11

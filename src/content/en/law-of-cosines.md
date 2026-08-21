@@ -1,5 +1,5 @@
 ---
-title: Law of Cosines
+title: Law of Cosines (TBD)
 tag: THM
 track: school
 grade: 9

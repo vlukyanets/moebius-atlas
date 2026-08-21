@@ -1,5 +1,5 @@
 ---
-title: Characteristic Property of a Geometric Progression
+title: Characteristic Property of a Geometric Progression (TBD)
 tag: THM
 track: school
 grade: 9

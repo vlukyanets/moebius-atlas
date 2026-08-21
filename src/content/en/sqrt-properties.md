@@ -1,5 +1,5 @@
 ---
-title: Properties of the Square Root
+title: Properties of the Square Root (TBD)
 tag: THM
 track: school
 grade: 8

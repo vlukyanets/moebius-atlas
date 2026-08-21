@@ -1,5 +1,5 @@
 ---
-title: Homothety
+title: Homothety (TBD)
 tag: DEF
 track: olympiad
 year: 1837

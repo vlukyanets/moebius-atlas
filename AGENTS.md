@@ -87,7 +87,10 @@ throws with the offending file name.
 - `track` is one of `school`, `olympiad`, `advanced`, `other`. A missing or
   unknown value falls back to `other` with a console warning - treat that
   warning as a bug to fix, not as noise.
-- `grade` (5-11) is for school-track topics only. Other tracks must omit it.
+- `grade` is the school year a topic is taught in, and belongs to school-track
+  topics only. Other tracks must omit it. No range is fixed here: the number is
+  whatever the curriculum says, and the grade filter is built from the grades
+  the content actually uses.
 - `subject` defaults to `geometry` when absent; set `algebra` explicitly.
 - `year` is the year of discovery; negative means BCE.
 - `resources` is a comma-separated list of Markdown links, authored per

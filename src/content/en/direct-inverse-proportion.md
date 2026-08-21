@@ -1,5 +1,5 @@
 ---
-title: Direct and Inverse Proportionality
+title: Direct and Inverse Proportionality (TBD)
 tag: DEF
 track: school
 grade: 6

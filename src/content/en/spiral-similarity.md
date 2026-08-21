@@ -1,5 +1,5 @@
 ---
-title: Spiral Similarity
+title: Spiral Similarity (TBD)
 tag: THM
 track: olympiad
 year: 1837

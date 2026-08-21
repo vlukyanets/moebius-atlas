@@ -1,5 +1,5 @@
 ---
-title: Derivative of the Exponential Function
+title: Derivative of the Exponential Function (TBD)
 tag: THM
 track: school
 grade: 11

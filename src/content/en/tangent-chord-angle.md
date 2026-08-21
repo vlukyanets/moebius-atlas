@@ -1,5 +1,5 @@
 ---
-title: Tangent-Chord Angle
+title: Tangent-Chord Angle (TBD)
 tag: THM
 track: olympiad
 year: -300

@@ -1,5 +1,5 @@
 ---
-title: Right Triangle
+title: Right Triangle (TBD)
 tag: THM
 track: school
 grade: 7

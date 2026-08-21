@@ -1,5 +1,5 @@
 ---
-title: Pick's Theorem
+title: Pick's Theorem (TBD)
 tag: THM
 track: olympiad
 year: 1899

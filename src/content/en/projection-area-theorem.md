@@ -1,5 +1,5 @@
 ---
-title: Area of an Orthogonal Projection
+title: Area of an Orthogonal Projection (TBD)
 tag: THM
 track: school
 grade: 10

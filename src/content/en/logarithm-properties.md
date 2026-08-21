@@ -1,5 +1,5 @@
 ---
-title: Properties of Logarithms
+title: Properties of Logarithms (TBD)
 tag: THM
 track: school
 grade: 11

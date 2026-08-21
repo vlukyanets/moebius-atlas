@@ -1,5 +1,5 @@
 ---
-title: Trigonometric Functions of 0°–180°
+title: Trigonometric Functions of 0°–180° (TBD)
 tag: DEF
 track: school
 grade: 9

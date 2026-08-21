@@ -1,5 +1,5 @@
 ---
-title: Double Angle Formulas
+title: Double Angle Formulas (TBD)
 tag: THM
 track: school
 grade: 10

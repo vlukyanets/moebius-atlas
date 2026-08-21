@@ -1,5 +1,5 @@
 ---
-title: Even and Odd Trigonometric Functions
+title: Even and Odd Trigonometric Functions (TBD)
 tag: THM
 track: school
 grade: 10

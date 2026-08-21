@@ -1,5 +1,5 @@
 ---
-title: Midsegment of a Trapezoid
+title: Midsegment of a Trapezoid (TBD)
 tag: THM
 track: school
 grade: 8

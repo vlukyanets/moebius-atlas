@@ -1,5 +1,5 @@
 ---
-title: Euclidean Algorithm
+title: Euclidean Algorithm (TBD)
 tag: MTD
 track: school
 grade: 6

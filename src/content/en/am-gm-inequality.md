@@ -1,5 +1,5 @@
 ---
-title: Inequality of the Means
+title: Inequality of the Means (TBD)
 tag: THM
 track: school
 grade: 9

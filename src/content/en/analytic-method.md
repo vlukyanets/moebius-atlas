@@ -1,5 +1,5 @@
 ---
-title: Coordinate Method
+title: Coordinate Method (TBD)
 tag: MTD
 track: olympiad
 year: 1637

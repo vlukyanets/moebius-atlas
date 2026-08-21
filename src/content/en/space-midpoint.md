@@ -1,5 +1,5 @@
 ---
-title: Midpoint of a Segment in Space
+title: Midpoint of a Segment in Space (TBD)
 tag: THM
 track: school
 grade: 10

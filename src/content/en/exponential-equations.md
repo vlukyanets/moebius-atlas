@@ -1,5 +1,5 @@
 ---
-title: Exponential Equations
+title: Exponential Equations (TBD)
 tag: MTD
 track: school
 grade: 11

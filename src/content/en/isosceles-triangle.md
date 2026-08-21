@@ -1,5 +1,5 @@
 ---
-title: Isosceles Triangle
+title: Isosceles Triangle (TBD)
 tag: DEF
 track: school
 grade: 7

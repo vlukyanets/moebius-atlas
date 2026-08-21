@@ -1,5 +1,5 @@
 ---
-title: Regular Polyhedra
+title: Regular Polyhedra (TBD)
 tag: THM
 track: school
 grade: 11

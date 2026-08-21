@@ -1,5 +1,5 @@
 ---
-title: Power with a Natural Exponent
+title: Power with a Natural Exponent (TBD)
 tag: DEF
 track: school
 grade: 7

@@ -1,5 +1,5 @@
 ---
-title: Arithmetic Progression
+title: Arithmetic Progression (TBD)
 tag: DEF
 track: school
 grade: 9

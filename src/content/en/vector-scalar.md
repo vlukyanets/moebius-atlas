@@ -1,5 +1,5 @@
 ---
-title: Multiplying a Vector by a Number
+title: Multiplying a Vector by a Number (TBD)
 tag: DEF
 track: school
 grade: 9
