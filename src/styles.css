@@ -429,8 +429,11 @@ button { font-family: inherit; }
 .path-field:fullscreen .path-scroll {
   height: 100vh; border: none; border-radius: 0;
 }
-/* Floats over the field, clear of the target card centred beneath it. */
-.path-tools { position: absolute; right: 14px; top: 14px; z-index: 3; display: flex; gap: 6px; }
+/* Floats over the field, in the corner furthest from where a path is read: the
+   target sits in the middle and the levels climb away from it upwards in the
+   tree and outwards in the rings, so the bottom right is the last piece of the
+   field a drawing reaches into. */
+.path-tools { position: absolute; right: 14px; bottom: 14px; z-index: 3; display: flex; gap: 6px; }
 .path-tool {
   display: flex; align-items: center; justify-content: center;
   width: 30px; height: 30px; padding: 0; cursor: pointer;

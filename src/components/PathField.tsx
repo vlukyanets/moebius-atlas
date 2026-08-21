@@ -338,20 +338,20 @@ export function PathField({ canvas, focus, focusKey, children }: Props): JSX.Ele
         </button>
         <button
           className="path-tool"
+          onClick={reset}
+          title={tr(UI.pathRecenter, lang)}
+          aria-label={tr(UI.pathRecenter, lang)}
+        >
+          <Icon name="recenter" size={15} />
+        </button>
+        <button
+          className="path-tool"
           onClick={toggleFull}
           aria-pressed={full}
           title={tr(full ? UI.pathFullscreenExit : UI.pathFullscreen, lang)}
           aria-label={tr(full ? UI.pathFullscreenExit : UI.pathFullscreen, lang)}
         >
           <Icon name={full ? 'fullscreen-exit' : 'fullscreen'} size={15} />
-        </button>
-        <button
-          className="path-tool"
-          onClick={reset}
-          title={tr(UI.pathRecenter, lang)}
-          aria-label={tr(UI.pathRecenter, lang)}
-        >
-          <Icon name="recenter" size={15} />
         </button>
       </div>
     </div>
