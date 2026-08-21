@@ -426,8 +426,12 @@ button { font-family: inherit; }
    a fullscreen element, hence the explicit background - and the field loses the
    frame it needed as a box on a page. */
 .path-field:fullscreen { background: var(--page-bg); }
+/* The height is the fullscreen box's own, not `100vh`: the text-size setting is
+   a `zoom` on the root, and a viewport unit is not divided by it - at `xlarge`
+   the field came out a fifth taller than the screen and the last level of the
+   tree sat below its bottom edge with nothing left to scroll. */
 .path-field:fullscreen .path-scroll {
-  height: 100vh; border: none; border-radius: 0;
+  height: 100%; border: none; border-radius: 0;
 }
 /* Floats over the field, in the corner furthest from where a path is read: the
    target sits in the middle and the levels climb away from it upwards in the
