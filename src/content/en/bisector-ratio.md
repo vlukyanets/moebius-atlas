@@ -1,5 +1,5 @@
 ---
-title: Angle Bisector Ratio
+title: Angle Bisector Ratio (TBD)
 tag: LEM
 track: olympiad
 year: -300

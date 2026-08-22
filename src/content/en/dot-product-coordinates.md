@@ -1,5 +1,5 @@
 ---
-title: Dot Product in Coordinates
+title: Dot Product in Coordinates (TBD)
 tag: THM
 track: school
 grade: 9

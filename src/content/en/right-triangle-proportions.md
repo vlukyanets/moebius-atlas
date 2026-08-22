@@ -1,5 +1,5 @@
 ---
-title: Proportions in a Right Triangle
+title: Proportions in a Right Triangle (TBD)
 tag: THM
 track: school
 grade: 8

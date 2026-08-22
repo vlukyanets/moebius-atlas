@@ -1,5 +1,5 @@
 ---
-title: nth Term of a Geometric Progression
+title: nth Term of a Geometric Progression (TBD)
 tag: THM
 track: school
 grade: 9

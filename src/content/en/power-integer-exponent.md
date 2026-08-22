@@ -1,5 +1,5 @@
 ---
-title: Power with an Integer Exponent
+title: Power with an Integer Exponent (TBD)
 tag: DEF
 track: school
 grade: 8

@@ -1,5 +1,5 @@
 ---
-title: Taking a Factor out of the Root
+title: Taking a Factor out of the Root (TBD)
 tag: MTD
 track: school
 grade: 8

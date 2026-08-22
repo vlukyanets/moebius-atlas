@@ -1,5 +1,5 @@
 ---
-title: Reduction Formulas
+title: Reduction Formulas (TBD)
 tag: THM
 track: school
 grade: 10

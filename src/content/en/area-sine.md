@@ -1,5 +1,5 @@
 ---
-title: Triangle Area via Sine
+title: Triangle Area via Sine (TBD)
 tag: THM
 track: school
 grade: 9

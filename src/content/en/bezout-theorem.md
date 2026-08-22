@@ -1,5 +1,5 @@
 ---
-title: Bezout's Theorem
+title: Bezout's Theorem (TBD)
 tag: THM
 track: school
 grade: 9

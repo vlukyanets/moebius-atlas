@@ -1,5 +1,5 @@
 ---
-title: Sum of an Arithmetic Progression
+title: Sum of an Arithmetic Progression (TBD)
 tag: THM
 track: school
 grade: 9

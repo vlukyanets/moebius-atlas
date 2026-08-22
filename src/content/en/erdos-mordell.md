@@ -1,5 +1,5 @@
 ---
-title: Erdos-Mordell Inequality
+title: Erdos-Mordell Inequality (TBD)
 tag: THM
 track: olympiad
 year: 1937

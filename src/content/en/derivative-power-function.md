@@ -1,5 +1,5 @@
 ---
-title: Derivative of a Power Function
+title: Derivative of a Power Function (TBD)
 tag: THM
 track: school
 grade: 10

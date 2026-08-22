@@ -1,5 +1,5 @@
 ---
-title: Isogonal Conjugates
+title: Isogonal Conjugates (TBD)
 tag: DEF
 track: olympiad
 year: 1865

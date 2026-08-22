@@ -1,5 +1,5 @@
 ---
-title: Area of a Disk & Sector
+title: Area of a Disk & Sector (TBD)
 tag: THM
 track: school
 grade: 9

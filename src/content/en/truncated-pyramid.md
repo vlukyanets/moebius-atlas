@@ -1,5 +1,5 @@
 ---
-title: Truncated Pyramid
+title: Truncated Pyramid (TBD)
 tag: DEF
 track: school
 grade: 11

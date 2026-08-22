@@ -1,5 +1,5 @@
 ---
-title: Methods for Trigonometric Equations
+title: Methods for Trigonometric Equations (TBD)
 tag: MTD
 track: school
 grade: 10

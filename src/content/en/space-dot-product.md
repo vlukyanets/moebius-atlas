@@ -1,5 +1,5 @@
 ---
-title: Dot Product in Space
+title: Dot Product in Space (TBD)
 tag: THM
 track: school
 grade: 10

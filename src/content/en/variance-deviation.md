@@ -1,5 +1,5 @@
 ---
-title: Variance and Standard Deviation
+title: Variance and Standard Deviation (TBD)
 tag: DEF
 track: school
 grade: 11

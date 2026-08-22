@@ -1,5 +1,5 @@
 ---
-title: Centroid and the Medians
+title: Centroid and the Medians (TBD)
 tag: THM
 track: school
 grade: 8

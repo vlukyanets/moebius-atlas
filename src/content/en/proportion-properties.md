@@ -1,5 +1,5 @@
 ---
-title: Derived Properties of a Proportion
+title: Derived Properties of a Proportion (TBD)
 tag: THM
 track: school
 grade: 6

@@ -1,5 +1,5 @@
 ---
-title: Equation of a Plane
+title: Equation of a Plane (TBD)
 tag: THM
 track: school
 grade: 10

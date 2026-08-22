@@ -1,5 +1,5 @@
 ---
-title: Properties of Divisibility
+title: Properties of Divisibility (TBD)
 tag: THM
 track: school
 grade: 6

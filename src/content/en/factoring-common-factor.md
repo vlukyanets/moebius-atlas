@@ -1,5 +1,5 @@
 ---
-title: Taking Out a Common Factor
+title: Taking Out a Common Factor (TBD)
 tag: MTD
 track: school
 grade: 7

@@ -1,5 +1,5 @@
 ---
-title: Barycentric Coordinates
+title: Barycentric Coordinates (TBD)
 tag: MTD
 track: olympiad
 year: 1827

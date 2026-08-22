@@ -1,5 +1,5 @@
 ---
-title: Napoleon's Theorem
+title: Napoleon's Theorem (TBD)
 tag: THM
 track: olympiad
 year: 1825

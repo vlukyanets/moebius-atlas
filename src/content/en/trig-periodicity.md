@@ -1,5 +1,5 @@
 ---
-title: Periodicity
+title: Periodicity (TBD)
 tag: THM
 track: school
 grade: 10

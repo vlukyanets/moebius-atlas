@@ -1,5 +1,5 @@
 ---
-title: Properties of the Quadratic Function
+title: Properties of the Quadratic Function (TBD)
 tag: THM
 track: school
 grade: 9

@@ -1,5 +1,5 @@
 ---
-title: Derivative of the Logarithmic Function
+title: Derivative of the Logarithmic Function (TBD)
 tag: THM
 track: school
 grade: 11

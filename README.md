@@ -1,7 +1,7 @@
 # Moebius Atlas / Атлас Мебіуса
 
 School and extracurricular mathematics as an explorable atlas of topics — 484
-of them: the Ukrainian school curriculum for grades 5–11 (arithmetic, algebra
+of them: the Ukrainian school curriculum for grades 1–11 (arithmetic, algebra
 and the beginnings of analysis, plane and solid geometry), plus olympiad topics
 and the first steps into higher maths. Every topic declares
 what has to be learned before it, so the whole subject forms one connected map
@@ -26,8 +26,8 @@ header that summarizes the active selection and shows the number of matches:
 
 - **Subject** - Geometry / Algebra / Others
 - **Track** - School / Olympiad / Higher maths / Others
-- **Grade** - 5 to 11; shown only while school topics are on screen, and only
-  for grades that still have something behind the other filters
+- **Grade** - the school year; shown only while school topics are on screen, and
+  only for grades that still have something behind the other filters
 - **Type** - Axiom / Definition / Theorem / Lemma / Conjecture / Method
 
 An empty row means "everything" for that row; rows combine with AND, values
@@ -126,7 +126,7 @@ and body. The id is the file name.
 title: Triangle Angle Sum
 tag: THM                # AXM|DEF|THM|LEM|CNJ|MTD
 track: school           # school|olympiad|advanced|other; missing -> other, with a console warning
-grade: 8                # school year 5-11; school-track topics only
+grade: 8                # school year; school-track topics only
 subject: algebra        # geometry|algebra|other; missing -> geometry
 year: -300              # discovery year; negative = BCE
 requires: [parallel-properties, triangle-definition]

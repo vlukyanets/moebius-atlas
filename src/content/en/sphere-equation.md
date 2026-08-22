@@ -1,5 +1,5 @@
 ---
-title: Equation of a Sphere
+title: Equation of a Sphere (TBD)
 tag: THM
 track: school
 grade: 11

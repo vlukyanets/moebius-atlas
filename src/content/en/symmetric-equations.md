@@ -1,5 +1,5 @@
 ---
-title: Symmetric Equations
+title: Symmetric Equations (TBD)
 tag: MTD
 track: school
 grade: 8

@@ -1,5 +1,5 @@
 ---
-title: Difference of Squares
+title: Difference of Squares (TBD)
 tag: THM
 track: school
 grade: 7

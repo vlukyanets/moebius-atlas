@@ -1,5 +1,5 @@
 ---
-title: Arcsine and Arccosine
+title: Arcsine and Arccosine (TBD)
 tag: DEF
 track: school
 grade: 10

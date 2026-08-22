@@ -1,5 +1,5 @@
 ---
-title: "Parallelogram: Diagonals"
+title: "Parallelogram: Diagonals (TBD)"
 tag: THM
 track: school
 grade: 8

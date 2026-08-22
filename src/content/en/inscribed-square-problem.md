@@ -1,5 +1,5 @@
 ---
-title: Inscribed Square Problem
+title: Inscribed Square Problem (TBD)
 tag: CNJ
 track: olympiad
 year: 1911

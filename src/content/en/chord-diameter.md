@@ -1,5 +1,5 @@
 ---
-title: Chord & Diameter
+title: Chord & Diameter (TBD)
 tag: DEF
 track: school
 grade: 7

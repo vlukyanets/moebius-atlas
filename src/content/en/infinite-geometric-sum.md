@@ -1,5 +1,5 @@
 ---
-title: Sum of an Infinite Progression
+title: Sum of an Infinite Progression (TBD)
 tag: THM
 track: school
 grade: 9

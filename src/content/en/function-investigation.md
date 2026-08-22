@@ -1,5 +1,5 @@
 ---
-title: Investigating a Function and Sketching Its Graph
+title: Investigating a Function and Sketching Its Graph (TBD)
 tag: MTD
 track: school
 grade: 10

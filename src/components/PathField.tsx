@@ -13,6 +13,11 @@
  * same two tones: what the pointer touches in `--accent`, and the rest of the
  * way up to the target in `--trail`.
  *
+ * Fullscreen is the field's own, not the page's: what a deep path is short of
+ * is field, and the browser's fullscreen gives it the whole screen without a
+ * second set of sizes in the stylesheet. Entering or leaving it changes the box
+ * under an unchanged drawing, so both put the focus back in the middle.
+ *
  * The arrow toggle sits with the zoom tools for the same reason: it is the same
  * question in both drawings, so it is asked once here and answered by the
  * setting the views read. It only puts the lines away - the cards keep their
@@ -144,10 +149,12 @@ export function PathField({ canvas, focus, focusKey, children }: Props): JSX.Ele
   const { settings, update } = useSettings();
   const arrows = settings.pathArrows;
   const box = useRef<HTMLDivElement>(null);
+  const field = useRef<HTMLDivElement>(null);
   const grab = useRef<{ x: number; y: number; left: number; top: number } | null>(null);
   const panned = useRef(false);
   const [panning, setPanning] = useState(false);
   const [zoom, setZoom] = useState(1);
+  const [full, setFull] = useState(false);
   /** Where to scroll once the new zoom has been laid out. */
   const anchored = useRef<{ left: number; top: number; behavior: ScrollBehavior } | null>(null);
 
@@ -164,6 +171,24 @@ export function PathField({ canvas, focus, focusKey, children }: Props): JSX.Ele
   // Re-runs when the drawing changes, not on every render. The zoom the reader
   // picked survives it; only the button undoes that.
   useLayoutEffect(() => centreOn(zoom, 'auto'), [focusKey]);
+  // A screen's worth of field is a different box around the same drawing, so
+  // the point the view is read from would otherwise drift off to a corner.
+  useLayoutEffect(() => centreOn(zoom, 'auto'), [full]);
+
+  // The state follows the document rather than the click: Escape and the
+  // browser's own controls leave fullscreen without asking this component.
+  useEffect(() => {
+    const sync = (): void => setFull(document.fullscreenElement === field.current);
+    document.addEventListener('fullscreenchange', sync);
+    return () => document.removeEventListener('fullscreenchange', sync);
+  }, []);
+
+  /** Fullscreen is refused outside a user gesture and unavailable in some
+   *  embeddings; either way the field stays as it was. */
+  const toggleFull = (): void => {
+    if (document.fullscreenElement) void document.exitFullscreen().catch(() => {});
+    else void field.current?.requestFullscreen().catch(() => {});
+  };
 
   /** The button is a full undo: the zoom goes back to 1 and the focus back to
    *  the middle, which together is the state the view opened in. */
@@ -264,7 +289,7 @@ export function PathField({ canvas, focus, focusKey, children }: Props): JSX.Ele
   };
 
   return (
-    <div className="path-field">
+    <div className="path-field" ref={field}>
       <div
         className={panning ? 'path-scroll panning' : 'path-scroll'}
         ref={box}
@@ -318,6 +343,15 @@ export function PathField({ canvas, focus, focusKey, children }: Props): JSX.Ele
           aria-label={tr(UI.pathRecenter, lang)}
         >
           <Icon name="recenter" size={15} />
+        </button>
+        <button
+          className="path-tool"
+          onClick={toggleFull}
+          aria-pressed={full}
+          title={tr(full ? UI.pathFullscreenExit : UI.pathFullscreen, lang)}
+          aria-label={tr(full ? UI.pathFullscreenExit : UI.pathFullscreen, lang)}
+        >
+          <Icon name={full ? 'fullscreen-exit' : 'fullscreen'} size={15} />
         </button>
       </div>
     </div>

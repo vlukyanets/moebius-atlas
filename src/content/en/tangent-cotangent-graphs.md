@@ -1,5 +1,5 @@
 ---
-title: Graphs of Tangent and Cotangent
+title: Graphs of Tangent and Cotangent (TBD)
 tag: DEF
 track: school
 grade: 10

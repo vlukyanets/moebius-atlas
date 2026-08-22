@@ -1,5 +1,5 @@
 ---
-title: Isosceles Trapezoid
+title: Isosceles Trapezoid (TBD)
 tag: THM
 track: school
 grade: 8

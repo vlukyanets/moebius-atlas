@@ -1,5 +1,5 @@
 ---
-title: Limit of a Sequence
+title: Limit of a Sequence (TBD)
 tag: DEF
 track: school
 grade: 10

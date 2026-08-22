@@ -1,5 +1,5 @@
 ---
-title: Locus of Points
+title: Locus of Points (TBD)
 tag: DEF
 track: school
 grade: 7

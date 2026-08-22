@@ -1,5 +1,5 @@
 ---
-title: Vector & Zero Vector
+title: Vector & Zero Vector (TBD)
 tag: DEF
 track: school
 grade: 9

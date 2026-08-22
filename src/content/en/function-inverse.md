@@ -1,5 +1,5 @@
 ---
-title: Inverse Function
+title: Inverse Function (TBD)
 tag: DEF
 track: school
 grade: 10

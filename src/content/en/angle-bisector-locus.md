@@ -1,5 +1,5 @@
 ---
-title: Angle Bisector as a Locus
+title: Angle Bisector as a Locus (TBD)
 tag: THM
 track: school
 grade: 7

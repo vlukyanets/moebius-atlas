@@ -1,5 +1,5 @@
 ---
-title: Elimination Method
+title: Elimination Method (TBD)
 tag: MTD
 track: school
 grade: 7

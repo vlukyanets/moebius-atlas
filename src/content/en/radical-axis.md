@@ -1,5 +1,5 @@
 ---
-title: Radical Axis
+title: Radical Axis (TBD)
 tag: THM
 track: olympiad
 year: 1813

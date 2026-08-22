@@ -1,5 +1,5 @@
 ---
-title: Rectangle & Its Diagonals
+title: Rectangle & Its Diagonals (TBD)
 tag: THM
 track: school
 grade: 8

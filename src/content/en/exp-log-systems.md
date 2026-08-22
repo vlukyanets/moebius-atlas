@@ -1,5 +1,5 @@
 ---
-title: Systems with Exponentials and Logarithms
+title: Systems with Exponentials and Logarithms (TBD)
 tag: MTD
 track: school
 grade: 11

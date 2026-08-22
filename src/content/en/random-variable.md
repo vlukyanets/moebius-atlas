@@ -1,5 +1,5 @@
 ---
-title: Random Variable
+title: Random Variable (TBD)
 tag: DEF
 track: school
 grade: 11

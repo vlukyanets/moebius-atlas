@@ -82,6 +82,8 @@ export const UI = {
   pathZoomOut: { en: 'Zoom out', uk: 'Зменшити' },
   pathArrowsHide: { en: 'Hide the arrows', uk: 'Сховати стрілки' },
   pathArrowsShow: { en: 'Show the arrows', uk: 'Показати стрілки' },
+  pathFullscreen: { en: 'Fullscreen', uk: 'На весь екран' },
+  pathFullscreenExit: { en: 'Leave fullscreen', uk: 'Вийти з повного екрана' },
   target: { en: 'TARGET', uk: 'МЕТА' },
   directPrereqs: { en: 'DIRECT PREREQUISITES', uk: 'ПРЯМІ ПЕРЕДУМОВИ' },
   levelPrefix: { en: 'PREREQUISITES · LEVEL', uk: 'ПЕРЕДУМОВИ · РІВЕНЬ' },

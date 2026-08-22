@@ -1,5 +1,5 @@
 ---
-title: Properties of Powers
+title: Properties of Powers (TBD)
 tag: THM
 track: school
 grade: 7

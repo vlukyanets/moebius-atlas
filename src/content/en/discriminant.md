@@ -1,5 +1,5 @@
 ---
-title: Discriminant
+title: Discriminant (TBD)
 tag: DEF
 track: school
 grade: 8

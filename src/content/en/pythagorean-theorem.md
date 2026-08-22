@@ -1,5 +1,5 @@
 ---
-title: Pythagorean Theorem
+title: Pythagorean Theorem (TBD)
 tag: THM
 track: school
 grade: 8

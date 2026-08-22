@@ -1,5 +1,5 @@
 ---
-title: Midpoint Coordinates
+title: Midpoint Coordinates (TBD)
 tag: THM
 track: school
 grade: 9

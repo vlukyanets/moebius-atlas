@@ -1,5 +1,5 @@
 ---
-title: The Sum of Squares Method
+title: The Sum of Squares Method (TBD)
 tag: MTD
 track: school
 grade: 9

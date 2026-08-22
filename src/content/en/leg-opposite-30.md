@@ -1,5 +1,5 @@
 ---
-title: Leg Opposite 30°
+title: Leg Opposite 30° (TBD)
 tag: THM
 track: school
 grade: 7

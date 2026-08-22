@@ -1,5 +1,5 @@
 ---
-title: Factoring a Quadratic Trinomial
+title: Factoring a Quadratic Trinomial (TBD)
 tag: THM
 track: school
 grade: 8

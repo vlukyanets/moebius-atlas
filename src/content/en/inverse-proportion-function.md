@@ -1,5 +1,5 @@
 ---
-title: Inverse Proportion Function
+title: Inverse Proportion Function (TBD)
 tag: DEF
 track: school
 grade: 8

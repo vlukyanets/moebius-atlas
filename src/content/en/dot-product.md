@@ -1,5 +1,5 @@
 ---
-title: Dot Product
+title: Dot Product (TBD)
 tag: DEF
 track: school
 grade: 9

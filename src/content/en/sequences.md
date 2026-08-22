@@ -1,5 +1,5 @@
 ---
-title: Numeric Sequences
+title: Numeric Sequences (TBD)
 tag: DEF
 track: school
 grade: 9

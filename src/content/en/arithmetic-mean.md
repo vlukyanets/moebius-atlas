@@ -1,5 +1,5 @@
 ---
-title: Arithmetic Mean
+title: Arithmetic Mean (TBD)
 tag: DEF
 track: school
 grade: 5

@@ -1,5 +1,5 @@
 ---
-title: Derivatives of Trigonometric Functions
+title: Derivatives of Trigonometric Functions (TBD)
 tag: THM
 track: school
 grade: 11

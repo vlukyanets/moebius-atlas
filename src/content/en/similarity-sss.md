@@ -1,5 +1,5 @@
 ---
-title: "Similarity Criterion: Three Sides"
+title: "Similarity Criterion: Three Sides (TBD)"
 tag: THM
 track: school
 grade: 8

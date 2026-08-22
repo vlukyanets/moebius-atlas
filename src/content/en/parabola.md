@@ -1,5 +1,5 @@
 ---
-title: The Parabola y = ax^2
+title: The Parabola y = ax^2 (TBD)
 tag: DEF
 track: school
 grade: 9
