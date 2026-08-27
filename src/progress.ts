@@ -21,10 +21,25 @@
  * Every tab of the site holds its own copy of this state, so the copies are
  * kept together through the `storage` event: whoever writes wins, and the other
  * tabs adopt the record verbatim.
+ *
+ * A reader who signs in with Google gets the same record kept in their Google
+ * account as well (`cloud.ts`), and that copy is the higher authority: on every
+ * connection it is pulled and installed over whatever this browser held, so a
+ * second device shows the marks made on the first rather than merging two
+ * histories nobody can untangle. Only an account that has never saved anything
+ * is seeded the other way round, from what is in the browser. From then on
+ * every local change is written back, and localStorage stays a mirror - the one
+ * that keeps the marks readable offline and after signing out.
  */
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { N, ancestors } from './data/atlas';
+import { useCloud, type CloudInfo } from './cloud';
+
+/** Quiet spell after the last edit before the record is sent to Google. A tick
+ *  is rarely alone - a `markDeep` is a whole chain - and each write is a Drive
+ *  round trip, so the burst is let finish first. */
+const PUSH_MS = 1200;
 
 const KEY = 'moebius-atlas-progress';
 
@@ -98,13 +113,22 @@ function normalize(raw: unknown): State {
   return { enabled: rec.enabled === true, active, profiles };
 }
 
-function load(): State {
+/** Text from storage or from Google, `null` when it is not a record at all. */
+function parse(text: string | null): unknown {
   try {
-    return normalize(JSON.parse(localStorage.getItem(KEY) ?? 'null'));
+    return JSON.parse(text ?? 'null');
+  } catch {
+    return null;
+  }
+}
+
+const load = (): State => {
+  try {
+    return normalize(parse(localStorage.getItem(KEY)));
   } catch {
     return normalize(null);
   }
-}
+};
 
 const serialize = (s: State): string =>
   JSON.stringify({
@@ -136,6 +160,13 @@ export interface ProgressCtx {
   renameProfile: (id: string, name: string) => void;
   /** Deleting the last profile leaves a fresh, empty `Profile 1` behind. */
   removeProfile: (id: string) => void;
+  /** Clears every mark of every profile. The profiles and their names stay -
+   *  it is the progress that is being reset, not the readers. */
+  resetAll: () => void;
+  /** Whether there is anything to reset at all. */
+  anyMarks: boolean;
+  /** The Google account this record is mirrored to, and the way in and out. */
+  cloud: CloudInfo;
 }
 
 export const ProgressContext = createContext<ProgressCtx>({
@@ -152,6 +183,16 @@ export const ProgressContext = createContext<ProgressCtx>({
   addProfile: () => {},
   renameProfile: () => {},
   removeProfile: () => {},
+  resetAll: () => {},
+  anyMarks: false,
+  cloud: {
+    configured: false,
+    status: 'off',
+    account: null,
+    busy: false,
+    signIn: () => {},
+    signOut: () => {},
+  },
 });
 
 export const useProgress = (): ProgressCtx => useContext(ProgressContext);
@@ -162,6 +203,12 @@ export function useProgressStore(): ProgressCtx {
   const { enabled, active, profiles } = state;
   /** What this tab believes is in storage - written by it or by another tab. */
   const mirror = useRef<string | null>(null);
+  const cloud = useCloud();
+  /** What Google is believed to hold; `null` until the account is read. */
+  const remote = useRef<string | null>(null);
+  /** False until the pull has happened - nothing may be pushed before it, or
+   *  this browser's record would overwrite the account it came to obey. */
+  const [synced, setSynced] = useState(false);
 
   // Written from an effect rather than from the updaters, which stay pure.
   // The switch and the profiles are fields of one record, so flipping the
@@ -191,6 +238,58 @@ export function useProgressStore(): ProgressCtx {
     window.addEventListener('storage', onStorage);
     return () => window.removeEventListener('storage', onStorage);
   }, []);
+
+  // Google has just answered: its copy is installed over this browser's, which
+  // the effect above then mirrors into localStorage. An account with nothing
+  // saved yet is the one case that goes the other way - `remote` is left empty
+  // and the push below seeds it with what is already here.
+  useEffect(() => {
+    if (cloud.status !== 'on' || synced) return;
+    let alive = true;
+    void (async () => {
+      let text: string | null;
+      try {
+        text = await cloud.pull();
+      } catch {
+        return; // `cloud` reports the failure; the local record stands
+      }
+      if (!alive) return;
+      if (text !== null) {
+        const next = normalize(parse(text));
+        remote.current = serialize(next);
+        setState(next);
+      }
+      setSynced(true);
+    })();
+    return () => {
+      alive = false;
+    };
+  }, [cloud.status, cloud.pull, synced]);
+
+  // Signing out - or losing the connection - puts the pull back on the table,
+  // so signing in again re-reads the account rather than trusting a stale copy.
+  useEffect(() => {
+    if (cloud.status === 'off') {
+      remote.current = null;
+      setSynced(false);
+    }
+  }, [cloud.status]);
+
+  // Every later change goes back up, once the edits have stopped coming.
+  useEffect(() => {
+    if (!synced || cloud.status === 'off') return;
+    const text = serialize(state);
+    if (text === remote.current) return;
+    const timer = setTimeout(() => {
+      remote.current = text;
+      // A failed write is reported by `cloud` and the record is left as the
+      // next edit finds it; localStorage has it either way.
+      void cloud.push(text).catch(() => {
+        if (remote.current === text) remote.current = null;
+      });
+    }, PUSH_MS);
+    return () => clearTimeout(timer);
+  }, [state, synced, cloud.status, cloud.push]);
 
   const setEnabled = useCallback((v: boolean) => {
     setState((prev) => ({ ...prev, enabled: v }));
@@ -256,6 +355,18 @@ export function useProgressStore(): ProgressCtx {
     }));
   }, []);
 
+  // Every profile is emptied, not just the active one: the reset is offered
+  // next to the tracking switch, which is not a per-profile control either.
+  // A profile with nothing ticked is returned as it was, so a record that was
+  // already empty is not rewritten - and so nothing is pushed to Google.
+  const resetAll = useCallback(() => {
+    setState((prev) =>
+      prev.profiles.every((p) => !p.done.size)
+        ? prev
+        : { ...prev, profiles: prev.profiles.map((p) => (p.done.size ? { ...p, done: new Set<string>() } : p)) },
+    );
+  }, []);
+
   const removeProfile = useCallback((id: string) => {
     setState((prev) => {
       const rest = prev.profiles.filter((p) => p.id !== id);
@@ -282,6 +393,22 @@ export function useProgressStore(): ProgressCtx {
       addProfile,
       renameProfile,
       removeProfile,
+      resetAll,
+      anyMarks: profiles.some((p) => p.done.size > 0),
+      cloud,
     };
-  }, [enabled, active, profiles, setEnabled, toggle, markDeep, activate, addProfile, renameProfile, removeProfile]);
+  }, [
+    enabled,
+    active,
+    profiles,
+    cloud,
+    setEnabled,
+    toggle,
+    markDeep,
+    activate,
+    addProfile,
+    renameProfile,
+    removeProfile,
+    resetAll,
+  ]);
 }

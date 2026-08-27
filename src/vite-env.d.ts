@@ -16,3 +16,12 @@ declare module 'virtual:atlas-bodies' {
   const bodies: Record<string, () => Promise<{ default: Record<string, string> }>>;
   export default bodies;
 }
+
+/**
+ * Build-time configuration. `VITE_GOOGLE_CLIENT_ID` is the public OAuth client
+ * id of the Google sign-in; a build without one ships with no account row at
+ * all, and progress stays in `localStorage` as it always did.
+ */
+interface ImportMetaEnv {
+  readonly VITE_GOOGLE_CLIENT_ID?: string;
+}

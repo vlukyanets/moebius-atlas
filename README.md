@@ -73,6 +73,51 @@ deletion asks first: the bin turns into a question mark and only the second
 click removes the profile. Everything lives in `localStorage` under its own key
 and is shared live by every open tab of the site.
 
+**Reset all progress**, under the on/off switch, empties every profile at once
+while keeping the profiles and their names - the progress is what is reset, not
+the readers. It asks the same way the bin does: the first click turns the line
+into a question, the second one clears the marks. With nothing ticked anywhere
+the button is not there at all.
+
+### Google account
+
+Under the switch sits **Sign in with Google**. Signing in keeps the same record
+in the reader's own Google account, so the marks made on a laptop are there on a
+phone, and survive a cleared browser.
+
+Google is the higher authority: on every connection its copy is fetched and put
+in place of whatever this browser held - no merge, no guessing which of two
+histories was meant. An account that has never saved anything is the one
+exception, and is seeded from the browser. From there every change is written
+back a moment after the ticking stops. `localStorage` keeps working underneath
+as a mirror, so the marks are still readable offline and after signing out.
+
+The site has no server, and this adds none:
+
+- the sign-in is Google Identity Services' browser token flow;
+- the store is the reader's own Drive, in the hidden `appDataFolder` that only
+  this app can see and that adds no visible file to their Drive;
+- the only permission asked for is `drive.appdata` plus name and address - the
+  app cannot see anything else the reader keeps in Drive;
+- the access token stays in memory and dies with the tab. Only *that* someone
+  signed in, and as whom, is remembered between visits, so the next visit
+  reconnects without a popup;
+- there is no client secret, because there is nowhere to keep one.
+
+Signing out drops the connection and leaves the marks in the browser. The grant
+itself is not revoked - signing back in is one click - and a reader who wants it
+gone revokes it from their own Google account page.
+
+The feature is optional and off unless the build was given an OAuth client id in
+`VITE_GOOGLE_CLIENT_ID` (see `.env.example`); without one the account row is not
+drawn at all and progress stays in the browser, as it always did.
+
+What all of that means for the reader is spelled out in
+[the privacy policy](public/privacy.html), the page the Google consent screen
+links to: the four `localStorage` keys by name, the one file that is uploaded,
+the scope that deliberately cannot see the rest of their Drive, and the four
+outbound hosts the site talks to. English and Ukrainian, one page.
+
 ## Languages
 
 Content and UI are multilingual (English + Ukrainian). By default the language
@@ -110,6 +155,8 @@ the current text color in either theme.
 | Content | Markdown files (`src/content/<lang>/*.md`) | One file per topic per language; a build plugin ships the frontmatter with the app and the bodies as one chunk per language |
 | Markdown | react-markdown + remark-math + rehype-katex | Full Markdown bodies with inline/display KaTeX |
 | Ids | uuid | v4 ids for the progress profiles, so a rename never detaches one from its marks |
+| Sign-in | Google Identity Services, loaded on demand | Browser-side token flow: the only OAuth a site with no server can run honestly |
+| Sync | Google Drive `appDataFolder` (REST) | A per-reader store the app can reach without a backend, and that stays out of the reader's visible Drive |
 
 ## Content format
 
@@ -220,6 +267,42 @@ npm run preview   # serve the production build locally
 
 There is no test suite and no linter: `npm run build` is the check to run.
 
+Configuration is optional and lives in `.env`, copied from `.env.example`. The
+only entry is `VITE_GOOGLE_CLIENT_ID` - the OAuth client id that turns the
+Google sign-in on. Without the variable the app builds and runs exactly as
+before, minus the account row.
+
+### Making a client id
+
+In the [Google Cloud console](https://console.cloud.google.com/), on a project
+of your own:
+
+1. **APIs & Services -> Library** - enable the **Google Drive API**. Scopes of
+   an API that is not enabled do not appear in the picker in step 3.
+2. **Google Auth Platform -> Branding** - app name, support email, the site as
+   the home page, and the site's domain under *Authorized domains*. A logo is
+   optional and better left empty: uploading one commits the app to Google's
+   verification review.
+3. **Google Auth Platform -> Data Access -> Add or remove scopes** - tick
+   `openid`, `email` and `profile`, and add
+   `https://www.googleapis.com/auth/drive.appdata`. The list here has to match
+   `SCOPES` in `src/cloud.ts`; a scope missing here is dropped at consent time
+   and surfaces later as a 403 from Drive. All four are non-sensitive, so none
+   of them triggers a verification review.
+4. **Google Auth Platform -> Clients -> Create client** - type **Web
+   application**. Under *Authorised JavaScript origins* list
+   `http://localhost:5173` and the deployed origin, scheme and host only, no
+   path. Leave *Authorised redirect URIs* empty: the token flow never
+   redirects. Copy the client id it gives you; ignore the client secret beside
+   it, which this app has nowhere to keep and must never be committed.
+5. **Google Auth Platform -> Audience** - while the app is *Testing*, only the
+   addresses listed under *Test users* can sign in, so add your own. Publishing
+   lifts that limit and is what requires the privacy policy URL from
+   `public/privacy.html`.
+
+`origin mismatch` at sign-in always means step 4: the origin has to match
+exactly, and `localhost` is not `127.0.0.1`.
+
 Editing rules, the file-by-file map of the repository and the invariants the
 content has to satisfy are in [AGENTS.md](AGENTS.md) - read it before the first
 change. `CLAUDE.md` imports the same file, so both humans and agents work from
@@ -230,3 +313,16 @@ one document.
 Pushing to `master` triggers `.github/workflows/deploy.yml`, which builds and
 publishes `dist/` to GitHub Pages. One-time setup in the repository settings:
 **Settings -> Pages -> Source: GitHub Actions**.
+
+The Google sign-in needs its client id at build time, so the published site gets
+it from **Settings -> Secrets and variables -> Actions -> Variables**, as
+`VITE_GOOGLE_CLIENT_ID`. A variable rather than a secret: a client id is public
+by design and ships in the bundle either way. Add the deployed origin to the
+OAuth client's authorised JavaScript origins, or Google refuses the sign-in from
+it. Leave the variable unset and the site deploys without the account row.
+
+The privacy policy deploys with everything else, as `/privacy.html` - a file in
+`public/` rather than a route, so the consent screen and anything following it
+reach the text directly instead of a hash the server knows nothing about. Its
+URL goes into **Google Auth Platform -> Branding**, and the app cannot be
+published without it.

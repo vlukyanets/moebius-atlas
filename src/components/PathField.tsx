@@ -40,12 +40,8 @@ import { Icon } from './Icons';
 /** Past this much movement a press is a pan, and the click it ends with is
  *  meant for the field rather than for whatever card it happened to land on. */
 const DRAG_SLOP = 3;
-/** Zoom bounds. The floor is well past the point where the names can be read:
- *  the deepest paths are the better part of ten thousand pixels across as
- *  rings, and getting the whole shape into the field at once is worth more
- *  there than any one card's title. Above the ceiling a single card fills the
- *  field and the shape is gone. */
-const ZOOM_MIN = 0.1;
+/** Above the ceiling a single card fills the field and the shape is gone. The
+ *  floor is not a constant at all - see `fit` below. */
 const ZOOM_MAX = 1.5;
 const ZOOM_STEP = 1.2;
 /** deltaMode 1 counts lines and 2 counts pages; both have to become pixels
@@ -61,7 +57,6 @@ const WHEEL_NOTCH = 50;
  *  trackpad is then about two steps, which is roughly the gesture people
  *  expect it to be. */
 const PINCH_PIXEL = 12;
-const clampZoom = (z: number): number => Math.min(ZOOM_MAX, Math.max(ZOOM_MIN, z));
 
 /**
  * What the pointer rests on. A card lights the edges that touch it; an arrow
@@ -136,6 +131,11 @@ export function EdgeTips(): JSX.Element {
 interface Props {
   /** The canvas box in unzoomed pixels - the drawing's own numbers. */
   canvas: CSSProperties;
+  /** The whole drawing, padding included, in the same unzoomed pixels: the
+   *  totals of what `canvas` is built from. It is what the zoom floor is
+   *  computed against, so a layout that grows has to grow this with it - the
+   *  tree's height is not in `canvas` at all, it comes from the rows. */
+  extent: { w: number; h: number };
   /** The point the field opens on and returns to, in canvas pixels. A
    *  coordinate the field is not scrolled in simply clamps to its edge. */
   focus: { x: number; y: number };
@@ -144,7 +144,7 @@ interface Props {
   children: ReactNode;
 }
 
-export function PathField({ canvas, focus, focusKey, children }: Props): JSX.Element {
+export function PathField({ canvas, extent, focus, focusKey, children }: Props): JSX.Element {
   const lang = useLang();
   const { settings, update } = useSettings();
   const arrows = settings.pathArrows;
@@ -155,8 +155,43 @@ export function PathField({ canvas, focus, focusKey, children }: Props): JSX.Ele
   const [panning, setPanning] = useState(false);
   const [zoom, setZoom] = useState(1);
   const [full, setFull] = useState(false);
+  /** The box the drawing is looked at through. Measured, because no constant
+   *  can know it: it is a `clamp()` of the viewport, it doubles in fullscreen,
+   *  and the text-size setting scales it too. */
+  const [view, setView] = useState({ w: 0, h: 0 });
   /** Where to scroll once the new zoom has been laid out. */
   const anchored = useRef<{ left: number; top: number; behavior: ScrollBehavior } | null>(null);
+
+  // Measured outright and then kept current by the observer, rather than left
+  // to the observer's own first call: that one is delivered with the rendering
+  // steps, which a page nobody is looking at does not run - and a field that
+  // never learned its size would refuse to zoom out at all. Re-run on the
+  // fullscreen toggle, where the box changes by the width of the screen.
+  useLayoutEffect(() => {
+    const el = box.current;
+    if (!el) return;
+    const measure = (): void => setView({ w: el.clientWidth, h: el.clientHeight });
+    measure();
+    const ro = new ResizeObserver(measure);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, [full]);
+
+  /**
+   * How far out the field may be pulled: exactly far enough to hold the whole
+   * drawing, and no further, because past that point zooming out only adds
+   * margin around something that is already all there. So the floor belongs to
+   * the drawing rather than to the app - a path of six cards stops at its own
+   * size, and one of six hundred is allowed the ten thousand pixels it needs.
+   * An unmeasured field has no floor to speak of and simply does not zoom out;
+   * it is measured before it is first painted.
+   */
+  const fit = view.w > 0 ? Math.min(1, view.w / extent.w, view.h / extent.h) : 1;
+  /** Never above the zoom the reader is already at: leaving fullscreen shrinks
+   *  the box and so lifts the floor, and zooming them back in to meet it would
+   *  be the field moving on its own. From there the zoom can only come back. */
+  const zoomMin = Math.min(fit, zoom);
+  const clampZoom = (z: number): number => Math.min(ZOOM_MAX, Math.max(zoomMin, z));
 
   // The focus is given in unzoomed coordinates; the scroll box sees them scaled.
   const centreOn = (z: number, behavior: ScrollBehavior): void => {
@@ -312,7 +347,7 @@ export function PathField({ canvas, focus, focusKey, children }: Props): JSX.Ele
         <button
           className="path-tool"
           onClick={() => applyZoom(zoom / ZOOM_STEP)}
-          disabled={zoom <= ZOOM_MIN}
+          disabled={zoom <= zoomMin}
           title={tr(UI.pathZoomOut, lang)}
           aria-label={tr(UI.pathZoomOut, lang)}
         >
