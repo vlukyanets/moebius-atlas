@@ -213,8 +213,8 @@ button { font-family: inherit; }
 .progress-reset:hover { background: var(--chip-bg); color: var(--bad); }
 .progress-reset.armed, .progress-reset.armed:hover { color: var(--bad); background: var(--bad-soft); }
 
-/* Google account: the sign-in button, the row that replaces it once signed in,
-   and the line under either one saying where the marks are being kept. */
+/* Google account: the sign-in button and the row that replaces it once signed
+   in. What either one is currently doing is said at the foot of the panel. */
 .google-btn {
   display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%;
   padding: 7px 10px; border: 1px solid var(--border-strong); border-radius: 8px;
@@ -231,8 +231,12 @@ button { font-family: inherit; }
   flex: 1; min-width: 0; font-size: 13px; color: var(--text);
   overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
 }
-.google-note { margin-top: 6px; font-size: 11.5px; line-height: 1.45; color: var(--text-muted); }
-.google-note.bad { color: var(--bad); }
+/* The line at the foot of the panel saying where the marks are being kept. It
+   is the only text here that changes by itself, so it is kept last, where
+   changing height moves nothing but the panel's own bottom edge. */
+.cloud-note { margin-top: -3px; padding-top: 11px; border-top: 1px solid var(--border); }
+.cloud-note .note { font-size: 11.5px; line-height: 1.45; color: var(--text-muted); }
+.cloud-note .note.bad { color: var(--bad); }
 
 /* Progress checkbox: empty, green tick, red cross. */
 .progress-box {

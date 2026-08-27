@@ -1,7 +1,8 @@
 /**
  * Progress menu: the tracking switch, the Google account the marks are kept in,
- * and, once tracking is on, the profiles. Off, the marks stay in storage but
- * nothing shows them.
+ * and, once tracking is on, the profiles, with the state of the connection
+ * spelled out at the foot. Off, the marks stay in storage but nothing shows
+ * them.
  *
  * The account row is the one part that shows with tracking off as well: signing
  * in pulls the whole record, the switch included, so a device that has never
@@ -60,6 +61,7 @@ export function ProgressMenu(): JSX.Element {
           <Profiles />
         </MenuRow>
       )}
+      <CloudNote />
     </PopoverMenu>
   );
 }
@@ -74,17 +76,7 @@ function GoogleRow(): JSX.Element | null {
   const { cloud } = useProgress();
   if (!cloud.configured) return null;
 
-  const { status, account, busy, signIn, signOut } = cloud;
-  const note =
-    status === 'error'
-      ? UI.cloudFailed
-      : busy
-        ? UI.cloudSaving
-        : !account
-          ? UI.cloudHint
-          : status === 'connecting'
-            ? UI.cloudConnecting
-            : UI.cloudSaved;
+  const { status, account, signIn, signOut } = cloud;
 
   return (
     <MenuRow label={tr(UI.cloudRow, lang)}>
@@ -109,13 +101,45 @@ function GoogleRow(): JSX.Element | null {
           {tr(status === 'connecting' ? UI.cloudConnecting : UI.cloudSignIn, lang)}
         </button>
       )}
-      <div className={status === 'error' ? 'google-note bad' : 'google-note'}>{tr(note, lang)}</div>
+    </MenuRow>
+  );
+}
+
+/**
+ * The line saying where the marks are being kept, at the foot of the panel.
+ *
+ * It belongs to the account row above and used to sit inside it, but its text
+ * is the one thing here that changes on its own - every save swaps it for
+ * "saving" and back - and a line that changes height in the middle of the panel
+ * shifts the profile list under it while the reader is aiming at a row. Last is
+ * the one place where growing costs nothing: there is nothing below to move.
+ */
+function CloudNote(): JSX.Element | null {
+  const lang = useLang();
+  const { cloud } = useProgress();
+  if (!cloud.configured) return null;
+
+  const { status, account, busy, signIn } = cloud;
+  const note =
+    status === 'error'
+      ? UI.cloudFailed
+      : busy
+        ? UI.cloudSaving
+        : !account
+          ? UI.cloudHint
+          : status === 'connecting'
+            ? UI.cloudConnecting
+            : UI.cloudSaved;
+
+  return (
+    <div className="cloud-note">
+      <div className={status === 'error' ? 'note bad' : 'note'}>{tr(note, lang)}</div>
       {status === 'error' && (
         <button className="google-retry" onClick={signIn}>
           {tr(UI.cloudRetry, lang)}
         </button>
       )}
-    </MenuRow>
+    </div>
   );
 }
 
