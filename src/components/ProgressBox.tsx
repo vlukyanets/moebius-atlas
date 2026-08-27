@@ -12,8 +12,19 @@
  *
  * It sits inside rows and pills that navigate on click, so the click stops
  * there - ticking a topic must never open it.
+ *
+ * The question is drawn through a portal into `<body>`. A checkbox on a card in
+ * a path is inside `.path-canvas`, which carries the field's zoom as a CSS
+ * `zoom`, and a `position: fixed` box inside a zoomed subtree is not fixed to
+ * the viewport at all: the browser scales its coordinates and its size along
+ * with everything else, so the panel came out shrunk and a long way from the
+ * box it belongs to. Out in `<body>` there is nothing scaling it, and the
+ * viewport coordinates it is given are the ones it is placed at. The click is
+ * still stopped on the panel, because a portal keeps the React tree it was
+ * written in - the card underneath would otherwise open the topic.
  */
 import { useEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { UI, topicsWord, tr, useLang } from '../i18n';
 import { useProgress } from '../progress';
 import { Icon } from './Icons';
@@ -92,35 +103,37 @@ export function ProgressBox({ id }: { id: string }): JSX.Element | null {
         {mark === 'done' && <Icon name="check" />}
         {mark === 'broken' && <Icon name="cross" />}
       </button>
-      {at && (
-        <div
-          ref={panel}
-          className="progress-ask"
-          role="dialog"
-          style={{ top: at.top, left: at.left }}
-          onClick={(e) => e.stopPropagation()}
-        >
-          <div className="ask-text">
-            <Icon name="question" size={15} />
-            <span>{tr(UI.progAsk, lang)}</span>
-          </div>
-          <div className="ask-actions">
-            <span className="count">
-              +{gap} {topicsWord(gap, lang)}
-            </span>
-            <button
-              className="yes"
-              onClick={() => {
-                setAt(null);
-                markDeep(id);
-              }}
-            >
-              {tr(UI.optYes, lang)}
-            </button>
-            <button onClick={() => setAt(null)}>{tr(UI.optNo, lang)}</button>
-          </div>
-        </div>
-      )}
+      {at &&
+        createPortal(
+          <div
+            ref={panel}
+            className="progress-ask"
+            role="dialog"
+            style={{ top: at.top, left: at.left }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="ask-text">
+              <Icon name="question" size={15} />
+              <span>{tr(UI.progAsk, lang)}</span>
+            </div>
+            <div className="ask-actions">
+              <span className="count">
+                +{gap} {topicsWord(gap, lang)}
+              </span>
+              <button
+                className="yes"
+                onClick={() => {
+                  setAt(null);
+                  markDeep(id);
+                }}
+              >
+                {tr(UI.optYes, lang)}
+              </button>
+              <button onClick={() => setAt(null)}>{tr(UI.optNo, lang)}</button>
+            </div>
+          </div>,
+          document.body,
+        )}
     </>
   );
 }
