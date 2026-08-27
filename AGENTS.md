@@ -177,6 +177,11 @@ points it at another checkout. Its own docstring states what it reads and writes
   yes, `markDeep` ticks the topic with its whole chain in one write. The
   question is view state inside `ProgressBox` - it dies on no, on Escape, on a
   click or scroll elsewhere and on a timeout, and it never touches storage.
+  It is drawn through a portal into `<body>`, because the same checkbox also
+  sits on the cards of a path, inside the `zoom` the field is drawn at: a
+  `position: fixed` box inside a zoomed subtree is scaled and displaced with it
+  rather than pinned to the viewport. Anything else that has to be fixed to the
+  screen from inside the field needs the same treatment.
 - The reset under the tracking switch empties *every* profile, keeping the
   profiles and their names: it is the progress that is reset, not the readers.
   It sits next to the switch because neither is a per-profile control, it asks
