@@ -406,11 +406,17 @@ button { font-family: inherit; }
 .topic-picker .option.active { background: var(--accent-soft); color: var(--link); }
 .topic-picker .empty { padding: 10px; font-size: 13px; color: var(--text-muted); text-align: center; }
 .chip-btn {
+  display: inline-flex; align-items: center; gap: 6px;
   border: 1px solid var(--border-strong); background: var(--surface); color: var(--text-secondary);
   font-size: 12.5px; padding: 6px 12px; border-radius: 999px; cursor: pointer;
 }
 .chip-btn:hover { border-color: var(--accent); color: var(--link); }
+/* A chip that is a switch rather than a command - the tick that stops the path
+   at what the reader has already learned. Raised the way a segmented button is,
+   so on and off are told apart without reading the label. */
+.chip-btn.on { border-color: var(--accent); background: var(--accent-soft); color: var(--link); }
 .path-hint { font-size: 11.5px; font-family: var(--mono); color: var(--text-muted); margin-bottom: 16px; }
+.path-hint .stopped { color: var(--link); }
 .path-lanes { display: grid; grid-template-columns: fit-content(100%); justify-content: center; padding-bottom: 12px; }
 /* Every level is as wide as the widest one - the grid column - and no wider
    than the page column, after which the pills wrap as before. */

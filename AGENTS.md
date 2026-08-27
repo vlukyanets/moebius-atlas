@@ -249,6 +249,23 @@ formality bolted on beside it.
   that offers the same switch. All three - `steps`, `tree`, `rings` - are drawn.
 - The steps reveal a level at a time; both graph layouts draw the whole path, so
   the reveal controls are hidden with them rather than left doing nothing.
+- How deep the path goes is decided once, in `PathView`, before any layout sees
+  it: the tick next to the layout switch stops the walk at the topics the reader
+  has already learned, so all three layouts obey it without knowing it exists.
+  It is a setting (`Settings.pathStopAtDone`), on by default, because a reader
+  who tracks progress is asking what is *left* to learn. The floor is handed to
+  `prereqLevels` as a predicate; the first learned topic on a branch is placed
+  like any other card and then not descended into, because a path that simply
+  ended would not say where it stopped. Only a `done` topic is a floor - a
+  `broken` one is marked with its ground missing, and that missing ground is
+  exactly what has to stay visible. With tracking off there is nothing learned
+  to stop at, so the tick is absent rather than dead and the setting does
+  nothing until it comes back.
+- A stopped topic is not a wall: its own prerequisites still appear when
+  something else in the path needs them and was not itself stopped, and the edge
+  into it is drawn as usual. That is also why the view only says a path was cut
+  short when a stopped topic really has a prerequisite that is nowhere in the
+  drawing - otherwise it would announce a shortening the reader is not looking at.
 - `PathField` is the scrollable field both graph layouts are drawn in. It knows
   nothing about the drawing beyond the size of the canvas, its full extent and
   the one point the view opens on and returns to; everything else - panning,
@@ -278,7 +295,13 @@ formality bolted on beside it.
   by storing the scroll position it wants and applying it in a layout effect,
   once the browser has laid the new size out. The wheel listener is added by
   hand because React's `onWheel` is passive and could not take the event away
-  from the browser's own page zoom.
+  from the browser's own page zoom - and being added by hand it closes over what
+  it was bound with, so it is rebound on the floor as well as on the zoom. The
+  drawing can grow while the zoom sits still: a topic unticked in the path lets
+  the levels under it back in, and a reader parked on the old floor was then
+  refused by a listener still clamping to it, with nothing left to change the
+  zoom and rebind it. Anything else the wheel reads that can move belongs in
+  those dependencies too; the ceiling is a constant and does not.
 - How far out the field may be pulled is not a constant: it is the zoom at which
   the whole drawing is in the box, so the floor belongs to the drawing. A path
   of two cards stops at its own size and one of six hundred is allowed the ten
@@ -396,8 +419,9 @@ regression, not as noise:
   scope added here but not there is dropped by Google at consent time and comes
   back as a 403 from Drive, not as an error at sign-in.
 - `localStorage` keys: `moebius-atlas-settings` (preferences - the settings
-  menu owns most of them, the path layout switch owns `pathLayout` and the
-  field's arrow tool owns `pathArrows`),
+  menu owns most of them, the path layout switch owns `pathLayout`, the
+  field's arrow tool owns `pathArrows` and the path view's tick owns
+  `pathStopAtDone`),
   `moebius-atlas-index-filters` (index filter chips, view state)
   `moebius-atlas-progress` (the progress switch plus the profiles and their
   ticked topics) and `moebius-atlas-google` (which account is signed in - never

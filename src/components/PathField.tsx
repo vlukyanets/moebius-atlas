@@ -287,7 +287,12 @@ export function PathField({ canvas, extent, focus, focusKey, children }: Props):
     };
     el.addEventListener('wheel', wheel, { passive: false });
     return () => el.removeEventListener('wheel', wheel);
-  }, [zoom]);
+    // The floor is a dependency as much as the zoom is: the listener closes over
+    // both, and the drawing can grow under an untouched zoom - a topic unticked
+    // in the path lets the levels under it back in. A reader sitting at the old
+    // floor would then be refused by a listener still clamping to it, with
+    // nothing to change the zoom and rebind this, until they zoomed in first.
+  }, [zoom, zoomMin]);
 
   /**
    * Dragging the field pans it. The listeners live on the window so a pointer

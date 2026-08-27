@@ -77,6 +77,19 @@ export const UI = {
     en: 'THE TARGET SITS IN THE MIDDLE · EACH RING OUT IS ONE LEVEL DEEPER INTO THE PREREQUISITES · HOVER A CARD OR AN ARROW TO LIGHT IT UP · DRAG THE FIELD TO MOVE AROUND',
     uk: 'МЕТА В ЦЕНТРІ · КОЖНЕ НАСТУПНЕ КІЛЬЦЕ — НА РІВЕНЬ ГЛИБШЕ В ПЕРЕДУМОВИ · НАВЕДІТЬ НА КАРТКУ АБО СТРІЛКУ, ЩОБ ПІДСВІТИТИ ЇЇ · ТЯГНІТЬ ПОЛЕ, ЩОБ ПЕРЕМІЩАТИСЯ',
   },
+  pathStopAtDone: { en: 'Stop at what I know', uk: 'Спинятися на вивченому' },
+  pathStopAtDoneOn: {
+    en: 'The path stops at the topics you have learned - click to show every prerequisite',
+    uk: 'Шлях спиняється на вивчених темах — натисніть, щоб показати всі передумови',
+  },
+  pathStopAtDoneOff: {
+    en: 'The path runs down to the basics - click to stop it at the topics you have learned',
+    uk: 'Шлях доходить до основ — натисніть, щоб спинити його на вивчених темах',
+  },
+  pathStoppedHint: {
+    en: 'STOPPING AT WHAT YOU HAVE ALREADY LEARNED · THE FIRST LEARNED TOPIC ON A BRANCH IS SHOWN, NOTHING UNDER IT',
+    uk: 'ШЛЯХ СПИНЯЄТЬСЯ НА ВЖЕ ВИВЧЕНОМУ · ПЕРША ВИВЧЕНА ТЕМА В ГІЛЦІ ПОКАЗАНА, ГЛИБШЕ — НІ',
+  },
   pathRecenter: { en: 'Back to the target', uk: 'Повернутися до мети' },
   pathZoomIn: { en: 'Zoom in', uk: 'Збільшити' },
   pathZoomOut: { en: 'Zoom out', uk: 'Зменшити' },
@@ -92,6 +105,7 @@ export const UI = {
   reveal: { en: 'Reveal', uk: 'Показати' },
   revealNext: { en: 'next level', uk: 'наступний рівень' },
   allBasics: { en: 'ALL BASICS REACHED', uk: 'ДОСЯГНУТО ВСІХ ОСНОВ' },
+  allStopped: { en: 'PATH ENDS AT WHAT YOU ALREADY KNOW', uk: 'ШЛЯХ ЗАКІНЧУЄТЬСЯ НА ВЖЕ ВИВЧЕНОМУ' },
   basicBadge: { en: 'BASIC', uk: 'БАЗА' },
   back: { en: '← Back', uk: '← Назад' },
   openPath: { en: 'Learning path', uk: 'Навчальний шлях' },

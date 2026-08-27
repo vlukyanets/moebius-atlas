@@ -45,6 +45,14 @@ level, so some prerequisites end up further apart than one step and are left
 undrawn - the topic's own page is what lists all of them. Hovering a card
 lights up its lines.
 
+With progress tracking on, the path view also carries a **Stop at what I know**
+tick, next to the layout switch and on by default. It cuts the path off at the
+topics already learned: the first learned topic on a branch is still shown - a
+path has to say where it ended - and nothing under it is drawn. What is left is
+the part still ahead rather than the whole chain down to counting. The tick
+applies to all three layouts at once and is remembered with the settings; with
+tracking off it is not shown, and the path runs to the basics as before.
+
 ## Progress
 
 The chart icon in the top bar switches learning progress on and off. While it
