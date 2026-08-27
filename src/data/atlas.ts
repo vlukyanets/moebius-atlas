@@ -83,12 +83,25 @@ export function pathTargets(lang: Lang): string[] {
  * the prerequisites of level k. A topic needed on several levels sinks to
  * its deepest one, so every card depends only on cards above it. The
  * ancestor set guards against cycles.
+ *
+ * `stop` cuts the walk short: a topic it accepts is placed like any other and
+ * then not descended into, so the path ends on it rather than continuing down
+ * to the basics underneath. That is how a reader who tracks progress asks what
+ * is *left* to learn - the first topic they already know is the floor, and it
+ * is drawn, because a path has to say where it stopped. The target is never
+ * offered to it: a path that ends on its own target would be an empty answer.
+ *
+ * The prerequisites of a stopped topic can still turn up, when something else
+ * in the path needs them too and is not itself stopped. Then the edge into the
+ * stopped card is drawn as usual - the card is not a wall, it is simply not a
+ * reason to go further.
  */
-export function prereqLevels(target: string): string[][] {
+export function prereqLevels(target: string, stop?: (id: string) => boolean): string[][] {
   const depthOf: Record<string, number> = {};
   const assign = (id: string, d: number, anc: Set<string>) => {
     if (anc.has(id) || !N[id]) return;
     if (depthOf[id] === undefined || d > depthOf[id]) depthOf[id] = d;
+    if (d > 0 && stop?.(id)) return;
     const next = new Set(anc);
     next.add(id);
     for (const p of N[id].requires ?? []) assign(p, d + 1, next);

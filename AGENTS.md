@@ -17,7 +17,8 @@ change it without breaking it. Read both before a first edit.
 | `src/App.tsx` | Top-level composition: settings / progress / language providers, route switch, search overlay, footer |
 | `src/router.ts` | Hash router (`#/index`, `#/path/<id>`, `#/topic/<id>`), `useRoute`, route builders |
 | `src/settings.ts` | `Settings` type (theme, animation, text size, path layout), `localStorage` load/save, `applySettings` (writes `data-theme`/`data-anim`/`data-text`) |
-| `src/progress.ts` | Learning progress: the profiles (v4 UUID + name + ticked topics), their `localStorage` key and cross-tab sync, and the `none`/`done`/`broken` rules |
+| `src/progress.ts` | Learning progress: the profiles (v4 UUID + name + ticked topics), their `localStorage` key, cross-tab sync and Google sync, the reset, and the `none`/`done`/`broken` rules |
+| `src/cloud.ts` | The Google account (GIS token flow) and the one document the progress record is mirrored to (Drive `appDataFolder`). Knows nothing about what the document says |
 | `src/i18n.ts` | `Lang`, `L10n`, `tr()`, browser language detection, and `UI` - every UI chrome string |
 | `src/styles.css` | All styling. Design tokens in `:root`, dark palette in `:root[data-theme='dark']` |
 | `src/data/types.ts` | Object model: `TopicSeed`, `TagId`, `TrackId`, `SubjectId`, `Resource` |
@@ -31,14 +32,15 @@ change it without breaking it. Read both before a first edit.
 | `src/components/` | Presentation only - see below |
 | `src/icons/*.svg` | Every drawing in the UI. No SVG markup is written inside components |
 | `public/logo.svg` | Favicon; must stay visually in sync with `src/icons/logo.svg` |
+| `public/privacy.html` | Privacy policy, EN + UK. A standalone page outside the app - see below |
 | `tools/check_graph.py` | Content invariants: ids resolve, relation is acyclic, transitively reduced, grade-ordered |
 | `vite.config.ts` | Build config + the `atlas-content` plugin that splits content into metadata and per-language bodies |
 | `.github/workflows/deploy.yml` | Builds and publishes `dist/` to GitHub Pages on push to `master` |
 
 Components: `TopBar` (brand, tabs, search field, progress and settings menus),
 `Menu` (the shared popover menu, labelled row and segmented switch), `SettingsMenu`,
-`ProgressMenu` (the tracking switch plus the profile rows), `ProgressBox` (the per-topic
-checkbox and the question a locked one asks),
+`ProgressMenu` (the tracking switch, the reset under it, the Google account row and the
+profile rows), `ProgressBox` (the per-topic checkbox and the question a locked one asks),
 `IndexList` (alphabetical index + filter chip rows), `PathView` (layered prerequisite tree
 plus the layout switch), `PathField` (the scrollable field the two graph layouts share -
 panning, zoom, the tools, and the hover-and-trail helpers), `PathTree` (the tree layout:
@@ -72,6 +74,11 @@ npm run preview   # serve the production build
 There is no test suite and no linter. **`npm run build` is the only gate** - run
 it after any change under `src/`. Content errors surface there too: the loader
 throws with the offending file name.
+
+Optional configuration lives in `.env` (gitignored; `.env.example` is the
+template). The only entry is `VITE_GOOGLE_CLIENT_ID`, the OAuth client id of the
+Google sign-in - without it everything works except that the account row is not
+drawn at all.
 
 ## Content rules
 
@@ -170,6 +177,75 @@ points it at another checkout. Its own docstring states what it reads and writes
   yes, `markDeep` ticks the topic with its whole chain in one write. The
   question is view state inside `ProgressBox` - it dies on no, on Escape, on a
   click or scroll elsewhere and on a timeout, and it never touches storage.
+  It is drawn through a portal into `<body>`, because the same checkbox also
+  sits on the cards of a path, inside the `zoom` the field is drawn at: a
+  `position: fixed` box inside a zoomed subtree is scaled and displaced with it
+  rather than pinned to the viewport. Anything else that has to be fixed to the
+  screen from inside the field needs the same treatment.
+- The reset under the tracking switch empties *every* profile, keeping the
+  profiles and their names: it is the progress that is reset, not the readers.
+  It sits next to the switch because neither is a per-profile control, it asks
+  the same two-click question the profile bin asks, and it is absent - not
+  disabled - when there is nothing ticked anywhere (`anyMarks`). A record that
+  was already empty is returned unchanged, so no write and no push follow.
+
+### Google sync
+
+- Signing in is optional and the site works untouched without it. A build with
+  no `VITE_GOOGLE_CLIENT_ID` ships with the whole account row absent rather than
+  with a button nothing could honour, so the env var is the feature's on switch.
+  `.env.example` documents how the client id is made; the deploy workflow passes
+  it in as a repository *variable*, since a client id is public by design.
+- There is no server anywhere in this, and there must not be: the OAuth token
+  flow of Google Identity Services runs in the tab, and the store is the
+  reader's own Drive `appDataFolder` - a folder only this app can see and that
+  adds no visible file to their Drive. The scope is `drive.appdata` plus
+  `openid email profile`, and nothing else may be asked for.
+- The access token lives in a module variable and dies with the tab. Only *that*
+  the reader signed in, and under which address, is kept in `localStorage`
+  (`moebius-atlas-google`) - enough to show the account at once and to ask for a
+  new token silently. A silent request Google refuses signs the tab out and
+  leaves the local record alone; nothing is ever lost by failing to reach the
+  network.
+- **Google is the higher authority.** On every connection its copy is pulled and
+  installed over what this browser held, so a second device shows the marks made
+  on the first rather than a merge nobody could untangle. The one exception is
+  an account that has never saved anything: that one is seeded from the browser.
+  Nothing may be pushed before the pull has happened (`synced`), or the browser
+  would overwrite the account it came to obey.
+- `cloud.ts` moves text and knows nothing about it; which copy wins is decided
+  in `progress.ts`, which is also where localStorage stays a mirror - the copy
+  that keeps the marks readable offline and after signing out.
+- Writes are debounced (`PUSH_MS`): a tick is rarely alone - a `markDeep` is a
+  whole chain - and every write is a Drive round trip.
+
+### The privacy policy
+
+`public/privacy.html` is what the OAuth consent screen links to, and Google
+requires that link before the app may leave Testing and let anyone but a listed
+test user sign in. That makes it part of the sign-in feature rather than a
+formality bolted on beside it.
+
+- It is a **file, not a route**. The app has only hash routes, and a consent
+  screen - or a crawler following it - has to arrive at a real URL with the
+  policy already in it. `public/` is copied verbatim, so the page costs the
+  bundle nothing and cannot break the app.
+- Because it is served on its own, `styles.css` cannot reach it: the handful of
+  tokens it needs are copied into a `<style>` block, and a five-line script
+  reads `theme` out of `moebius-atlas-settings` so the reader's choice carries
+  over. A `prefers-color-scheme` block backs that up, so the page is still
+  right if the script never runs. Both copies are listed under *Things that
+  must stay in sync* - a token that changes value in `styles.css` has a third
+  home now.
+- Both languages live in the one file, English first, `<section lang="uk">`
+  second. It is not part of the `UI` string table and does not follow the app's
+  language setting: a policy is a document, and one URL has to answer for both.
+- **What it says has to stay true of what the code does.** It names the four
+  `localStorage` keys, the `drive.appdata` scope and what that scope does not
+  grant, `progress.json` as the only thing uploaded, the token living in memory
+  only, and every outbound host the site talks to. Any change to `cloud.ts`,
+  to the storage keys, or to the list of third parties is a change to this page
+  as well - and the date at the top moves with it.
 
 ### Path layouts
 
@@ -178,10 +254,28 @@ points it at another checkout. Its own docstring states what it reads and writes
   that offers the same switch. All three - `steps`, `tree`, `rings` - are drawn.
 - The steps reveal a level at a time; both graph layouts draw the whole path, so
   the reveal controls are hidden with them rather than left doing nothing.
+- How deep the path goes is decided once, in `PathView`, before any layout sees
+  it: the tick next to the layout switch stops the walk at the topics the reader
+  has already learned, so all three layouts obey it without knowing it exists.
+  It is a setting (`Settings.pathStopAtDone`), on by default, because a reader
+  who tracks progress is asking what is *left* to learn. The floor is handed to
+  `prereqLevels` as a predicate; the first learned topic on a branch is placed
+  like any other card and then not descended into, because a path that simply
+  ended would not say where it stopped. Only a `done` topic is a floor - a
+  `broken` one is marked with its ground missing, and that missing ground is
+  exactly what has to stay visible. With tracking off there is nothing learned
+  to stop at, so the tick is absent rather than dead and the setting does
+  nothing until it comes back.
+- A stopped topic is not a wall: its own prerequisites still appear when
+  something else in the path needs them and was not itself stopped, and the edge
+  into it is drawn as usual. That is also why the view only says a path was cut
+  short when a stopped topic really has a prerequisite that is nowhere in the
+  drawing - otherwise it would announce a shortening the reader is not looking at.
 - `PathField` is the scrollable field both graph layouts are drawn in. It knows
-  nothing about the drawing beyond the size of the canvas and the one point the
-  view opens on and returns to; everything else - panning, zoom, the tools, the
-  two-toned hover - is the same for both, and a third layout gets it for free.
+  nothing about the drawing beyond the size of the canvas, its full extent and
+  the one point the view opens on and returns to; everything else - panning,
+  zoom, the tools, the two-toned hover - is the same for both, and a third
+  layout gets it for free.
 - Whether the arrows are drawn at all is the tool next to the zoom, and like the
   layout it is a setting (`Settings.pathArrows`) rather than view state. It only
   takes the lines away: the cards keep the places the layout gave them, the rings
@@ -206,7 +300,29 @@ points it at another checkout. Its own docstring states what it reads and writes
   by storing the scroll position it wants and applying it in a layout effect,
   once the browser has laid the new size out. The wheel listener is added by
   hand because React's `onWheel` is passive and could not take the event away
-  from the browser's own page zoom.
+  from the browser's own page zoom - and being added by hand it closes over what
+  it was bound with, so it is rebound on the floor as well as on the zoom. The
+  drawing can grow while the zoom sits still: a topic unticked in the path lets
+  the levels under it back in, and a reader parked on the old floor was then
+  refused by a listener still clamping to it, with nothing left to change the
+  zoom and rebind it. Anything else the wheel reads that can move belongs in
+  those dependencies too; the ceiling is a constant and does not.
+- How far out the field may be pulled is not a constant: it is the zoom at which
+  the whole drawing is in the box, so the floor belongs to the drawing. A path
+  of two cards stops at its own size and one of six hundred is allowed the ten
+  thousand pixels it needs - a fixed floor could only be wrong for one of them,
+  and the rings of a deep path never fitted under the 0.1 it used to be. Past
+  that point zooming out adds margin around something already all there, which
+  is why the floor is exactly there and not below it. Each layout hands its
+  totals in as `extent`, the same numbers `canvas` is built from - a layout that
+  grows has to grow that with it, and the tree's height is not in `canvas` at
+  all. The box is the one half that is measured, and it is measured outright at
+  mount rather than left to the `ResizeObserver`'s first call: that one arrives
+  with the rendering steps, which a page nobody is looking at does not run.
+- The floor is never allowed above the zoom the reader is already at. Leaving
+  fullscreen shrinks the box and so lifts the floor over a zoom that was legal
+  when it was chosen; correcting that by zooming them back in would be the field
+  moving on its own, so the zoom stays and only the zoom-out button goes dead.
 - The rings put the target in the middle and each level one ring further out,
   so depth reads as distance from the centre. The rings are evenly spaced -
   that is what lets the distance be read at all - and the spacing is the
@@ -295,13 +411,32 @@ regression, not as noise:
   plugin, which cuts the file in two, and by `parseFile`, which reads the block
   it cut off. Both accept `---` on its own line, CRLF or LF.
 - `src/icons/logo.svg` and `public/logo.svg` are the same drawing.
+- `public/privacy.html` carries its own copy of the design tokens it uses and
+  its own two-line reading of the `theme` setting, because it is served outside
+  the app and `styles.css` and `settings.ts` cannot reach it. A token whose
+  *value* changes has to change there too, or the policy page drifts away from
+  the site it belongs to.
+- `public/privacy.html` describes the storage keys, the OAuth scope and the
+  outbound hosts by name. It is documentation of the code's behaviour and goes
+  stale like any other - see *The privacy policy* above.
+- `SCOPES` in `src/cloud.ts` and the scopes ticked on the OAuth consent screen
+  are one list in two places, and only one of them is in this repository. A
+  scope added here but not there is dropped by Google at consent time and comes
+  back as a 403 from Drive, not as an error at sign-in.
 - `localStorage` keys: `moebius-atlas-settings` (preferences - the settings
-  menu owns most of them, the path layout switch owns `pathLayout` and the
-  field's arrow tool owns `pathArrows`),
+  menu owns most of them, the path layout switch owns `pathLayout`, the
+  field's arrow tool owns `pathArrows` and the path view's tick owns
+  `pathStopAtDone`),
   `moebius-atlas-index-filters` (index filter chips, view state)
-  and `moebius-atlas-progress` (the progress switch plus the profiles and their
-  ticked topics). They are separate on purpose - do not merge them. Unknown ids
+  `moebius-atlas-progress` (the progress switch plus the profiles and their
+  ticked topics) and `moebius-atlas-google` (which account is signed in - never
+  a token). They are separate on purpose - do not merge them. Unknown ids
   read back from storage are discarded rather than trusted.
+- `moebius-atlas-progress` and the Drive document `progress.json` hold the same
+  shape, written by the same `serialize()` and read by the same `normalize()`.
+  A field added to one is added to both by construction - keep it that way, and
+  keep `normalize()` able to accept a record an older version wrote, because a
+  Google account outlives any one browser.
 - The progress record is shared by every open tab: each one writes it and
   adopts what the others write through the `storage` event. Anything added to
   that record has to survive the round trip through `normalize()`, which is also
@@ -326,8 +461,12 @@ regression, not as noise:
 
 ## Do not
 
-- Commit `dist/` or `node_modules/` (both gitignored, as is `.claude/`).
-- Touch `.github/workflows/deploy.yml` for content or UI work.
+- Commit `dist/` or `node_modules/` (both gitignored, as are `.claude/` and `.env`).
+- Touch `.github/workflows/deploy.yml` for content or UI work. It carries one
+  build-time value (`VITE_GOOGLE_CLIENT_ID`, from a repository *variable*), and
+  that is the only reason it has ever needed editing outside deployment work.
+- Put a client *secret* anywhere in this repo or in the build. There is no
+  server to keep one in, so any flow that needs one is the wrong flow.
 - Introduce a non-hash route - GitHub Pages has no server rewrites.
 - Reformat or reflow files you are not otherwise changing.
 - Push to `master` unless asked: a push publishes the live site.

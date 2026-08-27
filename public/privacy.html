@@ -1,0 +1,325 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Privacy Policy - Moebius Atlas</title>
+    <meta name="description" content="What Moebius Atlas stores, where it stores it, and who else sees it." />
+    <link rel="icon" type="image/svg+xml" href="./logo.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400&display=swap" rel="stylesheet" />
+    <script>
+      // Honours the theme the reader chose in the app. Only that one field is
+      // read here; the full pre-paint script lives in index.html. Without this
+      // the media query below still resolves the theme from the system.
+      (function () {
+        try {
+          var t = JSON.parse(localStorage.getItem('moebius-atlas-settings') || '{}').theme || 'auto';
+          if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t;
+        } catch (e) {}
+      })();
+    </script>
+    <style>
+      /* The tokens this page uses, copied because styles.css is bundled into
+         the app and this page is served on its own. */
+      :root {
+        --page-bg: #fafbfc;
+        --surface: #fff;
+        --text: #1a2333;
+        --text-body: #374151;
+        --text-muted: #8a94a6;
+        --border: #e3e8f0;
+        --chip-bg: #f0f3f8;
+        --link: #2563c7;
+        --link-hover: #1a4a9e;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root:not([data-theme='light']) {
+          --page-bg: #0f1420;
+          --surface: #161d2b;
+          --text: #e8edf6;
+          --text-body: #bcc6d8;
+          --text-muted: #8792a4;
+          --border: #273143;
+          --chip-bg: #1f2839;
+          --link: #82aaf0;
+          --link-hover: #a8c6f7;
+        }
+      }
+      :root[data-theme='dark'] {
+        --page-bg: #0f1420;
+        --surface: #161d2b;
+        --text: #e8edf6;
+        --text-body: #bcc6d8;
+        --text-muted: #8792a4;
+        --border: #273143;
+        --chip-bg: #1f2839;
+        --link: #82aaf0;
+        --link-hover: #a8c6f7;
+      }
+
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        padding: 48px 20px 80px;
+        background: var(--page-bg);
+        color: var(--text-body);
+        font-family: 'IBM Plex Sans', sans-serif;
+        font-size: 15px;
+        line-height: 1.65;
+      }
+      main { max-width: 720px; margin: 0 auto; }
+      a { color: var(--link); text-decoration: none; }
+      a:hover { color: var(--link-hover); text-decoration: underline; }
+      h1 { color: var(--text); font-size: 28px; line-height: 1.25; margin: 0 0 6px; }
+      h2 {
+        color: var(--text);
+        font-size: 18px;
+        margin: 36px 0 10px;
+        padding-top: 20px;
+        border-top: 1px solid var(--border);
+      }
+      h3 { color: var(--text); font-size: 15px; margin: 22px 0 6px; }
+      p, ul { margin: 0 0 14px; }
+      ul { padding-left: 22px; }
+      li { margin-bottom: 6px; }
+      code {
+        font-family: 'IBM Plex Mono', monospace;
+        font-size: .9em;
+        background: var(--chip-bg);
+        border-radius: 4px;
+        padding: 1px 5px;
+      }
+      .meta { color: var(--text-muted); font-size: 13px; margin-bottom: 28px; }
+      .lede {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 18px 20px;
+      }
+      .lede p:last-child { margin-bottom: 0; }
+      /* The second language starts a document of its own, not a section of the first. */
+      section[lang='uk'] { margin-top: 72px; padding-top: 40px; border-top: 3px double var(--border); }
+      footer {
+        margin-top: 48px;
+        padding-top: 20px;
+        border-top: 1px solid var(--border);
+        color: var(--text-muted);
+        font-size: 13px;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Privacy Policy</h1>
+      <p class="meta">Moebius Atlas &middot; last updated 27 August 2026</p>
+
+      <div class="lede">
+        <p>
+          Moebius Atlas is a static website with no backend of its own. There is no server that
+          could receive your data, no database, no analytics, no advertising and no tracking
+          cookies. Everything the site remembers about you is stored in your own browser and -
+          only if you choose to sign in - in your own Google Drive.
+        </p>
+      </div>
+
+      <h2>What is stored in your browser</h2>
+      <p>
+        The site uses <code>localStorage</code> on your device. None of it is transmitted anywhere
+        by the site itself:
+      </p>
+      <ul>
+        <li><code>moebius-atlas-settings</code> - display preferences: theme, animation, text size, path layout.</li>
+        <li><code>moebius-atlas-index-filters</code> - which filter chips are active on the index.</li>
+        <li><code>moebius-atlas-progress</code> - your learning profiles, their names and the topics you ticked off.</li>
+        <li><code>moebius-atlas-google</code> - present only after you sign in: the email address, display name and avatar URL of the signed-in account. Never an access token.</li>
+      </ul>
+      <p>Clearing your browser's site data for this domain erases all of it permanently.</p>
+
+      <h2>Signing in with Google</h2>
+      <p>
+        Signing in is entirely optional. Its only purpose is to carry your learning progress
+        between your own devices. Everything else on the site works without it.
+      </p>
+
+      <h3>What is requested</h3>
+      <ul>
+        <li><code>openid</code>, <code>email</code>, <code>profile</code> - to show which account is connected.</li>
+        <li>
+          <code>drive.appdata</code> - access to a hidden, application-specific folder in your
+          Google Drive. This scope grants no access to your existing Drive files: the site cannot
+          read, list or modify anything you have stored there, and the folder it uses does not
+          appear among your files.
+        </li>
+      </ul>
+
+      <h3>What is written there</h3>
+      <p>
+        A single file, <code>progress.json</code>, holding the same learning profiles and ticked
+        topics your browser already has. Nothing else is uploaded.
+      </p>
+
+      <h3>Access tokens</h3>
+      <p>
+        The access token issued by Google is held in memory for the lifetime of the browser tab
+        and expires within about an hour. It is never written to storage, and it leaves your
+        browser only in requests to Google's own APIs.
+      </p>
+
+      <h3>Withdrawing access</h3>
+      <p>
+        Signing out inside the site drops the token and forgets the account locally. It
+        deliberately does not revoke your consent, so signing back in is one click. To revoke the
+        grant entirely, and to delete the stored file with it, visit
+        <a href="https://myaccount.google.com/permissions" rel="noopener">your Google account's
+        third-party access page</a>.
+      </p>
+
+      <h2>Third parties</h2>
+      <p>
+        The site contacts no service other than these. Each necessarily receives your IP address
+        and browser user agent, as any web request does:
+      </p>
+      <ul>
+        <li><strong>GitHub Pages</strong> - hosts the site and serves every page of it.</li>
+        <li><strong>Google Fonts</strong> - serves the two typefaces the site is set in.</li>
+        <li>
+          <strong>Google Identity Services and the Google Drive API</strong> - contacted only
+          after you choose to sign in, and only to obtain a token and to read and write the one
+          file described above.
+        </li>
+        <li>
+          <strong>Wikipedia and other reference sites</strong> - linked from topic pages, and
+          reached only when you click a link. Their own policies apply from there.
+        </li>
+      </ul>
+
+      <h2>Children</h2>
+      <p>
+        The site is an educational reference and collects nothing. No account is needed to read
+        it, and the optional sign-in is subject to Google's own age requirements.
+      </p>
+
+      <h2>Changes</h2>
+      <p>
+        Any change to this policy is published on this page under a new date above. The site's
+        source is public, so what it does can be verified rather than taken on trust.
+      </p>
+
+      <h2>Contact</h2>
+      <p>
+        Questions about this policy: open an issue in the
+        <a href="https://github.com/vlukyanets/moebius-atlas/issues" rel="noopener">project
+        repository</a>.
+      </p>
+
+      <section lang="uk">
+        <h1>Політика конфіденційності</h1>
+        <p class="meta">Moebius Atlas &middot; востаннє оновлено 27 серпня 2026</p>
+
+        <div class="lede">
+          <p>
+            Moebius Atlas - статичний сайт без власної серверної частини. Немає сервера, який міг
+            би отримати ваші дані, немає бази даних, аналітики, реклами та відстежувальних файлів
+            cookie. Усе, що сайт про вас памʼятає, зберігається у вашому браузері та - лише якщо ви
+            самі того захочете - у вашому власному Google Диску.
+          </p>
+        </div>
+
+        <h2>Що зберігається у браузері</h2>
+        <p>
+          Сайт використовує <code>localStorage</code> на вашому пристрої. Нічого з переліченого
+          сайт нікуди не передає:
+        </p>
+        <ul>
+          <li><code>moebius-atlas-settings</code> - налаштування вигляду: тема, анімація, розмір тексту, розкладка шляху.</li>
+          <li><code>moebius-atlas-index-filters</code> - активні фільтри покажчика.</li>
+          <li><code>moebius-atlas-progress</code> - ваші профілі навчання, їхні назви та позначені теми.</li>
+          <li><code>moebius-atlas-google</code> - зʼявляється лише після входу: адреса, імʼя та URL аватара облікового запису. Ніколи не токен доступу.</li>
+        </ul>
+        <p>Очищення даних сайту в браузері остаточно стирає все перелічене.</p>
+
+        <h2>Вхід через Google</h2>
+        <p>
+          Вхід цілком необовʼязковий. Його єдине призначення - переносити ваш поступ між вашими
+          власними пристроями. Усе інше на сайті працює й без нього.
+        </p>
+
+        <h3>Які дозволи запитуються</h3>
+        <ul>
+          <li><code>openid</code>, <code>email</code>, <code>profile</code> - щоб показати, який обліковий запис підключено.</li>
+          <li>
+            <code>drive.appdata</code> - доступ до прихованої службової теки застосунку у вашому
+            Google Диску. Цей дозвіл не дає доступу до ваших наявних файлів: сайт не може їх
+            читати, переглядати їхній перелік чи змінювати їх, а сама тека серед ваших файлів не
+            зʼявляється.
+          </li>
+        </ul>
+
+        <h3>Що туди записується</h3>
+        <p>
+          Один файл, <code>progress.json</code>, із тими самими профілями та позначеними темами,
+          які вже є у вашому браузері. Більше нічого не завантажується.
+        </p>
+
+        <h3>Токени доступу</h3>
+        <p>
+          Виданий Google токен зберігається в памʼяті вкладки й втрачає чинність приблизно за
+          годину. Він ніколи не записується у сховище й залишає ваш браузер лише в запитах до
+          власних API Google.
+        </p>
+
+        <h3>Як відкликати доступ</h3>
+        <p>
+          Вихід на сайті скидає токен і забуває обліковий запис локально. Він навмисно не відкликає
+          вашу згоду, щоб повторний вхід був одним кліком. Щоб відкликати дозвіл повністю, а разом
+          із ним видалити збережений файл, відкрийте
+          <a href="https://myaccount.google.com/permissions" rel="noopener">сторінку стороннього
+          доступу вашого облікового запису Google</a>.
+        </p>
+
+        <h2>Треті сторони</h2>
+        <p>
+          Сайт не звертається до жодної служби, крім наведених. Кожна з них неминуче отримує вашу
+          IP-адресу та рядок браузера, як і за будь-якого вебзапиту:
+        </p>
+        <ul>
+          <li><strong>GitHub Pages</strong> - розміщує сайт і віддає кожну його сторінку.</li>
+          <li><strong>Google Fonts</strong> - віддає два шрифти, якими набрано сайт.</li>
+          <li>
+            <strong>Google Identity Services та Google Drive API</strong> - до них звертаються лише
+            після вашого входу й лише щоб отримати токен і прочитати чи записати описаний вище файл.
+          </li>
+          <li>
+            <strong>Вікіпедія та інші довідкові сайти</strong> - на них ведуть посилання зі сторінок
+            тем, і перехід відбувається тільки за вашим кліком. Далі діють їхні власні політики.
+          </li>
+        </ul>
+
+        <h2>Діти</h2>
+        <p>
+          Сайт є освітнім довідником і нічого не збирає. Для читання обліковий запис не потрібен, а
+          необовʼязковий вхід підпорядкований віковим вимогам самого Google.
+        </p>
+
+        <h2>Зміни</h2>
+        <p>
+          Будь-яка зміна цієї політики публікується на цій сторінці під новою датою вгорі. Код
+          сайту відкритий, тож його поведінку можна перевірити, а не брати на віру.
+        </p>
+
+        <h2>Контакти</h2>
+        <p>
+          Запитання щодо цієї політики: створіть issue у
+          <a href="https://github.com/vlukyanets/moebius-atlas/issues" rel="noopener">репозиторії
+          проєкту</a>.
+        </p>
+      </section>
+
+      <footer>
+        <a href="./">&larr; Moebius Atlas</a>
+      </footer>
+    </main>
+  </body>
+</html>

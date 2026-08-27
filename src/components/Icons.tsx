@@ -19,6 +19,7 @@ import flagGb from '../icons/flag-gb.svg?raw';
 import flagUa from '../icons/flag-ua.svg?raw';
 import fullscreen from '../icons/fullscreen.svg?raw';
 import fullscreenExit from '../icons/fullscreen-exit.svg?raw';
+import google from '../icons/google.svg?raw';
 import grade from '../icons/grade.svg?raw';
 import logo from '../icons/logo.svg?raw';
 import minus from '../icons/minus.svg?raw';
@@ -68,6 +69,9 @@ const SOURCES = {
   /** Simplified flags - flag emojis don't render on Windows. */
   'flag-gb': flagGb,
   'flag-ua': flagUa,
+  /** The Google mark, on the sign-in button and the account row. Its four
+   *  brand colors are fixed, like the flags' - it is a logo, not UI chrome. */
+  google,
   /** The brand mark; `public/logo.svg` is the same drawing as the favicon. */
   logo,
 } satisfies Record<string, string>;

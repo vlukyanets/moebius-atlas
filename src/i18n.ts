@@ -77,6 +77,19 @@ export const UI = {
     en: 'THE TARGET SITS IN THE MIDDLE · EACH RING OUT IS ONE LEVEL DEEPER INTO THE PREREQUISITES · HOVER A CARD OR AN ARROW TO LIGHT IT UP · DRAG THE FIELD TO MOVE AROUND',
     uk: 'МЕТА В ЦЕНТРІ · КОЖНЕ НАСТУПНЕ КІЛЬЦЕ — НА РІВЕНЬ ГЛИБШЕ В ПЕРЕДУМОВИ · НАВЕДІТЬ НА КАРТКУ АБО СТРІЛКУ, ЩОБ ПІДСВІТИТИ ЇЇ · ТЯГНІТЬ ПОЛЕ, ЩОБ ПЕРЕМІЩАТИСЯ',
   },
+  pathStopAtDone: { en: 'Stop at what I know', uk: 'Спинятися на вивченому' },
+  pathStopAtDoneOn: {
+    en: 'The path stops at the topics you have learned - click to show every prerequisite',
+    uk: 'Шлях спиняється на вивчених темах — натисніть, щоб показати всі передумови',
+  },
+  pathStopAtDoneOff: {
+    en: 'The path runs down to the basics - click to stop it at the topics you have learned',
+    uk: 'Шлях доходить до основ — натисніть, щоб спинити його на вивчених темах',
+  },
+  pathStoppedHint: {
+    en: 'STOPPING AT WHAT YOU HAVE ALREADY LEARNED · THE FIRST LEARNED TOPIC ON A BRANCH IS SHOWN, NOTHING UNDER IT',
+    uk: 'ШЛЯХ СПИНЯЄТЬСЯ НА ВЖЕ ВИВЧЕНОМУ · ПЕРША ВИВЧЕНА ТЕМА В ГІЛЦІ ПОКАЗАНА, ГЛИБШЕ — НІ',
+  },
   pathRecenter: { en: 'Back to the target', uk: 'Повернутися до мети' },
   pathZoomIn: { en: 'Zoom in', uk: 'Збільшити' },
   pathZoomOut: { en: 'Zoom out', uk: 'Зменшити' },
@@ -92,6 +105,7 @@ export const UI = {
   reveal: { en: 'Reveal', uk: 'Показати' },
   revealNext: { en: 'next level', uk: 'наступний рівень' },
   allBasics: { en: 'ALL BASICS REACHED', uk: 'ДОСЯГНУТО ВСІХ ОСНОВ' },
+  allStopped: { en: 'PATH ENDS AT WHAT YOU ALREADY KNOW', uk: 'ШЛЯХ ЗАКІНЧУЄТЬСЯ НА ВЖЕ ВИВЧЕНОМУ' },
   basicBadge: { en: 'BASIC', uk: 'БАЗА' },
   back: { en: '← Back', uk: '← Назад' },
   openPath: { en: 'Learning path', uk: 'Навчальний шлях' },
@@ -144,6 +158,11 @@ export const UI = {
   },
   optYes: { en: 'Yes', uk: 'Так' },
   optNo: { en: 'No', uk: 'Ні' },
+  progressReset: { en: 'Reset all progress', uk: 'Скинути весь прогрес' },
+  progressResetConfirm: {
+    en: 'Click again to clear every mark in every profile',
+    uk: 'Натисніть ще раз, щоб зняти всі позначки в усіх профілях',
+  },
   profiles: { en: 'Profiles', uk: 'Профілі' },
   profileNew: { en: 'New profile', uk: 'Новий профіль' },
   profileRename: { en: 'Rename profile', uk: 'Перейменувати профіль' },
@@ -151,4 +170,22 @@ export const UI = {
   profileActive: { en: 'Active profile', uk: 'Активний профіль' },
   profileDelete: { en: 'Delete profile', uk: 'Видалити профіль' },
   profileDeleteConfirm: { en: 'Click again to delete', uk: 'Натисніть ще раз, щоб видалити' },
+  cloudRow: { en: 'Google account', uk: 'Обліковий запис Google' },
+  cloudSignIn: { en: 'Sign in with Google', uk: 'Увійти через Google' },
+  cloudConnecting: { en: 'Connecting to Google…', uk: 'З’єднання з Google…' },
+  cloudSignOut: { en: 'Sign out', uk: 'Вийти' },
+  cloudSaving: { en: 'Saving to Google…', uk: 'Збереження в Google…' },
+  cloudSaved: {
+    en: 'Progress is kept in your Google account and follows you to any device.',
+    uk: 'Прогрес зберігається у вашому обліковому записі Google і доступний на будь-якому пристрої.',
+  },
+  cloudHint: {
+    en: 'Progress lives in this browser only. Signing in keeps it in your Google account instead - what is saved there replaces what is here.',
+    uk: 'Прогрес зберігається лише в цьому браузері. Після входу він зберігатиметься в обліковому записі Google — і те, що збережено там, замінить те, що тут.',
+  },
+  cloudFailed: {
+    en: 'Could not reach Google. Progress is safe in this browser.',
+    uk: 'Не вдалося зв’язатися з Google. Прогрес збережено в цьому браузері.',
+  },
+  cloudRetry: { en: 'Try again', uk: 'Спробувати ще раз' },
 } satisfies Record<string, L10n>;

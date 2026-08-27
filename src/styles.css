@@ -195,12 +195,48 @@ button { font-family: inherit; }
 .icon-btn.on { color: var(--ok); }
 /* Armed by the first click - the second one deletes. */
 .icon-btn.armed, .icon-btn.armed:hover { color: var(--bad); background: var(--bad-soft); }
-.profile-add {
+.profile-add, .google-retry {
   display: flex; align-items: center; gap: 5px; width: fit-content;
   margin-top: 4px; padding: 3px 6px; border: none; border-radius: 6px;
-  background: none; color: var(--link); font-size: 12.5px; cursor: pointer;
+  background: none; color: var(--link); font-family: inherit; font-size: 12.5px; cursor: pointer;
 }
-.profile-add:hover { background: var(--chip-bg); }
+.profile-add:hover, .google-retry:hover { background: var(--chip-bg); }
+
+/* Reset, under the tracking switch. Armed by the first click, like the profile
+   bin: the second one empties every profile. */
+.progress-reset {
+  display: flex; align-items: center; gap: 5px; width: fit-content;
+  margin-top: 8px; padding: 3px 6px; border: none; border-radius: 6px;
+  background: none; color: var(--text-muted); font-family: inherit; font-size: 12.5px;
+  text-align: left; cursor: pointer;
+}
+.progress-reset:hover { background: var(--chip-bg); color: var(--bad); }
+.progress-reset.armed, .progress-reset.armed:hover { color: var(--bad); background: var(--bad-soft); }
+
+/* Google account: the sign-in button and the row that replaces it once signed
+   in. What either one is currently doing is said at the foot of the panel. */
+.google-btn {
+  display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%;
+  padding: 7px 10px; border: 1px solid var(--border-strong); border-radius: 8px;
+  background: var(--surface); color: var(--text);
+  font-family: inherit; font-size: 13px; font-weight: 500; cursor: pointer;
+}
+.google-btn:hover { background: var(--chip-bg); }
+.google-btn:disabled { color: var(--text-muted); cursor: default; }
+.google-acct {
+  display: flex; align-items: center; gap: 7px;
+  padding: 3px 3px 3px 9px; border-radius: 8px; background: var(--chip-bg);
+}
+.google-acct .who {
+  flex: 1; min-width: 0; font-size: 13px; color: var(--text);
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+/* The line at the foot of the panel saying where the marks are being kept. It
+   is the only text here that changes by itself, so it is kept last, where
+   changing height moves nothing but the panel's own bottom edge. */
+.cloud-note { margin-top: -3px; padding-top: 11px; border-top: 1px solid var(--border); }
+.cloud-note .note { font-size: 11.5px; line-height: 1.45; color: var(--text-muted); }
+.cloud-note .note.bad { color: var(--bad); }
 
 /* Progress checkbox: empty, green tick, red cross. */
 .progress-box {
@@ -370,11 +406,17 @@ button { font-family: inherit; }
 .topic-picker .option.active { background: var(--accent-soft); color: var(--link); }
 .topic-picker .empty { padding: 10px; font-size: 13px; color: var(--text-muted); text-align: center; }
 .chip-btn {
+  display: inline-flex; align-items: center; gap: 6px;
   border: 1px solid var(--border-strong); background: var(--surface); color: var(--text-secondary);
   font-size: 12.5px; padding: 6px 12px; border-radius: 999px; cursor: pointer;
 }
 .chip-btn:hover { border-color: var(--accent); color: var(--link); }
+/* A chip that is a switch rather than a command - the tick that stops the path
+   at what the reader has already learned. Raised the way a segmented button is,
+   so on and off are told apart without reading the label. */
+.chip-btn.on { border-color: var(--accent); background: var(--accent-soft); color: var(--link); }
 .path-hint { font-size: 11.5px; font-family: var(--mono); color: var(--text-muted); margin-bottom: 16px; }
+.path-hint .stopped { color: var(--link); }
 .path-lanes { display: grid; grid-template-columns: fit-content(100%); justify-content: center; padding-bottom: 12px; }
 /* Every level is as wide as the widest one - the grid column - and no wider
    than the page column, after which the pills wrap as before. */

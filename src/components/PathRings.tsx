@@ -73,6 +73,7 @@ export function PathRings({ levels, onOpen }: Props): JSX.Element {
   return (
     <PathField
       canvas={{ width: size, height: size }}
+      extent={{ w: size, h: size }}
       focus={{ x: mid, y: mid }}
       focusKey={`${target.id}:${size}`}
     >

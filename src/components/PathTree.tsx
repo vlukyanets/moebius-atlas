@@ -33,6 +33,8 @@ const ROW_H = NODE_H + ROW_GAP;
 /** Left strip holding the level number; it sticks while the field scrolls. */
 const GUTTER = 64;
 const PAD_Y = 18;
+/** Room under the last level, so the deepest cards are not flush with the edge. */
+const PAD_BOTTOM = 20;
 
 interface Props {
   /** Every level of the path, target first. */
@@ -75,7 +77,8 @@ export function PathTree({ levels, onOpen }: Props): JSX.Element {
 
   return (
     <PathField
-      canvas={{ width: GUTTER + width, paddingTop: PAD_Y, paddingBottom: 20 }}
+      canvas={{ width: GUTTER + width, paddingTop: PAD_Y, paddingBottom: PAD_BOTTOM }}
+      extent={{ w: GUTTER + width, h: PAD_Y + height + PAD_BOTTOM }}
       focus={{ x: GUTTER + cx(target.x), y: 0 }}
       focusKey={`${target.id}:${width}`}
     >

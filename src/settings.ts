@@ -11,8 +11,8 @@ export type PathLayout = 'steps' | 'tree' | 'rings';
  * values mean "follow the browser/system"; explicit values override it.
  * The same storage key is read by the pre-paint script in index.html to
  * avoid a theme flash on load - keep the key and value shapes in sync.
- * `pathLayout` and `pathArrows` are not stamped on <html> and so are none of
- * that script's business - they are read once React is up.
+ * `pathLayout`, `pathArrows` and `pathStopAtDone` are not stamped on <html> and
+ * so are none of that script's business - they are read once React is up.
  */
 export interface Settings {
   lang: Lang | null;
@@ -24,6 +24,12 @@ export interface Settings {
    *  path is a lot of lines, and a reader who only wants the shape of the
    *  levels can put them away; like the layout itself it outlives the page. */
   pathArrows: boolean;
+  /** Whether a path stops at the topics the reader has already learned instead
+   *  of running all the way down to the basics. On by default, because what a
+   *  reader who tracks progress is asking is what is left to learn, not what
+   *  the subject rests on in the abstract. It does nothing while progress
+   *  tracking is off - there is nothing learned to stop at. */
+  pathStopAtDone: boolean;
 }
 
 export const DEFAULT_SETTINGS: Settings = {
@@ -33,6 +39,7 @@ export const DEFAULT_SETTINGS: Settings = {
   text: 'normal',
   pathLayout: 'steps',
   pathArrows: true,
+  pathStopAtDone: true,
 };
 
 const KEY = 'moebius-atlas-settings';
