@@ -601,6 +601,31 @@ button { font-family: inherit; }
   border-radius: 10px; padding: 20px; text-align: center; font-size: 18px; overflow-x: auto;
 }
 .detail-body .katex-display > .katex { font-size: 1.1em; }
+/* The spoiler a self-check section hides its answers behind: a blockquote
+   marked `[!spoiler]`, turned into a <details> by rehypeSpoilers in
+   components/Markdown.tsx. */
+.detail-body details.spoiler {
+  margin-top: 16px; background: var(--chip-bg);
+  border: 1px solid var(--border); border-radius: 10px; padding: 0 16px;
+}
+.detail-body details.spoiler[open] { padding-bottom: 16px; }
+.detail-body details.spoiler > summary {
+  display: flex; align-items: center; gap: 9px; padding: 12px 0; cursor: pointer;
+  font-size: 14px; font-weight: 600; color: var(--text-secondary);
+  list-style: none; user-select: none;
+}
+.detail-body details.spoiler > summary::-webkit-details-marker { display: none; }
+.detail-body details.spoiler > summary:hover { color: var(--link); }
+/* A caret of its own: the native marker cannot be recoloured or turned. */
+.detail-body details.spoiler > summary::before {
+  content: ''; flex: none; width: 0; height: 0;
+  border-left: 5px solid currentColor;
+  border-top: 4px solid transparent; border-bottom: 4px solid transparent;
+  transition: transform .15s ease;
+}
+.detail-body details.spoiler[open] > summary::before { transform: rotate(90deg); }
+/* The first line inside sits under the summary, not away from it. */
+.detail-body details.spoiler > :nth-child(2) { margin-top: 0; }
 .detail-footer {
   display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 24px;
   margin-top: 30px; border-top: 1px solid #eef1f6; padding-top: 24px;
