@@ -93,3 +93,24 @@ always be filled with zeros.
 Natural numbers are the numbers you count with - and however far you count,
 there's always one more. Zero isn't one of them: it's just the digit that
 marks an empty place.
+
+## Check Yourself
+
+1. Write "seven million three hundred thousand forty" using digits.
+2. Read $408\,015$ out loud. How many classes does it have?
+3. Break $52\,706$ into place-value terms.
+4. Which digit of $3049$ stands in the tens place? And in the thousands
+   place?
+5. Is zero a natural number? Say why in one sentence.
+6. Someone wrote "twenty million five thousand" as $20\,5000$. What went
+   wrong, and what is the right answer?
+
+> [!spoiler] Answers
+>
+> 1. $7\,300\,040$.
+> 2. "$408$ thousand, $15$" - two classes, thousands and ones.
+> 3. $50\,000 + 2000 + 700 + 6$.
+> 4. $4$ in the tens place, $3$ in the thousands place.
+> 5. No - counting starts at one, and zero means "none."
+> 6. The empty spots of the thousands class weren't filled with zeros; it
+>    should be $20\,005\,000$.
