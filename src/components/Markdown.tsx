@@ -10,8 +10,12 @@
 import ReactMarkdown from 'react-markdown';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
-import type { Element, Parent, Root } from 'hast';
+import type { Element, Parent, Root, Text } from 'hast';
+import { Suspense, lazy } from 'react';
 import 'katex/dist/katex.min.css';
+
+/** Loaded only when a body actually embeds an animation - see AnimSlot.tsx. */
+const AnimSlot = lazy(() => import('../animations/AnimSlot').then((m) => ({ default: m.AnimSlot })));
 
 /**
  * A blockquote opening with `[!spoiler] <label>` is a spoiler. Markdown has no
@@ -64,9 +68,47 @@ const rehypeSpoilers = () => (tree: Root): void => {
   walk(tree);
 };
 
+/**
+ * A standalone paragraph reading `[!anim] <id>` embeds the animation
+ * registered under that id (see `src/animations/index.ts`) in its place. Like
+ * the spoiler marker, this is plain text no Markdown syntax already means
+ * something else. Whether `id` actually resolves is AnimSlot's business, not
+ * this plugin's - resolving it here would mean importing the animation
+ * registry (and so Framer Motion) into this chunk, which is exactly the
+ * weight AnimSlot's own `lazy()` boundary exists to keep out.
+ */
+const ANIM_MARKER = /^\[!anim\]\s+(\S+)\s*$/;
+
+const rehypeAnimations = () => (tree: Root): void => {
+  const walk = (parent: Parent): void => {
+    parent.children.forEach((child, i) => {
+      if (child.type !== 'element') return;
+      walk(child);
+      if (child.tagName !== 'p' || child.children.length !== 1) return;
+      const text = child.children[0] as Text;
+      if (text.type !== 'text') return;
+      const id = ANIM_MARKER.exec(text.value.trim())?.[1];
+      if (!id) return;
+      parent.children[i] = { type: 'element', tagName: 'anim-slot', properties: { id }, children: [] };
+    });
+  };
+  walk(tree);
+};
+
 export function Markdown({ children }: { children: string }): JSX.Element {
   return (
-    <ReactMarkdown remarkPlugins={[remarkMath]} rehypePlugins={[rehypeKatex, rehypeSpoilers]}>
+    <ReactMarkdown
+      remarkPlugins={[remarkMath]}
+      rehypePlugins={[rehypeKatex, rehypeSpoilers, rehypeAnimations]}
+      components={{
+        // @ts-expect-error - custom element from rehypeAnimations, not a DOM tag
+        'anim-slot': ({ id }: { id: string }) => (
+          <Suspense fallback={null}>
+            <AnimSlot id={id} />
+          </Suspense>
+        ),
+      }}
+    >
       {children}
     </ReactMarkdown>
   );

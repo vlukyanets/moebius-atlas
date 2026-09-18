@@ -188,4 +188,10 @@ export const UI = {
     uk: 'Не вдалося зв’язатися з Google. Прогрес збережено в цьому браузері.',
   },
   cloudRetry: { en: 'Try again', uk: 'Спробувати ще раз' },
+  animAddOne: { en: 'Add a marble', uk: 'Додати кульку' },
+  animReset: { en: 'Reset', uk: 'Скинути' },
+  animPlaceOnes: { en: 'ones', uk: 'одиниці' },
+  animPlaceTens: { en: 'tens', uk: 'десятки' },
+  animCompare: { en: 'Compare', uk: 'Порівняти' },
+  animReplay: { en: 'Replay', uk: 'Ще раз' },
 } satisfies Record<string, L10n>;
