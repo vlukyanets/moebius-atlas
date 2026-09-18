@@ -23,6 +23,8 @@ both towers have exactly the same number of blocks do you need to climb down
 from the top, block by block, until you find the first one that doesn't
 match - and that block settles it.
 
+[!anim] digit-towers
+
 ## The Rule
 
 Comparing two numbers takes two steps. **First, count the digits: the number

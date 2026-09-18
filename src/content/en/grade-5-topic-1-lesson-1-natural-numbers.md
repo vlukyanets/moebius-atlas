@@ -30,6 +30,8 @@ ones-shelf, then the thousands-shelf, then the millions-shelf - which is
 exactly why huge numbers get split into groups of three when they're written
 down.
 
+[!anim] ten-marbles-bundle
+
 ## The Rule
 
 The natural numbers are the numbers you count with:
