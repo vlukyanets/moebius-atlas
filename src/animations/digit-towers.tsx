@@ -54,8 +54,8 @@ export function DigitTowers(): JSX.Element {
   const winnerIsA = decided ? A[decidedAt] > B[decidedAt] : null;
   const symbol = decided ? (winnerIsA ? '>' : '<') : finished ? '=' : null;
 
-  const tower = (digits: number[], other: number[], x: number, lifted: boolean): JSX.Element => (
-    <motion.g animate={{ y: lifted ? -8 : 0 }} transition={{ duration: 0.3, ease: 'easeOut' }}>
+  const tower = (digits: number[], other: number[], x: number): JSX.Element => (
+    <g>
       {digits.map((d, i) => (
         <g key={i} className={`anim-tower-block anim-tower-block--${blockState(digits, other, i)}`}>
           <rect x={x} y={TOP + i * (BLOCK_H + GAP)} width={BLOCK_W} height={BLOCK_H} rx={6} />
@@ -64,7 +64,7 @@ export function DigitTowers(): JSX.Element {
           </text>
         </g>
       ))}
-    </motion.g>
+    </g>
   );
 
   const restart = (): void => setStep(step === -1 ? 0 : -1);
@@ -72,8 +72,8 @@ export function DigitTowers(): JSX.Element {
   return (
     <div className="anim-block">
       <svg viewBox="0 0 280 210" className="anim-canvas" aria-hidden="true">
-        {tower(A, B, TOWER_A_X, winnerIsA === true)}
-        {tower(B, A, TOWER_B_X, winnerIsA === false)}
+        {tower(A, B, TOWER_A_X)}
+        {tower(B, A, TOWER_B_X)}
         <AnimatePresence>
           {symbol && (
             <motion.text

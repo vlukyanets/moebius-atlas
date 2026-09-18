@@ -647,12 +647,14 @@ button { font-family: inherit; }
 .anim-tower-block text { font-family: var(--mono); font-size: 17px; fill: var(--text); text-anchor: middle; transition: fill .2s; }
 .anim-tower-block--pending rect { fill: var(--chip-bg); stroke: var(--border); }
 .anim-tower-block--pending text { fill: var(--text-faint); }
-.anim-tower-block--current rect { stroke: var(--accent); }
+.anim-tower-block--current rect { fill: var(--accent-soft); stroke: var(--accent); stroke-width: 3; }
+.anim-tower-block--current text { fill: var(--accent); font-weight: 700; }
 .anim-tower-block--matched rect { fill: var(--chip-bg); }
 .anim-tower-block--matched text { fill: var(--text-muted); }
-.anim-tower-block--win rect { fill: var(--accent-soft); stroke: var(--accent); }
-.anim-tower-block--lose rect { fill: var(--chip-bg); stroke: var(--border); }
-.anim-tower-block--lose text { fill: var(--text-faint); }
+.anim-tower-block--win rect { fill: var(--ok-soft); stroke: var(--ok); stroke-width: 3; }
+.anim-tower-block--win text { fill: var(--ok); font-weight: 700; }
+.anim-tower-block--lose rect { fill: var(--bad-soft); stroke: var(--bad); }
+.anim-tower-block--lose text { fill: var(--bad); }
 
 .detail-footer {
   display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 24px;

@@ -1,8 +1,9 @@
 /**
  * The "ten small ones become one big one" idea from the Big Idea section of
  * grade-5-topic-1-lesson-1-natural-numbers, played out: marbles collect in
- * the ones jar and, on the tenth, bundle into a single marble that flies over
- * to the tens jar - the regrouping a written digit is shorthand for.
+ * the ones jar and, on the tenth, a bundle marble pops up in that same jar
+ * and flies over to the tens jar - the regrouping a written digit is
+ * shorthand for.
  */
 import { motion } from 'framer-motion';
 import { useState } from 'react';
@@ -25,7 +26,7 @@ const center = (jarX: number): { cx: number; cy: number } => ({
   cy: JAR_TOP + JAR_H / 2,
 });
 
-type Phase = 'idle' | 'merging' | 'flying';
+type Phase = 'idle' | 'flying';
 
 export function TenMarblesBundle(): JSX.Element {
   const lang = useLang();
@@ -34,12 +35,11 @@ export function TenMarblesBundle(): JSX.Element {
   const [phase, setPhase] = useState<Phase>('idle');
 
   const onesFull = tens === 9 && ones === 9;
-  const onesCenter = center(ONES_X);
   const tensCenter = center(TENS_X);
 
   const addOne = (): void => {
     if (phase !== 'idle' || onesFull) return;
-    if (ones === 9) setPhase('merging');
+    if (ones === 9) setPhase('flying');
     else setOnes((o) => o + 1);
   };
 
@@ -61,26 +61,19 @@ export function TenMarblesBundle(): JSX.Element {
           {tr(UI.animPlaceOnes, lang)}
         </text>
 
-        {phase !== 'flying' &&
-          Array.from({ length: ones }).map((_, i) => {
-            const merging = phase === 'merging';
-            const p = dot(ONES_X, i);
-            return (
-              <motion.circle
-                key={`ones-${i}`}
-                r={8}
-                className="anim-marble"
-                initial={{ cx: p.cx, cy: p.cy, scale: 0 }}
-                animate={
-                  merging
-                    ? { cx: onesCenter.cx, cy: onesCenter.cy, opacity: 0, scale: 0.6 }
-                    : { cx: p.cx, cy: p.cy, opacity: 1, scale: 1 }
-                }
-                transition={merging ? { duration: 0.35, ease: 'easeInOut' } : { type: 'spring', stiffness: 500, damping: 24 }}
-                onAnimationComplete={merging && i === ones - 1 ? () => setPhase('flying') : undefined}
-              />
-            );
-          })}
+        {Array.from({ length: ones }).map((_, i) => {
+          const p = dot(ONES_X, i);
+          return (
+            <motion.circle
+              key={`ones-${i}`}
+              r={8}
+              className="anim-marble"
+              initial={{ cx: p.cx, cy: p.cy, scale: 0 }}
+              animate={{ cx: p.cx, cy: p.cy, scale: 1 }}
+              transition={{ type: 'spring', stiffness: 500, damping: 24 }}
+            />
+          );
+        })}
 
         {Array.from({ length: tens }).map((_, i) => {
           const p = dot(TENS_X, i);
@@ -96,20 +89,28 @@ export function TenMarblesBundle(): JSX.Element {
           );
         })}
 
-        {phase === 'flying' && (
-          <motion.circle
-            r={10}
-            className="anim-marble anim-marble--bundle"
-            initial={{ cx: onesCenter.cx, cy: onesCenter.cy, opacity: 1, scale: 1 }}
-            animate={{ cx: tensCenter.cx, cy: tensCenter.cy }}
-            transition={{ duration: 0.5, ease: 'easeInOut' }}
-            onAnimationComplete={() => {
-              setTens((t) => Math.min(t + 1, 9));
-              setOnes(0);
-              setPhase('idle');
-            }}
-          />
-        )}
+        {phase === 'flying' &&
+          (() => {
+            const p10 = dot(ONES_X, 9);
+            return (
+              <motion.circle
+                r={10}
+                className="anim-marble anim-marble--bundle"
+                initial={{ cx: p10.cx, cy: p10.cy, scale: 0 }}
+                animate={{
+                  cx: [p10.cx, p10.cx, tensCenter.cx],
+                  cy: [p10.cy, p10.cy, tensCenter.cy],
+                  scale: [0, 1, 1],
+                }}
+                transition={{ duration: 0.9, times: [0, 0.35, 1], ease: 'easeInOut' }}
+                onAnimationComplete={() => {
+                  setTens((t) => Math.min(t + 1, 9));
+                  setOnes(0);
+                  setPhase('idle');
+                }}
+              />
+            );
+          })()}
 
         <text x={140} y={182} textAnchor="middle" className="anim-total">
           {tens * 10 + ones}
