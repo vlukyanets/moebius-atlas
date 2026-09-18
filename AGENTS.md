@@ -47,7 +47,8 @@ panning, zoom, the tools, and the hover-and-trail helpers), `PathTree` (the tree
 levels stacked bottom-up, an arrow along every `requires` edge), `PathRings` (the same
 path as rings around the target), `TopicPicker` (searchable combobox for the path target),
 `TopicDetail` (Markdown body, meta line, REQUIRES / LEADS TO / RESOURCES columns),
-`SearchResults`, `TagBadge`, `Markdown` (react-markdown + KaTeX, loaded on demand),
+`SearchResults`, `TagBadge`, `Markdown` (react-markdown + KaTeX and the spoiler
+extension, loaded on demand),
 `Icons`, `Logo`.
 
 Icons: `src/icons/<name>.svg` is registered in `components/Icons.tsx` and inlined
@@ -107,6 +108,16 @@ drawn at all.
 - The body is full Markdown with KaTeX (`$...$` inline, `$$` on its own lines for
   display). Only the frontmatter ships with the app; the body is fetched when
   the topic page opens, so its length costs nothing on first paint.
+- A blockquote opening with `[!spoiler] <label>` is drawn folded away behind
+  the label, which is what the answers of a self-check section hide behind -
+  a reader who is shown the answer has not been asked the question. The label
+  is written in the file's own language, like the rest of the body, and a
+  spoiler without one is left as an ordinary quote with the marker showing.
+  Everything under the marker stays Markdown, formulas included. The marker
+  is plain text no Markdown parser assigns a meaning to (the trick GitHub's
+  alerts use), so nothing else has to change to author one, and raw HTML
+  stays out of the bodies. `rehypeSpoilers` in `components/Markdown.tsx` is
+  what reads it.
 
 ### Prerequisite invariants
 

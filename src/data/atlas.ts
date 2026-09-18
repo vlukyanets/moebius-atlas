@@ -71,10 +71,12 @@ export function search(query: string): string[] {
     .slice(0, 12);
 }
 
-/** Topics eligible as a prerequisite-path target: tagged and with prereqs. */
+/** Topics eligible as a prerequisite-path target: tagged topics - a topic with
+ *  no prerequisites of its own is still a valid target, its path is just the
+ *  target alone, with nothing underneath it. */
 export function pathTargets(lang: Lang): string[] {
   return Object.keys(N)
-    .filter((id) => (N[id].requires ?? []).length > 0 && tagOf(id))
+    .filter((id) => tagOf(id))
     .sort((a, b) => topicName(a, lang).localeCompare(topicName(b, lang), lang));
 }
 

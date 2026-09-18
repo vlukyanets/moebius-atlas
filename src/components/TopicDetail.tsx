@@ -34,11 +34,9 @@ export function TopicDetail({ id, onBack, onOpen, onShowPath }: Props) {
           <ProgressBox id={id} />
           <h1>{name}</h1>
           {tag && <TagBadge tag={tag} />}
-          {!!(t.requires ?? []).length && (
-            <button className="chip-btn path-btn" onClick={() => onShowPath(id)}>
-              {tr(UI.openPath, lang)} →
-            </button>
-          )}
+          <button className="chip-btn path-btn" onClick={() => onShowPath(id)}>
+            {tr(UI.openPath, lang)} →
+          </button>
         </div>
         {(t.year !== undefined || t.grade !== undefined) && (
           <div className="detail-meta">
