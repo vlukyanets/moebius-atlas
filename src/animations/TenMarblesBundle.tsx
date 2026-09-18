@@ -76,24 +76,25 @@ export function TenMarblesBundle(): JSX.Element {
           {tr(UI.animPlaceOnes, lang)}
         </text>
 
-        {Array.from({ length: ones }).map((_, i) => {
-          const merging = phase === 'merging';
-          const p = dot(ONES_X, i);
-          return (
-            <motion.circle
-              key={`ones-${i}`}
-              r={8}
-              className="anim-marble"
-              initial={{ cx: p.cx, cy: p.cy, scale: 0 }}
-              animate={
-                merging
-                  ? { cx: onesCenter.cx, cy: onesCenter.cy, opacity: 0, scale: 0.6 }
-                  : { cx: p.cx, cy: p.cy, opacity: 1, scale: 1 }
-              }
-              transition={merging ? { duration: 0.35, ease: 'easeInOut' } : springIn}
-            />
-          );
-        })}
+        {phase !== 'flying' &&
+          Array.from({ length: ones }).map((_, i) => {
+            const merging = phase === 'merging';
+            const p = dot(ONES_X, i);
+            return (
+              <motion.circle
+                key={`ones-${i}`}
+                r={8}
+                className="anim-marble"
+                initial={{ cx: p.cx, cy: p.cy, scale: 0 }}
+                animate={
+                  merging
+                    ? { cx: onesCenter.cx, cy: onesCenter.cy, opacity: 0, scale: 0.6 }
+                    : { cx: p.cx, cy: p.cy, opacity: 1, scale: 1 }
+                }
+                transition={merging ? { duration: 0.35, ease: 'easeInOut' } : springIn}
+              />
+            );
+          })}
 
         {(phase === 'popping' || phase === 'merging') &&
           (() => {
