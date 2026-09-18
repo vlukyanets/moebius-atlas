@@ -8,8 +8,10 @@
 import type { ComponentType } from 'react';
 import { TenMarblesBundle } from './TenMarblesBundle';
 import { DigitTowers } from './DigitTowers';
+import { RoundingDigits } from './RoundingDigits';
 
 export const ANIMATIONS: Record<string, ComponentType> = {
   'ten-marbles-bundle': TenMarblesBundle,
   'digit-towers': DigitTowers,
+  'rounding-digits': RoundingDigits,
 };

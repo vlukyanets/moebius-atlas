@@ -194,4 +194,6 @@ export const UI = {
   animPlaceTens: { en: 'tens', uk: 'десятки' },
   animStepBack: { en: 'Step back', uk: 'Крок назад' },
   animStepForward: { en: 'Next digit', uk: 'Наступна цифра' },
+  animRoundTarget: { en: 'TARGET', uk: 'ЦІЛЬ' },
+  animRoundDecider: { en: 'DECIDER', uk: 'РІШАЄ' },
 } satisfies Record<string, L10n>;

@@ -655,6 +655,8 @@ button { font-family: inherit; }
 .anim-tower-block--win text { fill: var(--ok); font-weight: 700; }
 .anim-tower-block--lose rect { fill: var(--bad-soft); stroke: var(--bad); }
 .anim-tower-block--lose text { fill: var(--bad); }
+.anim-tower-block--decider rect { fill: var(--trail-glow); stroke: var(--trail); stroke-width: 3; }
+.anim-tower-block--decider text { fill: var(--trail); font-weight: 700; }
 
 .detail-footer {
   display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 24px;
