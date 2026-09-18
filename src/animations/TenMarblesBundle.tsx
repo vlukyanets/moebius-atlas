@@ -1,9 +1,11 @@
 /**
  * The "ten small ones become one big one" idea from the Big Idea section of
  * grade-5-topic-1-lesson-1-natural-numbers, played out: marbles collect in
- * the ones jar and, on the tenth, a bundle marble pops up in that same jar
- * and flies over to the tens jar - the regrouping a written digit is
- * shorthand for.
+ * the ones jar and, on the tenth, it pops up in that same jar, then all ten
+ * converge into one bundle marble that flies over to the tens jar - the
+ * regrouping a written digit is shorthand for. Stepping back runs the same
+ * walk in reverse, one marble at a time, undoing a carry the same way it
+ * was made rather than just resetting past it.
  */
 import { motion } from 'framer-motion';
 import { useState } from 'react';
@@ -26,7 +28,10 @@ const center = (jarX: number): { cx: number; cy: number } => ({
   cy: JAR_TOP + JAR_H / 2,
 });
 
-type Phase = 'idle' | 'flying';
+// idle: settled. popping/merging/flying: a tenth marble joins, bundles with
+// the other nine and flies to the tens jar. unflying/unmerging: the same
+// walk backwards - a ten flies back and splits into nine ones.
+type Phase = 'idle' | 'popping' | 'merging' | 'flying' | 'unflying' | 'unmerging';
 
 export function TenMarblesBundle(): JSX.Element {
   const lang = useLang();
@@ -35,12 +40,20 @@ export function TenMarblesBundle(): JSX.Element {
   const [phase, setPhase] = useState<Phase>('idle');
 
   const onesFull = tens === 9 && ones === 9;
+  const isEmpty = ones === 0 && tens === 0;
+  const onesCenter = center(ONES_X);
   const tensCenter = center(TENS_X);
 
   const addOne = (): void => {
     if (phase !== 'idle' || onesFull) return;
-    if (ones === 9) setPhase('flying');
+    if (ones === 9) setPhase('popping');
     else setOnes((o) => o + 1);
+  };
+
+  const stepBack = (): void => {
+    if (phase !== 'idle') return;
+    if (ones > 0) setOnes((o) => o - 1);
+    else if (tens > 0) setPhase('unflying');
   };
 
   const reset = (): void => {
@@ -48,6 +61,8 @@ export function TenMarblesBundle(): JSX.Element {
     setOnes(0);
     setTens(0);
   };
+
+  const springIn = { type: 'spring', stiffness: 500, damping: 24 } as const;
 
   return (
     <div className="anim-block">
@@ -62,6 +77,7 @@ export function TenMarblesBundle(): JSX.Element {
         </text>
 
         {Array.from({ length: ones }).map((_, i) => {
+          const merging = phase === 'merging';
           const p = dot(ONES_X, i);
           return (
             <motion.circle
@@ -69,13 +85,39 @@ export function TenMarblesBundle(): JSX.Element {
               r={8}
               className="anim-marble"
               initial={{ cx: p.cx, cy: p.cy, scale: 0 }}
-              animate={{ cx: p.cx, cy: p.cy, scale: 1 }}
-              transition={{ type: 'spring', stiffness: 500, damping: 24 }}
+              animate={
+                merging
+                  ? { cx: onesCenter.cx, cy: onesCenter.cy, opacity: 0, scale: 0.6 }
+                  : { cx: p.cx, cy: p.cy, opacity: 1, scale: 1 }
+              }
+              transition={merging ? { duration: 0.35, ease: 'easeInOut' } : springIn}
             />
           );
         })}
 
+        {(phase === 'popping' || phase === 'merging') &&
+          (() => {
+            const merging = phase === 'merging';
+            const p10 = dot(ONES_X, 9);
+            return (
+              <motion.circle
+                key="ones-tenth"
+                r={8}
+                className="anim-marble"
+                initial={{ cx: p10.cx, cy: p10.cy, scale: 0 }}
+                animate={
+                  merging
+                    ? { cx: onesCenter.cx, cy: onesCenter.cy, opacity: 0, scale: 0.6 }
+                    : { cx: p10.cx, cy: p10.cy, opacity: 1, scale: 1 }
+                }
+                transition={merging ? { duration: 0.35, ease: 'easeInOut' } : springIn}
+                onAnimationComplete={() => setPhase(merging ? 'flying' : 'merging')}
+              />
+            );
+          })()}
+
         {Array.from({ length: tens }).map((_, i) => {
+          if ((phase === 'unflying' || phase === 'unmerging') && i === tens - 1) return null;
           const p = dot(TENS_X, i);
           return (
             <motion.circle
@@ -84,43 +126,73 @@ export function TenMarblesBundle(): JSX.Element {
               className="anim-marble"
               initial={{ cx: p.cx, cy: p.cy, scale: 0 }}
               animate={{ cx: p.cx, cy: p.cy, scale: 1 }}
-              transition={{ type: 'spring', stiffness: 500, damping: 24 }}
+              transition={springIn}
             />
           );
         })}
 
-        {phase === 'flying' &&
-          (() => {
-            const p10 = dot(ONES_X, 9);
+        {phase === 'flying' && (
+          <motion.circle
+            r={10}
+            className="anim-marble anim-marble--bundle"
+            initial={{ cx: onesCenter.cx, cy: onesCenter.cy, scale: 0.6, opacity: 0 }}
+            animate={{ cx: tensCenter.cx, cy: tensCenter.cy, scale: 1, opacity: 1 }}
+            transition={{ duration: 0.5, ease: 'easeInOut' }}
+            onAnimationComplete={() => {
+              setTens((t) => Math.min(t + 1, 9));
+              setOnes(0);
+              setPhase('idle');
+            }}
+          />
+        )}
+
+        {phase === 'unflying' && (
+          <motion.circle
+            r={10}
+            className="anim-marble anim-marble--bundle"
+            initial={{ cx: tensCenter.cx, cy: tensCenter.cy, scale: 1, opacity: 1 }}
+            animate={{ cx: onesCenter.cx, cy: onesCenter.cy, scale: 0.6, opacity: 0 }}
+            transition={{ duration: 0.5, ease: 'easeInOut' }}
+            onAnimationComplete={() => setPhase('unmerging')}
+          />
+        )}
+
+        {phase === 'unmerging' &&
+          Array.from({ length: 9 }).map((_, i) => {
+            const p = dot(ONES_X, i);
             return (
               <motion.circle
-                r={10}
-                className="anim-marble anim-marble--bundle"
-                initial={{ cx: p10.cx, cy: p10.cy, scale: 0 }}
-                animate={{
-                  cx: [p10.cx, p10.cx, tensCenter.cx],
-                  cy: [p10.cy, p10.cy, tensCenter.cy],
-                  scale: [0, 1, 1],
-                }}
-                transition={{ duration: 0.9, times: [0, 0.35, 1], ease: 'easeInOut' }}
-                onAnimationComplete={() => {
-                  setTens((t) => Math.min(t + 1, 9));
-                  setOnes(0);
-                  setPhase('idle');
-                }}
+                key={`unmerge-${i}`}
+                r={8}
+                className="anim-marble"
+                initial={{ cx: onesCenter.cx, cy: onesCenter.cy, scale: 0.6, opacity: 0 }}
+                animate={{ cx: p.cx, cy: p.cy, scale: 1, opacity: 1 }}
+                transition={{ duration: 0.35, ease: 'easeInOut' }}
+                onAnimationComplete={
+                  i === 8
+                    ? () => {
+                        setTens((t) => Math.max(t - 1, 0));
+                        setOnes(9);
+                        setPhase('idle');
+                      }
+                    : undefined
+                }
               />
             );
-          })()}
+          })}
 
         <text x={140} y={182} textAnchor="middle" className="anim-total">
           {tens * 10 + ones}
         </text>
       </svg>
       <div className="anim-controls">
+        <button type="button" className="chip-btn" onClick={stepBack} disabled={phase !== 'idle' || isEmpty}>
+          {tr(UI.animStepBack, lang)}
+        </button>
         <button type="button" className="chip-btn" onClick={addOne} disabled={phase !== 'idle' || onesFull}>
           {tr(UI.animAddOne, lang)}
         </button>
-        <button type="button" className="chip-btn" onClick={reset} disabled={ones === 0 && tens === 0}>
+        <button type="button" className="chip-btn" onClick={reset} disabled={phase !== 'idle' || isEmpty}>
           {tr(UI.animReset, lang)}
         </button>
       </div>

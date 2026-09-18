@@ -192,6 +192,6 @@ export const UI = {
   animReset: { en: 'Reset', uk: 'Скинути' },
   animPlaceOnes: { en: 'ones', uk: 'одиниці' },
   animPlaceTens: { en: 'tens', uk: 'десятки' },
-  animCompare: { en: 'Compare', uk: 'Порівняти' },
-  animReplay: { en: 'Replay', uk: 'Ще раз' },
+  animStepBack: { en: 'Step back', uk: 'Крок назад' },
+  animStepForward: { en: 'Next digit', uk: 'Наступна цифра' },
 } satisfies Record<string, L10n>;
