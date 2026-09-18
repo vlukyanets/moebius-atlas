@@ -1,5 +1,5 @@
 import { Suspense, lazy } from 'react';
-import { N, dependents, formatGrade, formatYear, tagOf, topicName, wikiUrl } from '../data/atlas';
+import { N, dependents, fallbackResources, formatGrade, formatYear, subjectIdOf, tagOf, topicName } from '../data/atlas';
 import { useTopicBody } from '../data/bodies';
 import { UI, tr, useLang } from '../i18n';
 import { Icon } from './Icons';
@@ -95,15 +95,11 @@ export function TopicDetail({ id, onBack, onOpen, onShowPath }: Props) {
           <div className="detail-col">
             <div className="label">{tr(UI.colResources, lang)}</div>
             <div className="items">
-              {(t.resources?.[lang] ?? t.resources?.en)?.map((r) => (
+              {(t.resources?.[lang] ?? t.resources?.en ?? fallbackResources(name, lang, subjectIdOf(id))).map((r) => (
                 <a key={r.url} href={r.url} target="_blank" rel="noopener noreferrer">
                   {r.label} ↗
                 </a>
-              )) ?? (
-                <a href={wikiUrl(name, lang)} target="_blank" rel="noopener noreferrer">
-                  {tr(UI.wikipedia, lang)}: {name} ↗
-                </a>
-              )}
+              ))}
             </div>
           </div>
         </div>
