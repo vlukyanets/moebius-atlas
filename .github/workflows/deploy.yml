@@ -20,6 +20,7 @@ concurrency:
 
 jobs:
   build:
+    name: Build
     runs-on: ubuntu-latest
     steps:
       - id: master
@@ -66,6 +67,7 @@ jobs:
           path: site
 
   deploy:
+    name: Deploy
     needs: build
     runs-on: ubuntu-latest
     environment:
