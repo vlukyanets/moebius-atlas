@@ -1,4 +1,4 @@
-name: Deploy to GitHub Pages
+name: CI Moebius Atlas
 
 # Pages serves one artifact per site, so a branch cannot publish on its own.
 # Both branches are built here and packed into a single tree: master at the
