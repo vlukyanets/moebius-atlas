@@ -26,17 +26,17 @@ type BlockState = 'pending' | 'current' | 'matched' | 'win' | 'lose';
 
 export function DigitTowers(): JSX.Element {
   const lang = useLang();
-  // -1: idle. 0: counting the blocks. 1..A.length: comparing index (step - 1).
+  // -1: idle, nothing compared yet. 0..A.length - 1: comparing that index.
   const [step, setStep] = useState(-1);
 
-  const comparingIdx = step >= 1 ? step - 1 : -1;
+  const comparingIdx = step;
   const decided = decidedAt >= 0 && comparingIdx === decidedAt;
-  const finished = decidedAt === -1 && step > A.length;
+  const finished = decidedAt === -1 && comparingIdx === A.length;
   const atEnd = decided || finished;
 
   const stepForward = (): void => {
     if (atEnd) return;
-    setStep((s) => Math.min(s + 1, A.length + 1));
+    setStep((s) => Math.min(s + 1, A.length));
   };
   const stepBack = (): void => setStep((s) => Math.max(s - 1, -1));
   const reset = (): void => setStep(-1);

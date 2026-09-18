@@ -137,8 +137,13 @@ export function TenMarblesBundle(): JSX.Element {
             r={10}
             className="anim-marble anim-marble--bundle"
             initial={{ cx: onesCenter.cx, cy: onesCenter.cy, scale: 0.6, opacity: 0 }}
-            animate={{ cx: tensCenter.cx, cy: tensCenter.cy, scale: 1, opacity: 1 }}
-            transition={{ duration: 0.5, ease: 'easeInOut' }}
+            animate={{
+              cx: [onesCenter.cx, onesCenter.cx, tensCenter.cx, tensCenter.cx],
+              cy: [onesCenter.cy, JAR_TOP + 15, JAR_TOP + 15, tensCenter.cy],
+              scale: [0.6, 1, 1, 1],
+              opacity: [0, 1, 1, 1],
+            }}
+            transition={{ duration: 0.7, ease: 'easeInOut', times: [0, 0.3, 0.7, 1] }}
             onAnimationComplete={() => {
               setTens((t) => Math.min(t + 1, 9));
               setOnes(0);
@@ -152,8 +157,13 @@ export function TenMarblesBundle(): JSX.Element {
             r={10}
             className="anim-marble anim-marble--bundle"
             initial={{ cx: tensCenter.cx, cy: tensCenter.cy, scale: 1, opacity: 1 }}
-            animate={{ cx: onesCenter.cx, cy: onesCenter.cy, scale: 0.6, opacity: 0 }}
-            transition={{ duration: 0.5, ease: 'easeInOut' }}
+            animate={{
+              cx: [tensCenter.cx, tensCenter.cx, onesCenter.cx, onesCenter.cx],
+              cy: [tensCenter.cy, JAR_TOP + 15, JAR_TOP + 15, onesCenter.cy],
+              scale: [1, 1, 1, 0.6],
+              opacity: [1, 1, 1, 0],
+            }}
+            transition={{ duration: 0.7, ease: 'easeInOut', times: [0, 0.3, 0.7, 1] }}
             onAnimationComplete={() => setPhase('unmerging')}
           />
         )}
