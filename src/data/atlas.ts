@@ -5,8 +5,8 @@
  * built on the static tables in `topics.ts`.
  */
 import { SUBJECTS, TAGS, TOPICS, TRACKS } from './topics';
-import type { Resource, SubjectId, SubjectInfo, TagInfo, TopicSeed, TrackId, TrackInfo } from './types';
-import { UI, tr, type L10n, type Lang } from '../i18n';
+import type { SubjectId, SubjectInfo, TagInfo, TopicSeed, TrackId, TrackInfo } from './types';
+import { UI, tr, type Lang } from '../i18n';
 
 /** All topics by id. */
 export const N: Record<string, TopicSeed> = TOPICS;
@@ -601,36 +601,4 @@ export const formatGrade = (g: number, lang: Lang): string =>
 export const formatYear = (y: number, lang: Lang, circa = false): string => {
   const prefix = circa ? tr(UI.circa, lang) : '';
   return y < 0 ? `${prefix}${Math.abs(y)} ${tr(UI.bce, lang)}` : `${prefix}${y}`;
-};
-
-const SUBJECT_WORD: Record<SubjectId, L10n> = {
-  geometry: { en: 'geometry', uk: 'геометрія' },
-  algebra: { en: 'algebra', uk: 'алгебра' },
-  other: { en: 'mathematics', uk: 'математика' },
-};
-
-/**
- * Search links shown when a topic has no authored resources of its own - a
- * search on each site, not a guess at an article slug the site may not have
- * under that name. Wikipedia's is language- and subject-matched (the same
- * name means different things in geometry and algebra); the others search in
- * English, since neither site has a Ukrainian edition worth pointing at.
- */
-export const fallbackResources = (name: string, lang: Lang, subject: SubjectId): Resource[] => {
-  const host = lang === 'uk' ? 'uk.wikipedia.org' : 'en.wikipedia.org';
-  const wikiQuery = `${name} ${tr(SUBJECT_WORD[subject], lang)}`;
-  return [
-    {
-      label: `${tr(UI.wikipedia, lang)}: ${name}`,
-      url: `https://${host}/wiki/Special:Search?search=${encodeURIComponent(wikiQuery)}`,
-    },
-    {
-      label: `Wolfram MathWorld: ${name}`,
-      url: `https://mathworld.wolfram.com/search/?query=${encodeURIComponent(name)}`,
-    },
-    {
-      label: `Khan Academy: ${name}`,
-      url: `https://www.khanacademy.org/search?page_search_query=${encodeURIComponent(name)}`,
-    },
-  ];
 };

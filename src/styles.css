@@ -657,14 +657,20 @@ button { font-family: inherit; }
 .anim-tower-block--lose text { fill: var(--bad); }
 
 .detail-footer {
-  display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 24px;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 24px;
+  grid-template-areas: "requires leadsto" "resources resources";
   margin-top: 30px; border-top: 1px solid #eef1f6; padding-top: 24px;
 }
+.detail-col--requires { grid-area: requires; }
+.detail-col--leadsto { grid-area: leadsto; text-align: right; }
+.detail-col--resources { grid-area: resources; text-align: center; }
 .detail-col .label {
   font-size: 11px; font-family: var(--mono); color: var(--text-muted);
   letter-spacing: .08em; margin-bottom: 10px;
 }
 .detail-col .items { display: flex; flex-direction: column; gap: 7px; align-items: flex-start; }
+.detail-col--leadsto .items { align-items: flex-end; }
+.detail-col--resources .items { align-items: center; }
 .detail-col .item { display: flex; align-items: center; gap: 8px; }
 .link-btn {
   border: none; background: none; text-align: left; color: var(--link);

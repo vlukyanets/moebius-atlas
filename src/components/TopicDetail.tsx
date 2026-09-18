@@ -1,5 +1,5 @@
 import { Suspense, lazy } from 'react';
-import { N, dependents, fallbackResources, formatGrade, formatYear, subjectIdOf, tagOf, topicName } from '../data/atlas';
+import { N, dependents, formatGrade, formatYear, tagOf, topicName } from '../data/atlas';
 import { useTopicBody } from '../data/bodies';
 import { UI, tr, useLang } from '../i18n';
 import { Icon } from './Icons';
@@ -64,7 +64,7 @@ export function TopicDetail({ id, onBack, onOpen, onShowPath }: Props) {
           )}
         </div>
         <div className="detail-footer">
-          <div className="detail-col">
+          <div className="detail-col detail-col--requires">
             <div className="label">{tr(UI.colRequires, lang)}</div>
             <div className="items">
               {(t.requires ?? []).map((p) => (
@@ -78,7 +78,7 @@ export function TopicDetail({ id, onBack, onOpen, onShowPath }: Props) {
               {!(t.requires ?? []).length && <span className="empty">{tr(UI.noPrereqs, lang)}</span>}
             </div>
           </div>
-          <div className="detail-col">
+          <div className="detail-col detail-col--leadsto">
             <div className="label">{tr(UI.colLeadsTo, lang)}</div>
             <div className="items">
               {deps.map((p) => (
@@ -92,14 +92,17 @@ export function TopicDetail({ id, onBack, onOpen, onShowPath }: Props) {
               {!deps.length && <span className="empty">{tr(UI.noDeps, lang)}</span>}
             </div>
           </div>
-          <div className="detail-col">
+          <div className="detail-col detail-col--resources">
             <div className="label">{tr(UI.colResources, lang)}</div>
             <div className="items">
-              {(t.resources?.[lang] ?? t.resources?.en ?? fallbackResources(name, lang, subjectIdOf(id))).map((r) => (
+              {(t.resources?.[lang] ?? t.resources?.en ?? []).map((r) => (
                 <a key={r.url} href={r.url} target="_blank" rel="noopener noreferrer">
                   {r.label} ↗
                 </a>
               ))}
+              {!(t.resources?.[lang] ?? t.resources?.en ?? []).length && (
+                <span className="empty">{tr(UI.noResources, lang)}</span>
+              )}
             </div>
           </div>
         </div>
