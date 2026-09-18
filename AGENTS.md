@@ -102,8 +102,8 @@ drawn at all.
 - `subject` defaults to `geometry` when absent; set `algebra` explicitly.
 - `year` is the year of discovery; negative means BCE.
 - `resources` is a comma-separated list of Markdown links, authored per
-  language. A language without its own list falls back to English; a topic with
-  no list at all gets an automatic Wikipedia search link.
+  language. A language without its own list falls back to English; a topic
+  with no list at all simply shows none.
 - Quote a frontmatter value that contains a colon: `title: "Right Triangles: ..."`.
 - The body is full Markdown with KaTeX (`$...$` inline, `$$` on its own lines for
   display). Only the frontmatter ships with the app; the body is fetched when

@@ -647,22 +647,30 @@ button { font-family: inherit; }
 .anim-tower-block text { font-family: var(--mono); font-size: 17px; fill: var(--text); text-anchor: middle; transition: fill .2s; }
 .anim-tower-block--pending rect { fill: var(--chip-bg); stroke: var(--border); }
 .anim-tower-block--pending text { fill: var(--text-faint); }
-.anim-tower-block--current rect { stroke: var(--accent); }
+.anim-tower-block--current rect { fill: var(--accent-soft); stroke: var(--accent); stroke-width: 3; }
+.anim-tower-block--current text { fill: var(--accent); font-weight: 700; }
 .anim-tower-block--matched rect { fill: var(--chip-bg); }
 .anim-tower-block--matched text { fill: var(--text-muted); }
-.anim-tower-block--win rect { fill: var(--accent-soft); stroke: var(--accent); }
-.anim-tower-block--lose rect { fill: var(--chip-bg); stroke: var(--border); }
-.anim-tower-block--lose text { fill: var(--text-faint); }
+.anim-tower-block--win rect { fill: var(--ok-soft); stroke: var(--ok); stroke-width: 3; }
+.anim-tower-block--win text { fill: var(--ok); font-weight: 700; }
+.anim-tower-block--lose rect { fill: var(--bad-soft); stroke: var(--bad); }
+.anim-tower-block--lose text { fill: var(--bad); }
 
 .detail-footer {
-  display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 24px;
+  display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 24px;
+  grid-template-areas: "requires resources leadsto";
   margin-top: 30px; border-top: 1px solid #eef1f6; padding-top: 24px;
 }
+.detail-col--requires { grid-area: requires; }
+.detail-col--leadsto { grid-area: leadsto; text-align: right; }
+.detail-col--resources { grid-area: resources; text-align: center; }
 .detail-col .label {
   font-size: 11px; font-family: var(--mono); color: var(--text-muted);
   letter-spacing: .08em; margin-bottom: 10px;
 }
 .detail-col .items { display: flex; flex-direction: column; gap: 7px; align-items: flex-start; }
+.detail-col--leadsto .items { align-items: flex-end; }
+.detail-col--resources .items { align-items: center; }
 .detail-col .item { display: flex; align-items: center; gap: 8px; }
 .link-btn {
   border: none; background: none; text-align: left; color: var(--link);

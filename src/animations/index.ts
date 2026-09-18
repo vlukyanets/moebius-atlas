@@ -6,8 +6,8 @@
  * id to it.
  */
 import type { ComponentType } from 'react';
-import { TenMarblesBundle } from './ten-marbles-bundle';
-import { DigitTowers } from './digit-towers';
+import { TenMarblesBundle } from './TenMarblesBundle';
+import { DigitTowers } from './DigitTowers';
 
 export const ANIMATIONS: Record<string, ComponentType> = {
   'ten-marbles-bundle': TenMarblesBundle,

@@ -602,10 +602,3 @@ export const formatYear = (y: number, lang: Lang, circa = false): string => {
   const prefix = circa ? tr(UI.circa, lang) : '';
   return y < 0 ? `${prefix}${Math.abs(y)} ${tr(UI.bce, lang)}` : `${prefix}${y}`;
 };
-
-/** Language-matched Wikipedia search link. */
-export const wikiUrl = (name: string, lang: Lang): string => {
-  const host = lang === 'uk' ? 'uk.wikipedia.org' : 'en.wikipedia.org';
-  const suffix = lang === 'uk' ? ' геометрія' : ' geometry';
-  return `https://${host}/wiki/Special:Search?search=${encodeURIComponent(name + suffix)}`;
-};

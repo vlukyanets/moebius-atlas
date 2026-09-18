@@ -114,7 +114,7 @@ export const UI = {
   colResources: { en: 'RESOURCES', uk: 'ДЖЕРЕЛА' },
   noPrereqs: { en: 'Nothing - a starting point.', uk: 'Нічого — це відправна точка.' },
   noDeps: { en: 'No dependents in this map yet.', uk: 'Поки що жодна тема не спирається на цю.' },
-  wikipedia: { en: 'Wikipedia', uk: 'Вікіпедія' },
+  noResources: { en: 'No resources listed yet.', uk: 'Джерел поки що немає.' },
   bce: { en: 'BCE', uk: 'до н. е.' },
   circa: { en: 'c. ', uk: 'бл. ' },
   settings: { en: 'Settings', uk: 'Налаштування' },
@@ -192,6 +192,6 @@ export const UI = {
   animReset: { en: 'Reset', uk: 'Скинути' },
   animPlaceOnes: { en: 'ones', uk: 'одиниці' },
   animPlaceTens: { en: 'tens', uk: 'десятки' },
-  animCompare: { en: 'Compare', uk: 'Порівняти' },
-  animReplay: { en: 'Replay', uk: 'Ще раз' },
+  animStepBack: { en: 'Step back', uk: 'Крок назад' },
+  animStepForward: { en: 'Next digit', uk: 'Наступна цифра' },
 } satisfies Record<string, L10n>;

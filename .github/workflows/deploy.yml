@@ -1,4 +1,4 @@
-name: Deploy to GitHub Pages
+name: CI Moebius Atlas
 
 # Pages serves one artifact per site, so a branch cannot publish on its own.
 # Both branches are built here and packed into a single tree: master at the
@@ -20,6 +20,7 @@ concurrency:
 
 jobs:
   build:
+    name: Build
     runs-on: ubuntu-latest
     steps:
       - id: master
@@ -33,6 +34,10 @@ jobs:
         with:
           ref: staging
           path: staging
+      - name: Verify
+        run: |
+          python3 master/tools/check_graph.py
+          if [ -d staging ]; then python3 staging/tools/check_graph.py; fi
       - uses: actions/setup-node@v7
         with:
           node-version: 24
@@ -66,6 +71,7 @@ jobs:
           path: site
 
   deploy:
+    name: Deploy
     needs: build
     runs-on: ubuntu-latest
     environment:
