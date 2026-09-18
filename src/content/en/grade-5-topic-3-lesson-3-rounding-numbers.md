@@ -29,8 +29,6 @@ one. Once you know which way it tips, every digit after that scale digit
 stops mattering - it gets replaced with zero, since keeping it would be
 pretending to a precision you just gave up.
 
-[!anim] rounding-digits
-
 ## The Rule
 
 To round a number to a given place:
@@ -45,6 +43,8 @@ To round a number to a given place:
 ## Worked Example
 
 Round $4278$ to the nearest hundred.
+
+[!anim] rounding-digits
 
 - **Find the hundreds digit.** It's $2$ - that's the digit that might
   change.
