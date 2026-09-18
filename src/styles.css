@@ -658,7 +658,7 @@ button { font-family: inherit; }
 
 .detail-footer {
   display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 24px;
-  grid-template-areas: "requires leadsto resources";
+  grid-template-areas: "requires resources leadsto";
   margin-top: 30px; border-top: 1px solid #eef1f6; padding-top: 24px;
 }
 .detail-col--requires { grid-area: requires; }
