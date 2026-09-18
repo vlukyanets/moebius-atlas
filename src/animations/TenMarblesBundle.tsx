@@ -42,7 +42,10 @@ export function TenMarblesBundle(): JSX.Element {
   const onesFull = tens === 9 && ones === 9;
   const isEmpty = ones === 0 && tens === 0;
   const onesCenter = center(ONES_X);
-  const tensCenter = center(TENS_X);
+  // The slot a bundle flies into (forward) or out of (undone) is wherever the
+  // tens jar's own layout puts that marble - not some arbitrary meeting point.
+  const tensNextSlot = dot(TENS_X, tens);
+  const tensLastSlot = dot(TENS_X, Math.max(tens - 1, 0));
 
   const addOne = (): void => {
     if (phase !== 'idle' || onesFull) return;
@@ -138,8 +141,8 @@ export function TenMarblesBundle(): JSX.Element {
             className="anim-marble anim-marble--bundle"
             initial={{ cx: onesCenter.cx, cy: onesCenter.cy, scale: 0.6, opacity: 0 }}
             animate={{
-              cx: [onesCenter.cx, onesCenter.cx, tensCenter.cx, tensCenter.cx],
-              cy: [onesCenter.cy, JAR_TOP + 15, JAR_TOP + 15, tensCenter.cy],
+              cx: [onesCenter.cx, onesCenter.cx, tensNextSlot.cx, tensNextSlot.cx],
+              cy: [onesCenter.cy, JAR_TOP + 15, JAR_TOP + 15, tensNextSlot.cy],
               scale: [0.6, 1, 1, 1],
               opacity: [0, 1, 1, 1],
             }}
@@ -156,10 +159,10 @@ export function TenMarblesBundle(): JSX.Element {
           <motion.circle
             r={10}
             className="anim-marble anim-marble--bundle"
-            initial={{ cx: tensCenter.cx, cy: tensCenter.cy, scale: 1, opacity: 1 }}
+            initial={{ cx: tensLastSlot.cx, cy: tensLastSlot.cy, scale: 1, opacity: 1 }}
             animate={{
-              cx: [tensCenter.cx, tensCenter.cx, onesCenter.cx, onesCenter.cx],
-              cy: [tensCenter.cy, JAR_TOP + 15, JAR_TOP + 15, onesCenter.cy],
+              cx: [tensLastSlot.cx, tensLastSlot.cx, onesCenter.cx, onesCenter.cx],
+              cy: [tensLastSlot.cy, JAR_TOP + 15, JAR_TOP + 15, onesCenter.cy],
               scale: [1, 1, 1, 0.6],
               opacity: [1, 1, 1, 0],
             }}
