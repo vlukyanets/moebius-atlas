@@ -55,7 +55,7 @@ as "$37$ million, $142$ thousand, $15$" - three short pieces instead of one
 long string of digits.
 
 There's another way to take a number apart: as the sum of what each of its
-digits is worth.
+digits is worth. These are called **place-value terms**.
 
 $$7\,213\,049 = 7\,000\,000 + 200\,000 + 10\,000 + 3000 + 40 + 9$$
 
