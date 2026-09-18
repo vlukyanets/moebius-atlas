@@ -34,7 +34,7 @@ jobs:
         with:
           ref: staging
           path: staging
-      - name: CI Verify
+      - name: Verify
         run: |
           python3 master/tools/check_graph.py
           if [ -d staging ]; then python3 staging/tools/check_graph.py; fi
