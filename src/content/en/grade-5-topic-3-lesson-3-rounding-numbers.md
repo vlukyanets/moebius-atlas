@@ -10,7 +10,7 @@ requires: [grade-5-topic-2-lesson-2-comparing-natural-numbers]
 ## Why It Matters
 
 A news report says "about 5000 people came to the game," not "4978 people
-came to the game." A price tag says a phone costs "almost $800." Nobody's
+came to the game." A price tag says a phone costs "almost \$800." Nobody's
 being sloppy here - an exact number is often harder to picture and easier to
 forget than a round one, and for most everyday questions, close enough is
 genuinely enough. Rounding is how you trade a little bit of precision for a
