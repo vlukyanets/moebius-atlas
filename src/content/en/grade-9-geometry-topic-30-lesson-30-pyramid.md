@@ -68,8 +68,8 @@ m tall (sides only)?
 - **Triangular pyramid.** The apex projects to the centre, at
   circumradius $R = \frac{6}{\sqrt{3}} = 2\sqrt{3}$ from a vertex. The lateral
   edge, $R$ and $h$ form a right triangle: $h = \sqrt{25 - 12} = \sqrt{13}$.
-- **Tent.** $r = 2$, $l = \sqrt{9 + 4} = \sqrt{13} \approx 3.61$; $S_{\text{lat}} =
-  \frac{1}{2} \cdot 16 \cdot 3.61 \approx 28.8$ m².
+- **Tent.** $r = 2$, $l = \sqrt{9 + 4} = \sqrt{13}$; $S_{\text{lat}} = \frac{1}{2} \cdot
+  16 \cdot \sqrt{13} = 8\sqrt{13}$ m².
 
 Two right triangles do all the work: (height, inradius, apothem)
 and (height, circumradius, lateral edge).

@@ -53,8 +53,7 @@ find the radius of the section. Then: how many times bigger is the
 volume of the Earth ($R \approx 6400$ km) than the Moon's ($R \approx 1700$
 km)? Then: verify Archimedes' ratio for $R = 3$.
 
-- **Ball, $R = 3$.** $S = 36\pi \approx 113$; $V = \frac{4}{3}\pi \cdot 27 = 36\pi \approx
-  113$. (Again a coincidence of numbers - only at $R = 3$.)
+- **Ball, $R = 3$.** $S = 36\pi$; $V = \frac{4}{3}\pi \cdot 27 = 36\pi$. (Again a coincidence of numbers - only at $R = 3$.)
 - **Section.** $\sqrt{169 - 25} = 12$.
 - **Earth vs Moon.** Volumes scale as $R^3$: $\left(\frac{6400}{1700}\right)^3
   \approx 3.76^3 \approx 53$ times.
@@ -101,5 +100,5 @@ a great circle. Volumes scale as the cube of the radius.
 > 2. $R = 5$; $\frac{500\pi}{3}$.
 > 3. $3$; $9\pi$.
 > 4. $1 : 4$; $1 : 8$.
-> 5. $R = 5$: $\frac{500\pi}{3} \approx 524$.
+> 5. $R = 5$: $\frac{500\pi}{3}$.
 > 6. $\sqrt{100 - 36} = 8$.

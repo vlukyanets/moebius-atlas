@@ -52,15 +52,15 @@ The **axial section** (through the axis) is a rectangle $2R$ by $h$.
 A can has radius $4$ cm and height $10$ cm. Find the area of its label
 (the side), the tin to make it (total surface) and its volume. Then:
 a cylinder's axial section is a square of side $6$; find its volume.
-Then: a cylindrical tank of diameter $2$ m holds $6.28$ m³; find its
+Then: a cylindrical tank of diameter $2$ m holds $2\pi$ m³; find its
 height.
 
-- **Label:** $2\pi \cdot 4 \cdot 10 = 80\pi \approx 251$ cm². **Tin:** $80\pi + 2\pi
-  \cdot 16 = 112\pi \approx 352$ cm². **Volume:** $\pi \cdot 16 \cdot 10 = 160\pi
-  \approx 503$ cm³ - about half a litre.
+- **Label:** $2\pi \cdot 4 \cdot 10 = 80\pi$ cm². **Tin:** $80\pi + 2\pi \cdot 16
+  = 112\pi$ cm². **Volume:** $\pi \cdot 16 \cdot 10 = 160\pi$ cm³ - about
+  half a litre.
 - **Square section.** $2R = 6$ and $h = 6$: $R = 3$, $V = \pi \cdot 9 \cdot 6 =
   54\pi$.
-- **Tank.** $R = 1$; $\pi \cdot 1 \cdot h = 6.28 \approx 2\pi$, so $h = 2$ m.
+- **Tank.** $R = 1$; $\pi \cdot 1 \cdot h = 2\pi$, so $h = 2$ m.
 
 A cylinder whose axial section is a square - height equal to
 diameter - is called *equilateral*.
@@ -99,5 +99,5 @@ using it.
 > 2. $2\pi \cdot 5 \cdot 15 = 150\pi$.
 > 3. $R = 6$, $h = 7$, $V = 252\pi$.
 > 4. $R^2 = 25$, $R = 5$.
-> 5. $\pi (25 - 4) \cdot 20 = 420\pi \approx 1319$ cm³.
+> 5. $\pi (25 - 4) \cdot 20 = 420\pi$ cm³.
 > 6. $R = 3$: $\pi \cdot 9 \cdot 2 = 18\pi$.

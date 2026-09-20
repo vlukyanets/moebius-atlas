@@ -42,23 +42,30 @@ The **circumference** - the length of the circle - is proportional to
 its diameter, and the coefficient is the number $\pi$:
 
 $$
-C = \pi d = 2\pi r, \qquad \pi \approx 3.14
+C = \pi d = 2\pi r
 $$
 
-$\pi$ is an infinite non-repeating decimal, $3.14159\ldots$; in
-calculations it's rounded, usually to $3.14$.
+$\pi$ is an infinite non-repeating decimal, $3.14159\ldots$ - it cannot
+be written down exactly with digits, so the exact answer keeps the
+letter: a circle of diameter $10$ cm has circumference $10\pi$ cm, and
+that is the answer, not a step on the way to one. Only when a problem
+says "take $\pi \approx 3.14$" - or when you need a real length to walk,
+build or buy - do you replace $\pi$ by $3.14$, and then the result is
+approximate: $10\pi \approx 31.4$.
 
 ## Worked Example
 
 A bicycle wheel has diameter $70$ cm. How far does the bicycle travel
-in one turn of the wheel? In $100$ turns?
+in one turn of the wheel? In $100$ turns? Give the exact distance and
+an estimate to the nearest metre (take $\pi \approx 3.14$).
 
-- **One turn is one circumference:** $C = \pi d \approx 3.14 \cdot 70 =
-  219.8$ cm.
-- **A hundred turns:** $219.8 \cdot 100 = 21\,980$ cm $\approx 220$ m.
+- **One turn is one circumference:** $C = \pi d = 70\pi$ cm.
+- **A hundred turns:** $70\pi \cdot 100 = 7000\pi$ cm $= 70\pi$ m.
+- **The estimate:** $70\pi \approx 70 \cdot 3.14 = 219.8 \approx 220$ m.
 
-Now backwards. A circular pond needs $47.1$ m of fence. What's its
-radius? $C = 2\pi r$, so $r = C : (2\pi) \approx 47.1 : 6.28 = 7.5$ m.
+Now backwards. A circular pond needs $15\pi$ m of fence. What's its
+radius? $C = 2\pi r$, so $2\pi r = 15\pi$ and $r = 15 : 2 = 7.5$ m - the
+$\pi$ cancels, and nothing had to be rounded.
 
 ## Common Mistake
 
@@ -67,30 +74,37 @@ d$ needs $d = 140$, not $70$ - or use $2\pi r$ directly. Half the correct
 answer is the classic result of feeding a radius into a diameter
 formula. Before computing, say which one you've been given.
 
+The other slip is replacing $\pi$ by $3.14$ when nobody asked. An
+answer of $31.4$ cm is not the circumference of a $10$-cm circle - it's
+a rounded version of it. Write $10\pi$ cm, and reach for $3.14$ only
+when the problem says so.
+
 ## The Takeaway
 
 A circle is all the points at one distance - the radius - from the
 centre; the diameter is twice the radius. The circumference is $\pi$
-times the diameter, and $\pi \approx 3.14$ is the same for every circle.
+times the diameter. The exact answer keeps $\pi$; $3.14$ is a stand-in
+for when a number is asked for.
 
 ## Check Yourself
 
 1. Find the circumference of a circle with diameter $10$ cm.
 2. Find the circumference of a circle with radius $4.5$ m.
-3. A circle has circumference $31.4$ cm. Find its diameter and radius.
+3. A circle has circumference $12\pi$ cm. Find its diameter and radius.
 4. A wheel of diameter $50$ cm turns $200$ times. How far has it rolled,
-   in metres?
+   in metres? Give the exact answer, then estimate it with $\pi \approx
+   3.14$.
 5. Can a chord be longer than the diameter? Why not?
 6. Someone finds the circumference of a circle with radius $7$ as
-   $3.14 \cdot 7 \approx 22$. What's the right answer?
+   $7\pi$. What's the right answer?
 
 > [!spoiler] Answers
 >
-> 1. $31.4$ cm.
-> 2. $2 \cdot 3.14 \cdot 4.5 = 28.26$ m.
-> 3. $d = 10$ cm, $r = 5$ cm.
-> 4. $3.14 \cdot 50 \cdot 200 = 31\,400$ cm $= 314$ m.
+> 1. $10\pi$ cm.
+> 2. $2\pi \cdot 4.5 = 9\pi$ m.
+> 3. $d = 12$ cm, $r = 6$ cm.
+> 4. $\pi \cdot 50 \cdot 200 = 10\,000\pi$ cm $= 100\pi$ m $\approx 314$ m.
 > 5. No - the diameter passes through the centre and is the longest
 >    chord.
-> 6. $2 \cdot 3.14 \cdot 7 = 43.96$ - the formula with $d$ needs the
->    diameter, $14$.
+> 6. $2\pi \cdot 7 = 14\pi$ - the formula with $d$ needs the diameter,
+>    $14$.

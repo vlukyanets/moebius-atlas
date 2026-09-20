@@ -69,8 +69,7 @@ find its volume.
   $\frac{1}{2} \cdot 40\pi = 20\pi = 2\pi R$, so $R = 10$ cm. Height $\sqrt{400 -
   100} = 10\sqrt{3} \approx 17.3$ cm.
 - **Equilateral section.** $2R = 10$, $l = 10$: $R = 5$, $h = \sqrt{100 - 25} =
-  5\sqrt{3}$. $V = \frac{1}{3} \pi \cdot 25 \cdot 5\sqrt{3} = \frac{125\sqrt{3}}{3}\pi
-  \approx 226.7$.
+  5\sqrt{3}$. $V = \frac{1}{3} \pi \cdot 25 \cdot 5\sqrt{3} = \frac{125\sqrt{3}}{3}\pi$.
 
 The sector's angle is the fraction $\frac{R}{l}$ of $360^\circ$: for $R = 6$,
 $l = 10$ it's $216^\circ$.

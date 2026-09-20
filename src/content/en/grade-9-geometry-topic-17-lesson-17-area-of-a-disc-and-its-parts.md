@@ -61,12 +61,11 @@ the area of the segment cut off by a chord that subtends $90^\circ$ in a
 circle of radius $4$. Then: a ring between concentric circles of radii
 $5$ and $3$.
 
-- **Slice.** $R = 16$; one slice is $\frac{1}{8}$ of $\pi \cdot 256$: $32\pi \approx
-  100.5$ cm². (Or $\alpha = 45^\circ$: $\frac{\pi \cdot 256 \cdot 45}{360} = 32\pi$.)
+- **Slice.** $R = 16$; one slice is $\frac{1}{8}$ of $\pi \cdot 256$: $32\pi$
+  cm². (Or $\alpha = 45^\circ$: $\frac{\pi \cdot 256 \cdot 45}{360} = 32\pi$.)
 - **$120^\circ$ sector.** $\frac{\pi \cdot 36 \cdot 120}{360} = 12\pi$.
 - **$90^\circ$ segment.** Sector $\frac{\pi \cdot 16 \cdot 90}{360} = 4\pi$;
-  triangle $\frac{1}{2} \cdot 16 \cdot \sin 90^\circ = 8$; segment $4\pi - 8 \approx
-  4.57$.
+  triangle $\frac{1}{2} \cdot 16 \cdot \sin 90^\circ = 8$; segment $4\pi - 8$.
 - **Ring.** $\pi \cdot 25 - \pi \cdot 9 = 16\pi$.
 
 The segment is the sector with the triangle removed - draw it and
@@ -105,6 +104,6 @@ error is squared.
 > 1. $25\pi$.
 > 2. $\frac{3\pi}{2}$.
 > 3. $90^\circ$.
-> 4. $6\pi - \frac{1}{2} \cdot 36 \cdot \frac{\sqrt{3}}{2} = 6\pi - 9\sqrt{3} \approx 3.26$.
+> 4. $6\pi - \frac{1}{2} \cdot 36 \cdot \frac{\sqrt{3}}{2} = 6\pi - 9\sqrt{3}$.
 > 5. $28\pi$.
 > 6. $R = 3$: $9\pi$.

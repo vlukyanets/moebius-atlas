@@ -101,6 +101,6 @@ product of its diagonals.
 > 1. $60$.
 > 2. $6$.
 > 3. $27 : 4 = 6.75$.
-> 4. $120$; side $13$; altitude $120 : 13 \approx 9.23$.
+> 4. $120$; side $13$; altitude $\frac{120}{13}$.
 > 5. $10 \cdot 6 \sin 45^\circ = 30\sqrt{2} \approx 42.4$.
 > 6. The altitude - $28$ would be right only for a rectangle.

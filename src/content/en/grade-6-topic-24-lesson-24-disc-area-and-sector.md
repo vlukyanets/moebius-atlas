@@ -48,56 +48,63 @@ $$
 - the fraction $\frac{n}{360}$ of the whole disc. A half-disc is a sector
   of $180^\circ$, a quarter-disc of $90^\circ$.
 
+As with the circumference, the answer keeps $\pi$: a disc of radius $6$
+has area $36\pi$, and that's exact. Replace $\pi$ by $3.14$ only when
+the problem says so.
+
 ## Worked Example
 
 A pizza has diameter $30$ cm. Find its area. Then find the area of one
 slice, if it's cut into $8$ equal slices.
 
 - **Radius:** $30 : 2 = 15$ cm.
-- **Area of the disc:** $S = \pi r^2 \approx 3.14 \cdot 15^2 = 3.14 \cdot
-  225 = 706.5\ \text{cm}^2$.
+- **Area of the disc:** $S = \pi r^2 = \pi \cdot 15^2 = 225\pi\
+  \text{cm}^2$.
 - **One slice** is a sector of $360^\circ : 8 = 45^\circ$: $\frac{1}{8}$ of
-  the disc, $706.5 : 8 \approx 88.3\ \text{cm}^2$.
+  the disc, $\frac{225\pi}{8}\ \text{cm}^2$.
 
-Compare with a $25$-cm pizza: $r = 12.5$, $S \approx 3.14 \cdot 156.25
-\approx 490.6\ \text{cm}^2$. The $30$-cm pizza has $44\%$ more pizza,
-though its diameter is only $20\%$ bigger.
+Compare with a $25$-cm pizza: $r = 12.5$, $S = \pi \cdot 12.5^2 =
+156.25\pi\ \text{cm}^2$. The ratio is $\frac{225\pi}{156.25\pi} = 1.44$ -
+the $\pi$ cancels - so the $30$-cm pizza has $44\%$ more pizza, though
+its diameter is only $20\%$ bigger. No decimal for $\pi$ was needed
+anywhere.
 
 The sprinkler: it reaches $6$ m and turns through $90^\circ$.
-$\frac{90}{360} \cdot 3.14 \cdot 36 = \frac{1}{4} \cdot 113.04 \approx
-28.3\ \text{m}^2$.
+$\frac{90}{360} \cdot \pi \cdot 36 = 9\pi\ \text{m}^2$. If you want to
+know how many square metres of lawn that is, take $\pi \approx 3.14$:
+$9\pi \approx 28.3\ \text{m}^2$.
 
 ## Common Mistake
 
 Squaring the wrong thing. $\pi r^2$ means $\pi \cdot (r \cdot r)$, not
-$(\pi r)^2$: for $r = 15$ it's $3.14 \cdot 225$, not $47.1^2$. And using
-the diameter in place of the radius gives four times the true area -
-$\pi \cdot 30^2$ for the pizza is $2826$, a pizza the size of a table.
+$(\pi r)^2$: for $r = 15$ it's $225\pi$, not $225\pi^2$. And using the
+diameter in place of the radius gives four times the true area -
+$\pi \cdot 30^2 = 900\pi$ for the pizza, a pizza the size of a table.
 Halve the diameter first, square the radius, then multiply by $\pi$.
 
 ## The Takeaway
 
-The area of a disc is $\pi r^2$ - radius squared, times $\pi$. A sector's
-area is the disc's area times the fraction its angle makes of
-$360^\circ$. Doubling the radius quadruples the area, which is why a
-bigger pizza is more pizza than it looks.
+The area of a disc is $\pi r^2$ - radius squared, times $\pi$, and the
+$\pi$ stays in the answer. A sector's area is the disc's area times the
+fraction its angle makes of $360^\circ$. Doubling the radius quadruples
+the area, which is why a bigger pizza is more pizza than it looks.
 
 ## Check Yourself
 
 1. Find the area of a disc with radius $10$ cm.
 2. Find the area of a disc with diameter $8$ m.
 3. Find the area of a sector of $60^\circ$ in a disc of radius $6$ cm.
-4. A disc has area $12.56\ \text{cm}^2$. Find its radius.
+4. A disc has area $16\pi\ \text{cm}^2$. Find its radius.
 5. A circular pond of radius $5$ m has a $1$-m-wide path round it. Find
    the area of the path.
-6. Someone finds the area of a disc with $d = 30$ as $3.14 \cdot 30^2 =
-   2826$. What's the right answer?
+6. Someone finds the area of a disc with $d = 30$ as $\pi \cdot 30^2 =
+   900\pi$. What's the right answer?
 
 > [!spoiler] Answers
 >
-> 1. $314\ \text{cm}^2$.
-> 2. $r = 4$: $50.24\ \text{m}^2$.
-> 3. $\frac{60}{360} \cdot 3.14 \cdot 36 = 18.84\ \text{cm}^2$.
-> 4. $r^2 = 12.56 : 3.14 = 4$, so $r = 2$ cm.
-> 5. $3.14 \cdot 36 - 3.14 \cdot 25 = 3.14 \cdot 11 = 34.54\ \text{m}^2$.
-> 6. $r = 15$: $3.14 \cdot 225 = 706.5$.
+> 1. $100\pi\ \text{cm}^2$.
+> 2. $r = 4$: $16\pi\ \text{m}^2$.
+> 3. $\frac{60}{360} \cdot \pi \cdot 36 = 6\pi\ \text{cm}^2$.
+> 4. $r^2 = 16$, so $r = 4$ cm.
+> 5. $36\pi - 25\pi = 11\pi\ \text{m}^2$.
+> 6. $r = 15$: $\pi \cdot 225 = 225\pi$.

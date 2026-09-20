@@ -51,19 +51,19 @@ particular, a $90^\circ$ arc is a quarter of the circle, $\frac{\pi R}{2}$.
 
 ## Worked Example
 
-A wheel has radius $35$ cm; how far does a bike travel in $100$ turns?
+A wheel has radius $35$ cm; how far does a bike travel in $100$ turns -
+exactly, and roughly, in metres?
 Then: find the length of a $60^\circ$ arc of a circle with radius $12$.
 Then: an arc of length $5\pi$ has radius $10$; find its central angle.
 Then: a pendulum $80$ cm long swings through $15^\circ$; how far does
 the bob travel?
 
-- **Wheel.** One turn is $C = 2\pi \cdot 0.35 \approx 2.2$ m; $100$ turns
-  $\approx 220$ m.
-- **$60^\circ$ arc.** $l = \frac{\pi \cdot 12 \cdot 60}{180} = 4\pi \approx 12.6$. (A
-  sixth of $24\pi$.)
+- **Wheel.** One turn is $C = 2\pi \cdot 0.35 = 0.7\pi$ m; $100$ turns is
+  $70\pi$ m - roughly $220$ m, with $\pi \approx 3.14$.
+- **$60^\circ$ arc.** $l = \frac{\pi \cdot 12 \cdot 60}{180} = 4\pi$. (A sixth of
+  $24\pi$.)
 - **Angle.** $5\pi = \frac{\pi \cdot 10 \cdot \alpha}{180}$, $\alpha = 90^\circ$.
-- **Pendulum.** $l = \frac{\pi \cdot 80 \cdot 15}{180} = \frac{20\pi}{3} \approx 20.9$
-  cm.
+- **Pendulum.** $l = \frac{\pi \cdot 80 \cdot 15}{180} = \frac{20\pi}{3}$ cm.
 
 The arc formula is just "fraction of the circle": $60^\circ$ is
 $\frac{1}{6}$, so $\frac{1}{6}$ of $2\pi \cdot 12$.
@@ -102,5 +102,6 @@ grows with $R$, not $R^2$.
 > 2. $9$.
 > 3. $2\pi$.
 > 4. $60^\circ$.
-> 5. $6R$ versus $2\pi R \approx 6.28R$ - a little less.
+> 5. $6R$ versus $2\pi R$; since $\pi > 3$, the perimeter is a little
+>    less than the circumference.
 > 6. $\frac{\pi \cdot 6 \cdot 30}{180} = \pi$ (or $\frac{30}{360} \cdot 12\pi = \pi$).
