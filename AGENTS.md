@@ -495,6 +495,9 @@ regression, not as noise:
 ## Do not
 
 - Commit `dist/` or `node_modules/` (both gitignored, as are `.claude/` and `.env`).
+- Commit the specs and plans an agent writes for itself under
+  `docs/superpowers/`. They are working notes, not documentation, and stay
+  local - the folder is gitignored.
 - Touch `.github/workflows/deploy.yml` for content or UI work. It carries one
   build-time value (`VITE_GOOGLE_CLIENT_ID`, from a repository *variable*), and
   that is the only reason it has ever needed editing outside deployment work.
