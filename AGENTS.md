@@ -36,6 +36,7 @@ change it without breaking it. Read both before a first edit.
 | `tools/check_graph.py` | Content invariants: ids resolve, relation is acyclic, transitively reduced, grade-ordered |
 | `vite.config.ts` | Build config + the `atlas-content` plugin that splits content into metadata and per-language bodies |
 | `.github/workflows/deploy.yml` | Builds and publishes `dist/` to GitHub Pages on push to `master` |
+| `.github/pull_request_template.md` | What every pull request answers - see *Git* |
 
 Components: `TopBar` (brand, tabs, search field, progress and settings menus),
 `Menu` (the shared popover menu, labelled row and segmented switch), `SettingsMenu`,
@@ -470,9 +471,33 @@ regression, not as noise:
   `src/views/<lang>/`. Missing translations fall back to English per field, so a
   partial language ships fine.
 
+## Git
+
+- Name a branch after its topic, in a few lowercase words joined by
+  hyphens, such as `scene-host` or `triangle-angle-sum`: no prefix like
+  `feat/` or `claude/`, no random words. Its worktree folder has the same
+  name.
+- Work in a worktree of your own, never in the main checkout:
+  `git worktree add .claude/worktrees/<branch> -b <branch> <base>`.
+  Not `claude --worktree`, which names the branch itself.
+- Run every command inside the worktree. The main checkout stays on
+  `master`; do not switch, rebase or reset it. A worktree has no
+  `node_modules` of its own: run `npm install` there before the first build.
+- Remove a worktree only when its branch is merged or the owner drops it,
+  and only when `git status` there prints nothing.
+- Commit title: one line in the past tense saying what was done - "Added
+  ...", "Fixed ...", "Renamed ..." - with no prefix and no period. The body
+  says why.
+- Push only with `--force-with-lease --force-if-includes`.
+- A pull request fills in `.github/pull_request_template.md` and says
+  `Closes #N` when it comes from an issue.
+
 ## Do not
 
 - Commit `dist/` or `node_modules/` (both gitignored, as are `.claude/` and `.env`).
+- Commit the specs and plans an agent writes for itself under
+  `docs/superpowers/`. They are working notes, not documentation, and stay
+  local - the folder is gitignored.
 - Touch `.github/workflows/deploy.yml` for content or UI work. It carries one
   build-time value (`VITE_GOOGLE_CLIENT_ID`, from a repository *variable*), and
   that is the only reason it has ever needed editing outside deployment work.
@@ -481,3 +506,5 @@ regression, not as noise:
 - Introduce a non-hash route - GitHub Pages has no server rewrites.
 - Reformat or reflow files you are not otherwise changing.
 - Push to `master` unless asked: a push publishes the live site.
+- Add AI attribution anywhere: no `Co-Authored-By`, session links or
+  "Generated with" lines in commits or pull requests.
