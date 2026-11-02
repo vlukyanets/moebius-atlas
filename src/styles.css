@@ -627,7 +627,27 @@ button { font-family: inherit; }
 /* The first line inside sits under the summary, not away from it. */
 .detail-body details.spoiler > :nth-child(2) { margin-top: 0; }
 
+/* What a body says about its scenes (src/stage/text.tsx). A marker that
+   names no scene of this body is drawn in --bad, like an unread spoiler. */
 .detail-body p.scene-missing { font-family: var(--mono); color: var(--bad); background: var(--bad-soft); padding: 8px 12px; border-radius: 6px; }
+.detail-body .scene-step {
+  margin-top: 12px; padding: 2px 14px 10px; cursor: pointer;
+  border-left: 3px solid var(--border-strong); border-radius: 0 8px 8px 0;
+  transition: border-color .15s, background .15s;
+}
+.detail-body .scene-step:hover { border-left-color: var(--accent); }
+.detail-body .scene-step.is-current { border-left-color: var(--accent); background: var(--accent-soft); }
+.detail-body .scene-task {
+  margin-top: 16px; padding: 2px 16px 12px;
+  border: 1px solid var(--border); border-radius: 10px; background: var(--chip-bg);
+}
+.detail-body .scene-task.is-done { border-color: var(--ok); background: var(--ok-soft); }
+.scene-task-status { display: flex; align-items: center; gap: 6px; margin-top: 8px; font-size: 13px; color: var(--text-muted); }
+.scene-task.is-done .scene-task-status { color: var(--ok); }
+.scene-task.is-hint .scene-task-status { color: var(--trail); }
+.detail-body a.scene-link { color: var(--link); text-decoration: underline dashed; text-underline-offset: 3px; }
+.detail-body .scene-step.scene-ref-error, .detail-body .scene-task.scene-ref-error { cursor: default; border-color: var(--bad); background: var(--bad-soft); }
+.detail-body a.scene-link.scene-ref-error { text-decoration: underline wavy var(--bad); cursor: default; }
 
 .detail-footer {
   display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 24px;

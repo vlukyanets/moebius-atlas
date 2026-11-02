@@ -188,4 +188,7 @@ export const UI = {
     uk: 'Не вдалося зв’язатися з Google. Прогрес збережено в цьому браузері.',
   },
   cloudRetry: { en: 'Try again', uk: 'Спробувати ще раз' },
+  sceneTaskOpen: { en: 'Not solved yet', uk: 'Ще не розв’язано' },
+  sceneTaskDone: { en: 'Solved', uk: 'Розв’язано' },
+  sceneRefMissing: { en: 'No such scene in this topic', uk: 'У цій темі немає такої сцени' },
 } satisfies Record<string, L10n>;
