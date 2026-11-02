@@ -44,8 +44,6 @@ To round a number to a given place:
 
 Round $4278$ to the nearest hundred.
 
-[!anim] rounding-digits
-
 - **Find the hundreds digit.** It's $2$ - that's the digit that might
   change.
 - **Look at the decider.** The digit right after the hundreds place is the

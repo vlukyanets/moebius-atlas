@@ -11,11 +11,7 @@ import ReactMarkdown from 'react-markdown';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
 import type { Element, Parent, Root, Text } from 'hast';
-import { Suspense, lazy } from 'react';
 import 'katex/dist/katex.min.css';
-
-/** Loaded only when a body actually embeds an animation - see AnimSlot.tsx. */
-const AnimSlot = lazy(() => import('../animations/AnimSlot').then((m) => ({ default: m.AnimSlot })));
 
 /**
  * A blockquote opening with `[!spoiler] <label>` is a spoiler. Markdown has no
@@ -69,13 +65,9 @@ const rehypeSpoilers = () => (tree: Root): void => {
 };
 
 /**
- * A standalone paragraph reading `[!anim] <id>` embeds the animation
- * registered under that id (see `src/animations/index.ts`) in its place. Like
- * the spoiler marker, this is plain text no Markdown syntax already means
- * something else. Whether `id` actually resolves is AnimSlot's business, not
- * this plugin's - resolving it here would mean importing the animation
- * registry (and so Framer Motion) into this chunk, which is exactly the
- * weight AnimSlot's own `lazy()` boundary exists to keep out.
+ * A standalone paragraph reading `[!anim] <id>` embeds the scene with that id
+ * in its place. Like the spoiler marker, this is plain text no Markdown syntax
+ * already means something else.
  */
 const ANIM_MARKER = /^\[!anim\]\s+(\S+)\s*$/;
 
@@ -102,11 +94,9 @@ export function Markdown({ children }: { children: string }): JSX.Element {
       rehypePlugins={[rehypeKatex, rehypeSpoilers, rehypeAnimations]}
       components={{
         // @ts-expect-error - custom element from rehypeAnimations, not a DOM tag
-        'anim-slot': ({ id }: { id: string }) => (
-          <Suspense fallback={null}>
-            <AnimSlot id={id} />
-          </Suspense>
-        ),
+        // No scene can be drawn yet, so every marker shows as the missing
+        // scene it is rather than vanishing.
+        'anim-slot': ({ id }: { id: string }) => <p className="scene-missing">[!anim] {id}</p>,
       }}
     >
       {children}
