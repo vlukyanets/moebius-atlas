@@ -15,7 +15,7 @@ import { useFrame, useThree, type ThreeEvent } from '@react-three/fiber';
 import { useEffect, useMemo, useRef, useState, type ReactNode, type RefObject } from 'react';
 import { MathUtils, Plane, Vector3, type Color, type Group } from 'three';
 import { defineScene } from '../stage/defineScene';
-import { useAnimOn, useHovered, usePublish, useStep, useStrings, useTask, useToken } from '../stage/hooks';
+import { ease, useAnimOn, useHovered, usePublish, useStep, useStrings, useTask, useToken } from '../stage/hooks';
 
 type V2 = readonly [number, number];
 type Tri = readonly [V2, V2, V2];
@@ -191,7 +191,7 @@ function TriangleAngleSum(): JSX.Element {
     let moving = false;
     progress.current = progress.current.map((p, i) => {
       const target = goalRef.current[i];
-      const next = animOn ? MathUtils.damp(p, target, 6, delta) : target;
+      const next = animOn ? ease(p, target, delta) : target;
       if (Math.abs(next - target) < 1e-3) return target;
       moving = true;
       return next;
@@ -205,7 +205,15 @@ function TriangleAngleSum(): JSX.Element {
     invalidate();
   });
 
+  const release = (): void => {
+    setDragging(null);
+    gl.domElement.style.cursor = '';
+  };
+  // Only the primary button drags. A right click opens the context menu on
+  // mousedown, which eats the pointerup - and a drag that never hears its end
+  // would leave the vertex following the pointer with no button held.
   const grab = (i: number) => (e: ThreeEvent<PointerEvent>): void => {
+    if (e.button !== 0) return;
     e.stopPropagation();
     (e.target as Element).setPointerCapture(e.pointerId);
     setDragging(i);
@@ -213,6 +221,9 @@ function TriangleAngleSum(): JSX.Element {
   };
   const move = (i: number) => (e: ThreeEvent<PointerEvent>): void => {
     if (dragging !== i) return;
+    // A capture lost without a pointerup reaches no handler in R3F 8, so a
+    // move with the button no longer held is what ends such a drag.
+    if (!(e.buttons & 1)) return release();
     const hit = e.ray.intersectPlane(Z, new Vector3());
     if (!hit) return;
     // A vertex stays a label's width inside the canvas, or its letter is cut off.
@@ -226,8 +237,7 @@ function TriangleAngleSum(): JSX.Element {
   };
   const drop = (e: ThreeEvent<PointerEvent>): void => {
     (e.target as Element).releasePointerCapture(e.pointerId);
-    setDragging(null);
-    gl.domElement.style.cursor = '';
+    release();
   };
 
   const centre = scale(add(add(A, B), C), 1 / 3);
@@ -273,6 +283,7 @@ function TriangleAngleSum(): JSX.Element {
             onPointerDown={grab(i)}
             onPointerMove={move(i)}
             onPointerUp={drop}
+            onPointerCancel={release}
             onPointerOver={() => dragging === null && (gl.domElement.style.cursor = 'grab')}
             onPointerOut={() => dragging === null && (gl.domElement.style.cursor = '')}
           >

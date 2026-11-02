@@ -122,6 +122,23 @@ function chunkBudgets(): Plugin {
           : (BUDGETS[chunk.name] ?? DEFAULT_BUDGET);
         if (kB > limit) this.error(`${chunk.fileName}: ${kB.toFixed(1)} kB > budget ${limit} kB`);
       }
+      // Within budget is not enough for the three chunk: it must also not be
+      // reachable from the entry by static imports, or every first paint pays
+      // for it. Twice already a module shared with the entry was swallowed by
+      // it and dragged it in, and no size can see that.
+      const byFile = new Map(Object.values(bundle).flatMap((c) => (c.type === 'chunk' ? [[c.fileName, c] as const] : [])));
+      for (const entry of byFile.values()) {
+        if (!entry.isEntry) continue;
+        const seen = new Set<string>();
+        const walk = (file: string): void => {
+          if (seen.has(file)) return;
+          seen.add(file);
+          const chunk = byFile.get(file);
+          if (chunk?.name === 'three') this.error(`${entry.fileName} imports the three chunk statically: three would load on every page`);
+          chunk?.imports.forEach(walk);
+        };
+        walk(entry.fileName);
+      }
     },
   };
 }
@@ -135,6 +152,12 @@ const THREE_MODULE = /\/node_modules\/(three|three-stdlib|@react-three)\//;
  * page, scene or no scene.
  */
 const REACT_MODULE = /\/node_modules\/(react|react-dom|scheduler)\//;
+/**
+ * Vite's own helper for dynamic imports. drei has one (`hls.js` in its video
+ * texture), so the helper is injected into it, and left unassigned the three
+ * chunk took it in - and with it the entry's every `import()`.
+ */
+const PRELOAD_HELPER = 'vite/preload-helper';
 
 // base './' makes the build relocatable - it works both at the GitHub Pages
 // project path (https://user.github.io/repo/) and at a custom domain root.
@@ -146,7 +169,8 @@ export default defineConfig({
     chunkSizeWarningLimit: Number.POSITIVE_INFINITY,
     rollupOptions: {
       output: {
-        manualChunks: (id) => (THREE_MODULE.test(id) ? 'three' : REACT_MODULE.test(id) ? 'react' : undefined),
+        manualChunks: (id) =>
+          THREE_MODULE.test(id) ? 'three' : REACT_MODULE.test(id) || id.includes(PRELOAD_HELPER) ? 'react' : undefined,
       },
     },
   },
