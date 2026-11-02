@@ -84,18 +84,58 @@ Consequences:
 
 ## Worked Example
 
-Find the third angle of a triangle with angles $48^\circ$ and $67^\circ$.
-Then: the angles of a triangle are in the ratio $2 : 3 : 4$ - find them.
-Then: an isosceles triangle has apex angle $40^\circ$ - find its base
-angles.
+Four problems, each a different way into the same rule: whatever two angles
+of a triangle are, the third is what they leave of $180^\circ$.
 
-- **Third angle:** $180^\circ - 48^\circ - 67^\circ = 65^\circ$.
-- **Ratio:** $2x + 3x + 4x = 180$, $9x = 180$, $x = 20$. Angles $40^\circ$,
-  $60^\circ$, $80^\circ$ - all acute.
-- **Isosceles:** base angles equal, $2y + 40 = 180$, $y = 70^\circ$ each.
+**Problem 1. Two angles are known.** A triangle has angles of $48^\circ$ and
+$67^\circ$. Find the third.
 
-Right triangle: one acute angle is $35^\circ$; the other is $90^\circ -
-35^\circ = 55^\circ$.
+1. Call the angle we are looking for $x$.
+2. Write the theorem for this triangle: $48^\circ + 67^\circ + x = 180^\circ$.
+3. Add the two known angles: $48^\circ + 67^\circ = 115^\circ$, so
+   $115^\circ + x = 180^\circ$.
+4. Take $115^\circ$ away from both sides: $x = 180^\circ - 115^\circ = 65^\circ$.
+
+**Answer:** $65^\circ$. **Check:** $48^\circ + 67^\circ + 65^\circ = 180^\circ$.
+
+**Problem 2. Only the ratio is known.** The angles of a triangle are in the
+ratio $2 : 3 : 4$. Find them.
+
+1. A ratio $2 : 3 : 4$ says the angles are built from equal parts: the first
+   has $2$ of them, the second $3$, the third $4$. Call one part $x$; then
+   the angles are $2x$, $3x$ and $4x$.
+2. Together they make $180^\circ$: $2x + 3x + 4x = 180^\circ$.
+3. Count the parts: $9x = 180^\circ$, so one part is
+   $x = 180^\circ : 9 = 20^\circ$.
+4. Go back to the angles: $2x = 40^\circ$, $3x = 60^\circ$, $4x = 80^\circ$.
+
+**Answer:** $40^\circ$, $60^\circ$, $80^\circ$. **Check:**
+$40^\circ + 60^\circ + 80^\circ = 180^\circ$, and $40 : 60 : 80 = 2 : 3 : 4$.
+All three angles are less than $90^\circ$, so the triangle is acute.
+
+**Problem 3. An isosceles triangle.** The angle at the apex of an isosceles
+triangle is $40^\circ$. Find the angles at its base.
+
+1. In an isosceles triangle the two angles at the base are equal. Call each
+   of them $y$.
+2. The three angles are $40^\circ$, $y$ and $y$:
+   $40^\circ + y + y = 180^\circ$, that is $40^\circ + 2y = 180^\circ$.
+3. Take $40^\circ$ away from both sides: $2y = 140^\circ$.
+4. Halve it: $y = 70^\circ$.
+
+**Answer:** $70^\circ$ each. **Check:** $40^\circ + 70^\circ + 70^\circ = 180^\circ$.
+
+**Problem 4. A right triangle.** One acute angle of a right triangle is
+$35^\circ$. Find the other one.
+
+1. A right triangle has a right angle, so $90^\circ$ of the $180^\circ$ are
+   already taken.
+2. The two acute angles share what is left: $180^\circ - 90^\circ = 90^\circ$.
+3. So the other acute angle is $90^\circ - 35^\circ = 55^\circ$.
+
+**Answer:** $55^\circ$. **Check:** $90^\circ + 35^\circ + 55^\circ = 180^\circ$.
+The same reasoning works for every right triangle: its two acute angles
+always add up to $90^\circ$.
 
 ## Common Mistake
 
