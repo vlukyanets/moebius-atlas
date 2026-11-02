@@ -29,6 +29,7 @@ change it without breaking it. Read both before a first edit.
 | `src/data/views.ts` | Loads the tab definitions from `src/views/<lang>/*.md` |
 | `src/stage/` | The scene host and the text-scene channel - see *Scenes* |
 | `src/scenes/<id>.tsx` | One scene per file, hand-written, drawn where a body says `[!anim] <id>` |
+| `src/scenes/shared/` | Code several scenes share - not scenes themselves |
 | `src/content/<lang>/<id>.md` | Topic content - one file per topic per language (~485 each) |
 | `src/views/<lang>/<id>.md` | Tab definitions (`kind`, `order`, localized title) |
 | `src/components/` | Presentation only - see below |
@@ -416,7 +417,10 @@ formality bolted on beside it.
   its topic and exported through `defineScene` (camera `2d` or `3d`, the step
   keys it understands, its `strings`). There is no scene builder and no
   registry: the host finds the file by its id with an `import.meta.glob`, and
-  each file is a chunk of its own.
+  each file is a chunk of its own. The glob reads only the files directly in
+  `src/scenes/`, so what two scenes share - the triangle geometry, how an
+  angle and a label are drawn - lives in `src/scenes/shared/`, where nothing
+  can ask for it by id.
 - A scene knows the page only through the hooks in `src/stage/hooks.ts` -
   `useStep`, `useHovered`, `usePressed`, `usePublish`, `useTask`,
   `useStrings`, `useSceneLang`, `useAnimOn`, `useLoop`, `useToken`. It never

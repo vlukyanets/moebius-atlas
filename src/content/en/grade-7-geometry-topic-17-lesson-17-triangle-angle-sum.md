@@ -91,8 +91,11 @@ Consequences:
 Four problems, each a different way into the same rule: whatever two angles
 of a triangle are, the third is what they leave of $180^\circ$.
 
-**Problem 1. Two angles are known.** A triangle has angles of $48^\circ$ and
-$67^\circ$. Find the third. [Show it on the triangle ↑](#triangle-angle-sum:problem-1)
+[!anim] triangle-angle-examples
+
+> [!step] triangle-angle-examples:problem-1
+> **Problem 1. Two angles are known.** A triangle has angles of $48^\circ$ and
+> $67^\circ$. Find the third.
 
 1. Call the angle we are looking for $x$.
 2. Write the theorem for this triangle: $48^\circ + 67^\circ + x = 180^\circ$.
@@ -102,8 +105,9 @@ $67^\circ$. Find the third. [Show it on the triangle ↑](#triangle-angle-sum:pr
 
 **Answer:** $65^\circ$. **Check:** $48^\circ + 67^\circ + 65^\circ = 180^\circ$.
 
-**Problem 2. Only the ratio is known.** The angles of a triangle are in the
-ratio $2 : 3 : 4$. Find them. [Show it on the triangle ↑](#triangle-angle-sum:problem-2)
+> [!step] triangle-angle-examples:problem-2
+> **Problem 2. Only the ratio is known.** The angles of a triangle are in the
+> ratio $2 : 3 : 4$. Find them.
 
 1. A ratio $2 : 3 : 4$ says the angles are built from equal parts: the first
    has $2$ of them, the second $3$, the third $4$. Call one part $x$; then
@@ -117,9 +121,9 @@ ratio $2 : 3 : 4$. Find them. [Show it on the triangle ↑](#triangle-angle-sum:
 $40^\circ + 60^\circ + 80^\circ = 180^\circ$, and $40 : 60 : 80 = 2 : 3 : 4$.
 All three angles are less than $90^\circ$, so the triangle is acute.
 
-**Problem 3. An isosceles triangle.** The angle at the apex of an isosceles
-triangle is $40^\circ$. Find the angles at its base.
-[Show it on the triangle ↑](#triangle-angle-sum:problem-3)
+> [!step] triangle-angle-examples:problem-3
+> **Problem 3. An isosceles triangle.** The angle at the apex of an isosceles
+> triangle is $40^\circ$. Find the angles at its base.
 
 1. In an isosceles triangle the two angles at the base are equal. Call each
    of them $y$.
@@ -130,8 +134,9 @@ triangle is $40^\circ$. Find the angles at its base.
 
 **Answer:** $70^\circ$ each. **Check:** $40^\circ + 70^\circ + 70^\circ = 180^\circ$.
 
-**Problem 4. A right triangle.** One acute angle of a right triangle is
-$35^\circ$. Find the other one. [Show it on the triangle ↑](#triangle-angle-sum:problem-4)
+> [!step] triangle-angle-examples:problem-4
+> **Problem 4. A right triangle.** One acute angle of a right triangle is
+> $35^\circ$. Find the other one.
 
 1. A right triangle has a right angle, so $90^\circ$ of the $180^\circ$ are
    already taken.

@@ -10,15 +10,35 @@
  * the steps can be walked in any order and the triangle dragged at any of
  * them - the construction is rebuilt from the vertices on every frame.
  */
-import { Html, Line } from '@react-three/drei';
+import { Line } from '@react-three/drei';
 import { useFrame, useThree, type ThreeEvent } from '@react-three/fiber';
-import { useEffect, useMemo, useRef, useState, type ReactNode, type RefObject } from 'react';
-import { MathUtils, Plane, Vector3, type Color, type Group } from 'three';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { MathUtils, Plane, Vector3, type Group } from 'three';
 import { defineScene } from '../stage/defineScene';
-import { ease, useAnimOn, useHovered, usePressed, usePublish, useStep, useStrings, useTask, useToken } from '../stage/hooks';
-
-type V2 = readonly [number, number];
-type Tri = readonly [V2, V2, V2];
+import { ease, useAnimOn, useHovered, usePublish, useStep, useStrings, useTask, useToken } from '../stage/hooks';
+import {
+  ARC,
+  Label,
+  NAMES,
+  Sector,
+  add,
+  arcPoints,
+  at3,
+  corners,
+  cross,
+  heading,
+  letterAt,
+  lerp,
+  middle,
+  numberAt,
+  scale,
+  sub,
+  toward,
+  unit,
+  type Corner,
+  type Tri,
+  type V2,
+} from './shared/triangle';
 
 const STEPS = ['parallel', 'alternate-a', 'alternate-c', 'straight'] as const;
 
@@ -33,75 +53,14 @@ const strings = {
   },
 };
 
-/**
- * The triangles of the worked examples, as the angles at A and C: a link to
- * `problem-N` in the text eases the drawing into that problem's triangle, so
- * the reader sees the numbers they just worked with.
- */
-const PROBLEMS: Record<string, readonly [number, number]> = {
-  'problem-1': [48, 67],
-  'problem-2': [40, 80],
-  'problem-3': [70, 70],
-  'problem-4': [35, 55],
-};
-
 const START: Tri = [[-4, -2], [-1, 2.5], [4, -2]];
-const NAMES = ['A', 'B', 'C'] as const;
 /**
  * Two vertices may not meet. An angle may close all the way to 0: watching
  * one close while another opens to 180 is the theorem at its plainest.
  */
 const MIN_SIDE = 1;
-const ARC = 0.75;
-/** Below this an angle's number no longer fits between its sides. */
-const NARROW = 30;
-
-const sub = (p: V2, q: V2): V2 => [p[0] - q[0], p[1] - q[1]];
-const add = (p: V2, q: V2): V2 => [p[0] + q[0], p[1] + q[1]];
-const scale = (p: V2, k: number): V2 => [p[0] * k, p[1] * k];
-const unit = (p: V2): V2 => scale(p, 1 / Math.hypot(p[0], p[1]));
-const toward = (t: number): V2 => [Math.cos(t), Math.sin(t)];
-const heading = (p: V2): number => Math.atan2(p[1], p[0]);
-const cross = (p: V2, q: V2): number => p[0] * q[1] - p[1] * q[0];
-const lerp = (p: V2, q: V2, t: number): V2 => add(p, scale(sub(q, p), t));
-const at3 = (p: V2, z = 0): [number, number, number] => [p[0], p[1], z];
-
-interface Corner {
-  /** Where the arc of the inner angle starts, and how far it sweeps (radians). */
-  start: number;
-  sweep: number;
-  deg: number;
-}
-
-/** The inner angle at `p` between the rays to `q` and `r`. */
-function corner(p: V2, q: V2, r: V2): Corner {
-  const a = heading(sub(q, p));
-  let d = heading(sub(r, p)) - a;
-  while (d <= -Math.PI) d += 2 * Math.PI;
-  while (d > Math.PI) d -= 2 * Math.PI;
-  return d >= 0
-    ? { start: a, sweep: d, deg: MathUtils.radToDeg(d) }
-    : { start: a + d, sweep: -d, deg: MathUtils.radToDeg(-d) };
-}
-
-const corners = ([a, b, c]: Tri): [Corner, Corner, Corner] => [corner(a, b, c), corner(b, c, a), corner(c, a, b)];
 
 const fits = (t: Tri): boolean => [0, 1, 2].every((i) => Math.hypot(...sub(t[i], t[(i + 1) % 3])) >= MIN_SIDE);
-
-/**
- * The directions labels are placed along, taken from the arc rather than by
- * adding the two side vectors: at 0 or 180 degrees those cancel and leave no
- * direction at all.
- */
-const middle = (k: Corner): number => k.start + k.sweep / 2;
-
-/**
- * Where an angle's number goes: inside the angle while there is room, and
- * just past its arc - outside the angle, beside one of its sides - once the
- * angle is too narrow to hold it.
- */
-const numberAt = (p: V2, k: Corner): V2 =>
-  k.deg >= NARROW ? add(p, scale(toward(middle(k)), ARC + 0.55)) : add(p, scale(toward(k.start + k.sweep + 0.6), ARC + 0.45));
 
 /**
  * Whole degrees that add up to 180. Rounding each angle on its own gives 179
@@ -113,53 +72,6 @@ const shown = ([a, b]: [Corner, Corner, Corner]): [number, number, number] => {
   const y = Math.round(b.deg);
   return [x, y, 180 - x - y];
 };
-
-const arcPoints = (k: Corner, r: number): [number, number, number][] =>
-  Array.from({ length: 33 }, (_, i) => {
-    const t = k.start + (k.sweep * i) / 32;
-    return [Math.cos(t) * r, Math.sin(t) * r, 0];
-  });
-
-/** An angle drawn at the origin: a tinted sector with its arc. */
-function Sector({ k, color, strong }: { k: Corner; color: Color; strong: boolean }): JSX.Element {
-  return (
-    <>
-      <mesh>
-        <circleGeometry args={[ARC, 40, k.start, k.sweep]} />
-        <meshBasicMaterial color={color} transparent opacity={strong ? 0.42 : 0.2} depthWrite={false} />
-      </mesh>
-      <Line points={arcPoints(k, ARC)} color={color} lineWidth={strong ? 3.5 : 2} />
-    </>
-  );
-}
-
-function Label({ at, children, fade }: { at: V2; children: ReactNode; fade?: RefObject<HTMLDivElement> }): JSX.Element {
-  return (
-    // drei stacks labels at z-index 16777271 by default, over the sticky top
-    // bar; under it, they scroll away beneath it like the canvas does.
-    <Html position={at3(at)} center zIndexRange={[1, 0]} wrapperClass="scene-label-wrap" className="scene-label" ref={fade}>
-      {children}
-    </Html>
-  );
-}
-
-/**
- * A triangle with angle `a` at A and `c` at C (degrees) on a level base,
- * scaled down to fit a `w` by `h` box and centred in it.
- */
-function shaped(a: number, c: number, w: number, h: number): Tri {
-  const ra = MathUtils.degToRad(a);
-  const rc = MathUtils.degToRad(c);
-  const base = 8;
-  // The law of sines gives AB from the base and the angle at C.
-  const ab = (base * Math.sin(rc)) / Math.sin(Math.PI - ra - rc);
-  const b: V2 = [ab * Math.cos(ra), ab * Math.sin(ra)];
-  const left = Math.min(0, b[0]);
-  const right = Math.max(base, b[0]);
-  const k = Math.min(1, w / (right - left), h / b[1]);
-  const place = ([x, y]: V2): V2 => [(x - (left + right) / 2) * k, (y - b[1] / 2) * k];
-  return [place([0, 0]), place(b), place([base, 0])];
-}
 
 const Z = new Plane(new Vector3(0, 0, 1), 0);
 
@@ -182,21 +94,6 @@ function TriangleAngleSum(): JSX.Element {
   };
 
   const [tri, setTri] = useState<Tri>(START);
-  // Where a worked example is taking the triangle, while it is on its way.
-  const bound = useRef<Tri | null>(null);
-  // A task is the reader's to solve: a triangle a worked example put there
-  // does not count until the reader has moved it themselves.
-  const [byHand, setByHand] = useState(false);
-  const triNow = useRef(tri);
-  triNow.current = tri;
-  for (const [key, [a, c]] of Object.entries(PROBLEMS))
-    // A hook in a loop is safe here: the table is a constant, so the hooks
-    // run in the same order on every render.
-    usePressed(key, () => {
-      bound.current = shaped(a, c, viewport.width - 3, viewport.height - 2.6);
-      setByHand(false);
-      invalidate();
-    });
 
   // A vertex stays a label's width inside the canvas, or its letter is cut off.
   const inside = ([x, y]: V2): V2 => {
@@ -227,26 +124,22 @@ function TriangleAngleSum(): JSX.Element {
   useEffect(() => {
     const best = deg.reduce((i, d, j) => (Math.abs(d - 90) < Math.abs(deg[i] - 90) ? j : i), 0);
     setTask(
-      !byHand
-        ? { state: 'open' }
-        : deg[best] === 90
+      deg[best] === 90
         ? { state: 'done' }
         : { state: 'hint', text: hint.replace('{v}', NAMES[best]).replace('{n}', String(deg[best])) },
     );
-  }, [setTask, hint, byHand, deg[0], deg[1], deg[2]]);
+  }, [setTask, hint, deg[0], deg[1], deg[2]]);
 
   useEffect(() => {
     const pairs = [[0, 1], [1, 2], [0, 2]] as const;
     const [i, j] = pairs.reduce((p, q) => (Math.abs(deg[q[0]] - deg[q[1]]) < Math.abs(deg[p[0]] - deg[p[1]]) ? q : p));
     const gap = Math.abs(deg[i] - deg[j]);
     setIsoTask(
-      !byHand
-        ? { state: 'open' }
-        : gap === 0
+      gap === 0
         ? { state: 'done' }
         : { state: 'hint', text: isoHint.replace('{v}', NAMES[i]).replace('{w}', NAMES[j]).replace('{n}', String(gap)) },
     );
-  }, [setIsoTask, isoHint, byHand, deg[0], deg[1], deg[2]]);
+  }, [setIsoTask, isoHint, deg[0], deg[1], deg[2]]);
 
   // How far into the proof the text has gone; the drawing eases towards it.
   const level = step ? STEPS.indexOf(step as (typeof STEPS)[number]) + 1 : 0;
@@ -289,15 +182,6 @@ function TriangleAngleSum(): JSX.Element {
 
   useFrame((_, delta) => {
     let moving = false;
-    const to = bound.current;
-    if (to) {
-      const now = triNow.current;
-      const next = now.map((p, i) => p.map((v, j) => (animOn ? ease(v, to[i][j], delta, 5) : to[i][j]))) as unknown as Tri;
-      const arrived = next.every((p, i) => Math.hypot(p[0] - to[i][0], p[1] - to[i][1]) < 1e-3);
-      setTri(arrived ? to : next);
-      if (arrived) bound.current = null;
-      else moving = true;
-    }
     progress.current = progress.current.map((p, i) => {
       const target = goalRef.current[i];
       const next = animOn ? ease(p, target, delta) : target;
@@ -324,8 +208,6 @@ function TriangleAngleSum(): JSX.Element {
   const grab = (i: number) => (e: ThreeEvent<PointerEvent>): void => {
     if (e.button !== 0) return;
     e.stopPropagation();
-    // A drag takes the triangle back from a worked example on its way.
-    bound.current = null;
     (e.target as Element).setPointerCapture(e.pointerId);
     setDragging(i);
     gl.domElement.style.cursor = 'grabbing';
@@ -340,10 +222,7 @@ function TriangleAngleSum(): JSX.Element {
     const next = tri.map((q, j) => (j === i ? inside([hit.x, hit.y]) : q)) as unknown as Tri;
     // A move that would fold the triangle is refused: the vertex stays where
     // the triangle was last a triangle.
-    if (fits(next)) {
-      setTri(next);
-      setByHand(true);
-    }
+    if (fits(next)) setTri(next);
   };
   const drop = (e: ThreeEvent<PointerEvent>): void => {
     (e.target as Element).releasePointerCapture(e.pointerId);
@@ -399,7 +278,7 @@ function TriangleAngleSum(): JSX.Element {
             <circleGeometry args={[0.45, 24]} />
             <meshBasicMaterial transparent opacity={0} depthWrite={false} />
           </mesh>
-          <Label at={add(p, scale(toward(middle(ks[i]) + Math.PI), 0.5))}>{NAMES[i]}</Label>
+          <Label at={letterAt(p, ks[i])}>{NAMES[i]}</Label>
           <Label at={numberAt(p, ks[i])}>
             {deg[i]}°
           </Label>
