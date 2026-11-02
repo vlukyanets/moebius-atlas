@@ -4,7 +4,7 @@ tag: THM
 track: school
 grade: 7
 subject: geometry
-requires: [grade-7-geometry-topic-17-lesson-17-triangle-angle-sum, grade-7-geometry-topic-14-lesson-14-isosceles-triangle]
+requires: [grade-7-geometry-topic-17-lesson-17-triangle-angle-sum]
 ---
 
 ## Why It Matters

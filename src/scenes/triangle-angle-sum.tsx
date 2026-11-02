@@ -15,7 +15,7 @@ import { useFrame, useThree, type ThreeEvent } from '@react-three/fiber';
 import { useEffect, useMemo, useRef, useState, type ReactNode, type RefObject } from 'react';
 import { MathUtils, Plane, Vector3, type Color, type Group } from 'three';
 import { defineScene } from '../stage/defineScene';
-import { ease, useAnimOn, useHovered, usePublish, useStep, useStrings, useTask, useToken } from '../stage/hooks';
+import { ease, useAnimOn, useHovered, usePressed, usePublish, useStep, useStrings, useTask, useToken } from '../stage/hooks';
 
 type V2 = readonly [number, number];
 type Tri = readonly [V2, V2, V2];
@@ -23,8 +23,26 @@ type Tri = readonly [V2, V2, V2];
 const STEPS = ['parallel', 'alternate-a', 'alternate-c', 'straight'] as const;
 
 const strings = {
-  en: { hint: 'The angle closest to a right one is ∠{v} = {n}°' },
-  uk: { hint: 'Найближчий до прямого - ∠{v} = {n}°' },
+  en: {
+    hint: 'The angle closest to a right one is ∠{v} = {n}°',
+    isoHint: 'The two closest angles are ∠{v} and ∠{w}: {n}° apart',
+  },
+  uk: {
+    hint: 'Найближчий до прямого - ∠{v} = {n}°',
+    isoHint: 'Найближчі два кути - ∠{v} і ∠{w}: різниця {n}°',
+  },
+};
+
+/**
+ * The triangles of the worked examples, as the angles at A and C: a link to
+ * `problem-N` in the text eases the drawing into that problem's triangle, so
+ * the reader sees the numbers they just worked with.
+ */
+const PROBLEMS: Record<string, readonly [number, number]> = {
+  'problem-1': [48, 67],
+  'problem-2': [40, 80],
+  'problem-3': [70, 70],
+  'problem-4': [35, 55],
 };
 
 const START: Tri = [[-4, -2], [-1, 2.5], [4, -2]];
@@ -125,6 +143,24 @@ function Label({ at, children, fade }: { at: V2; children: ReactNode; fade?: Ref
   );
 }
 
+/**
+ * A triangle with angle `a` at A and `c` at C (degrees) on a level base,
+ * scaled down to fit a `w` by `h` box and centred in it.
+ */
+function shaped(a: number, c: number, w: number, h: number): Tri {
+  const ra = MathUtils.degToRad(a);
+  const rc = MathUtils.degToRad(c);
+  const base = 8;
+  // The law of sines gives AB from the base and the angle at C.
+  const ab = (base * Math.sin(rc)) / Math.sin(Math.PI - ra - rc);
+  const b: V2 = [ab * Math.cos(ra), ab * Math.sin(ra)];
+  const left = Math.min(0, b[0]);
+  const right = Math.max(base, b[0]);
+  const k = Math.min(1, w / (right - left), h / b[1]);
+  const place = ([x, y]: V2): V2 => [(x - (left + right) / 2) * k, (y - b[1] / 2) * k];
+  return [place([0, 0]), place(b), place([base, 0])];
+}
+
 const Z = new Plane(new Vector3(0, 0, 1), 0);
 
 function TriangleAngleSum(): JSX.Element {
@@ -133,7 +169,8 @@ function TriangleAngleSum(): JSX.Element {
   const step = useStep();
   const publish = usePublish();
   const setTask = useTask('right-angle');
-  const { hint } = useStrings<typeof strings.en>();
+  const setIsoTask = useTask('isosceles');
+  const { hint, isoHint } = useStrings<typeof strings.en>();
   const ink = useToken('--text');
   const muted = useToken('--text-muted');
   const accent = useToken('--accent');
@@ -145,6 +182,21 @@ function TriangleAngleSum(): JSX.Element {
   };
 
   const [tri, setTri] = useState<Tri>(START);
+  // Where a worked example is taking the triangle, while it is on its way.
+  const bound = useRef<Tri | null>(null);
+  // A task is the reader's to solve: a triangle a worked example put there
+  // does not count until the reader has moved it themselves.
+  const [byHand, setByHand] = useState(false);
+  const triNow = useRef(tri);
+  triNow.current = tri;
+  for (const [key, [a, c]] of Object.entries(PROBLEMS))
+    // A hook in a loop is safe here: the table is a constant, so the hooks
+    // run in the same order on every render.
+    usePressed(key, () => {
+      bound.current = shaped(a, c, viewport.width - 3, viewport.height - 2.6);
+      setByHand(false);
+      invalidate();
+    });
 
   // A vertex stays a label's width inside the canvas, or its letter is cut off.
   const inside = ([x, y]: V2): V2 => {
@@ -175,11 +227,26 @@ function TriangleAngleSum(): JSX.Element {
   useEffect(() => {
     const best = deg.reduce((i, d, j) => (Math.abs(d - 90) < Math.abs(deg[i] - 90) ? j : i), 0);
     setTask(
-      deg[best] === 90
+      !byHand
+        ? { state: 'open' }
+        : deg[best] === 90
         ? { state: 'done' }
         : { state: 'hint', text: hint.replace('{v}', NAMES[best]).replace('{n}', String(deg[best])) },
     );
-  }, [setTask, hint, deg[0], deg[1], deg[2]]);
+  }, [setTask, hint, byHand, deg[0], deg[1], deg[2]]);
+
+  useEffect(() => {
+    const pairs = [[0, 1], [1, 2], [0, 2]] as const;
+    const [i, j] = pairs.reduce((p, q) => (Math.abs(deg[q[0]] - deg[q[1]]) < Math.abs(deg[p[0]] - deg[p[1]]) ? q : p));
+    const gap = Math.abs(deg[i] - deg[j]);
+    setIsoTask(
+      !byHand
+        ? { state: 'open' }
+        : gap === 0
+        ? { state: 'done' }
+        : { state: 'hint', text: isoHint.replace('{v}', NAMES[i]).replace('{w}', NAMES[j]).replace('{n}', String(gap)) },
+    );
+  }, [setIsoTask, isoHint, byHand, deg[0], deg[1], deg[2]]);
 
   // How far into the proof the text has gone; the drawing eases towards it.
   const level = step ? STEPS.indexOf(step as (typeof STEPS)[number]) + 1 : 0;
@@ -222,6 +289,15 @@ function TriangleAngleSum(): JSX.Element {
 
   useFrame((_, delta) => {
     let moving = false;
+    const to = bound.current;
+    if (to) {
+      const now = triNow.current;
+      const next = now.map((p, i) => p.map((v, j) => (animOn ? ease(v, to[i][j], delta, 5) : to[i][j]))) as unknown as Tri;
+      const arrived = next.every((p, i) => Math.hypot(p[0] - to[i][0], p[1] - to[i][1]) < 1e-3);
+      setTri(arrived ? to : next);
+      if (arrived) bound.current = null;
+      else moving = true;
+    }
     progress.current = progress.current.map((p, i) => {
       const target = goalRef.current[i];
       const next = animOn ? ease(p, target, delta) : target;
@@ -248,6 +324,8 @@ function TriangleAngleSum(): JSX.Element {
   const grab = (i: number) => (e: ThreeEvent<PointerEvent>): void => {
     if (e.button !== 0) return;
     e.stopPropagation();
+    // A drag takes the triangle back from a worked example on its way.
+    bound.current = null;
     (e.target as Element).setPointerCapture(e.pointerId);
     setDragging(i);
     gl.domElement.style.cursor = 'grabbing';
@@ -262,7 +340,10 @@ function TriangleAngleSum(): JSX.Element {
     const next = tri.map((q, j) => (j === i ? inside([hit.x, hit.y]) : q)) as unknown as Tri;
     // A move that would fold the triangle is refused: the vertex stays where
     // the triangle was last a triangle.
-    if (fits(next)) setTri(next);
+    if (fits(next)) {
+      setTri(next);
+      setByHand(true);
+    }
   };
   const drop = (e: ThreeEvent<PointerEvent>): void => {
     (e.target as Element).releasePointerCapture(e.pointerId);

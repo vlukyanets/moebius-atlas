@@ -4,7 +4,7 @@ tag: THM
 track: school
 grade: 7
 subject: geometry
-requires: [grade-7-geometry-topic-10-lesson-10-properties-of-parallel-lines, grade-7-geometry-topic-11-lesson-11-triangle-and-its-elements]
+requires: [grade-7-geometry-topic-10-lesson-10-properties-of-parallel-lines, grade-7-geometry-topic-14-lesson-14-isosceles-triangle]
 ---
 
 ## Why It Matters
@@ -55,6 +55,10 @@ change that. Here is why, one step at a time.
 > Drag a vertex until the triangle has a right angle. What do the other two
 > angles add up to then?
 
+> [!task] triangle-angle-sum:isosceles
+> Now drag a vertex until two of the angles are equal - the triangle is then
+> isosceles. Which two sides have become equal?
+
 Consequences fall out at once: a triangle has at most one obtuse or
 right angle, and each acute angle of a right triangle is the other's
 complement.
@@ -88,7 +92,7 @@ Four problems, each a different way into the same rule: whatever two angles
 of a triangle are, the third is what they leave of $180^\circ$.
 
 **Problem 1. Two angles are known.** A triangle has angles of $48^\circ$ and
-$67^\circ$. Find the third.
+$67^\circ$. Find the third. [Show it on the triangle ↑](#triangle-angle-sum:problem-1)
 
 1. Call the angle we are looking for $x$.
 2. Write the theorem for this triangle: $48^\circ + 67^\circ + x = 180^\circ$.
@@ -99,7 +103,7 @@ $67^\circ$. Find the third.
 **Answer:** $65^\circ$. **Check:** $48^\circ + 67^\circ + 65^\circ = 180^\circ$.
 
 **Problem 2. Only the ratio is known.** The angles of a triangle are in the
-ratio $2 : 3 : 4$. Find them.
+ratio $2 : 3 : 4$. Find them. [Show it on the triangle ↑](#triangle-angle-sum:problem-2)
 
 1. A ratio $2 : 3 : 4$ says the angles are built from equal parts: the first
    has $2$ of them, the second $3$, the third $4$. Call one part $x$; then
@@ -115,6 +119,7 @@ All three angles are less than $90^\circ$, so the triangle is acute.
 
 **Problem 3. An isosceles triangle.** The angle at the apex of an isosceles
 triangle is $40^\circ$. Find the angles at its base.
+[Show it on the triangle ↑](#triangle-angle-sum:problem-3)
 
 1. In an isosceles triangle the two angles at the base are equal. Call each
    of them $y$.
@@ -126,7 +131,7 @@ triangle is $40^\circ$. Find the angles at its base.
 **Answer:** $70^\circ$ each. **Check:** $40^\circ + 70^\circ + 70^\circ = 180^\circ$.
 
 **Problem 4. A right triangle.** One acute angle of a right triangle is
-$35^\circ$. Find the other one.
+$35^\circ$. Find the other one. [Show it on the triangle ↑](#triangle-angle-sum:problem-4)
 
 1. A right triangle has a right angle, so $90^\circ$ of the $180^\circ$ are
    already taken.
@@ -160,9 +165,12 @@ triangle's angles are $60^\circ$ each.
 3. An isosceles triangle has a base angle of $50^\circ$. Find the apex
    angle.
 4. One acute angle of a right triangle is twice the other. Find both.
-5. Can a triangle have angles $100^\circ$, $50^\circ$, $40^\circ$? Why not?
-6. Someone finds the angles of a triangle to be $95^\circ$, $95^\circ$ and
-   $-10^\circ$. What must have gone wrong?
+5. Can a triangle have angles $100^\circ$, $50^\circ$ and $40^\circ$? And
+   $100^\circ$, $50^\circ$ and $30^\circ$? Explain.
+6. The apex angle of an isosceles triangle is $95^\circ$. A student solved
+   it like this: "The base angles are equal, so
+   $95^\circ + 95^\circ + x = 180^\circ$, and $x = -10^\circ$." Find the
+   mistake and solve the problem correctly.
 
 > [!spoiler] Answers
 >
@@ -170,6 +178,10 @@ triangle's angles are $60^\circ$ each.
 > 2. $30^\circ$, $60^\circ$, $90^\circ$ - right.
 > 3. $80^\circ$.
 > 4. $30^\circ$ and $60^\circ$.
-> 5. No - they sum to $190^\circ$.
-> 6. Two obtuse angles are impossible; the data or the setup was
->    inconsistent.
+> 5. The first - no: $100^\circ + 50^\circ + 40^\circ = 190^\circ$, not
+>    $180^\circ$. The second - yes: the angles add up to exactly $180^\circ$,
+>    and the triangle is obtuse.
+> 6. The student put $95^\circ$ at the base, but it is the apex angle. The
+>    equal angles are the base ones: $95^\circ + 2y = 180^\circ$,
+>    $y = 42.5^\circ$ each. A negative angle is a sign that the equation was
+>    set up wrongly.
