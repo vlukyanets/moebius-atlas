@@ -14,10 +14,13 @@ import ReactMarkdown, { type Components, type ExtraProps } from 'react-markdown'
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
 import type { Element, ElementContent, Parent, Root, Text } from 'hast';
-import { useMemo, type ComponentProps, type ReactNode } from 'react';
+import { Suspense, lazy, useMemo, type ComponentProps, type ReactNode } from 'react';
 import { BusContext, createBus, scanBody } from '../stage/bus';
 import { LiveMath, SceneLink, StepBlock, TaskBlock } from '../stage/text';
 import 'katex/dist/katex.min.css';
+
+/** Loaded only when a body embeds a scene: it is what pulls three in. */
+const SceneHost = lazy(() => import('../stage/SceneHost').then((m) => ({ default: m.SceneHost })));
 
 /**
  * Cuts `marker` off the first line of a blockquote and returns what it
@@ -170,9 +173,13 @@ const components = {
     if (scene) return <SceneLink scene={scene[1]} sceneKey={scene[2]} href={href!}>{children}</SceneLink>;
     return <a href={href} {...rest}>{children}</a>;
   },
-  // No scene can be drawn yet, so every marker shows as the missing scene it
-  // is rather than vanishing.
-  'anim-slot': ({ id }: { id: string }) => <p className="scene-missing">[!anim] {id}</p>,
+  // The fallback keeps the canvas's height, so the text under a scene does not
+  // jump when the scene arrives.
+  'anim-slot': ({ id }: { id: string }) => (
+    <Suspense fallback={<figure className="scene"><div className="scene-canvas" /></figure>}>
+      <SceneHost id={id} />
+    </Suspense>
+  ),
   'scene-step': ({ at, children }: BlockProps) => {
     const [scene, key] = split(at);
     return <StepBlock scene={scene} stepKey={key}>{children}</StepBlock>;

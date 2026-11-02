@@ -191,4 +191,7 @@ export const UI = {
   sceneTaskOpen: { en: 'Not solved yet', uk: 'Ще не розв’язано' },
   sceneTaskDone: { en: 'Solved', uk: 'Розв’язано' },
   sceneRefMissing: { en: 'No such scene in this topic', uk: 'У цій темі немає такої сцени' },
+  sceneStepBack: { en: 'Previous step', uk: 'Попередній крок' },
+  sceneStepNext: { en: 'Next step', uk: 'Наступний крок' },
+  sceneReset: { en: 'Start over', uk: 'Спочатку' },
 } satisfies Record<string, L10n>;

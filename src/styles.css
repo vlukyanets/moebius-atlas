@@ -411,6 +411,7 @@ button { font-family: inherit; }
   font-size: 12.5px; padding: 6px 12px; border-radius: 999px; cursor: pointer;
 }
 .chip-btn:hover { border-color: var(--accent); color: var(--link); }
+.chip-btn:disabled { opacity: .45; cursor: default; border-color: var(--border-strong); color: var(--text-secondary); }
 /* A chip that is a switch rather than a command - the tick that stops the path
    at what the reader has already learned. Raised the way a segmented button is,
    so on and off are told apart without reading the label. */
@@ -626,6 +627,18 @@ button { font-family: inherit; }
 .detail-body details.spoiler[open] > summary::before { transform: rotate(90deg); }
 /* The first line inside sits under the summary, not away from it. */
 .detail-body details.spoiler > :nth-child(2) { margin-top: 0; }
+
+/* A scene embedded with `[!anim] <id>` (src/stage/SceneHost.tsx). The canvas
+   is transparent; the stage behind it is this box. Its height is fixed so the
+   page does not move while the scene loads. */
+.detail-body .scene { margin: 20px 0 0; }
+.scene-canvas {
+  height: 360px; background: var(--formula-bg);
+  border: 1px solid var(--border); border-radius: 10px; overflow: hidden;
+  touch-action: none;
+}
+.scene-bar { display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 8px; }
+.scene-bar-count { min-width: 48px; text-align: center; font-family: var(--mono); font-size: 13px; color: var(--text-muted); }
 
 /* What a body says about its scenes (src/stage/text.tsx). A marker that
    names no scene of this body is drawn in --bad, like an unread spoiler. */
