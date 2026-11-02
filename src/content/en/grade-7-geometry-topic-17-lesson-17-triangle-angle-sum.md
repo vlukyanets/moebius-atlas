@@ -27,6 +27,34 @@ $180^\circ$. The proof is three lines long and rests entirely on the
 parallel axiom: in a geometry without unique parallels, the theorem
 fails.
 
+[!anim] triangle-angle-sum
+
+Drag any vertex. Right now $\angle A = \live{triangle-angle-sum:alpha}{56^\circ}$,
+$\angle B = \live{triangle-angle-sum:beta}{82^\circ}$ and
+$\angle C = \live{triangle-angle-sum:gamma}{42^\circ}$, which makes
+$\live{triangle-angle-sum:sum}{180^\circ}$ - and no triangle you can drag out will
+change that. Here is why, one step at a time.
+
+> [!step] triangle-angle-sum:parallel
+> Through $B$ draw the line [$a$](#triangle-angle-sum:line-a) parallel to
+> [$AC$](#triangle-angle-sum:side-ac).
+
+> [!step] triangle-angle-sum:alternate-a
+> $BA$ crosses the parallels $a$ and $AC$, so the angle between $a$ and $BA$
+> is alternate to [$\angle A$](#triangle-angle-sum:angle-a) - and equal to it.
+
+> [!step] triangle-angle-sum:alternate-c
+> In the same way $BC$ brings [$\angle C$](#triangle-angle-sum:angle-c) over to $B$, on the
+> other side.
+
+> [!step] triangle-angle-sum:straight
+> Together with [$\angle B$](#triangle-angle-sum:angle-b) itself, the three angles at $B$
+> fill the straight angle along $a$: $\angle A + \angle B + \angle C = 180^\circ$.
+
+> [!task] triangle-angle-sum:right-angle
+> Drag a vertex until the triangle has a right angle. What do the other two
+> angles add up to then?
+
 Consequences fall out at once: a triangle has at most one obtuse or
 right angle, and each acute angle of a right triangle is the other's
 complement.

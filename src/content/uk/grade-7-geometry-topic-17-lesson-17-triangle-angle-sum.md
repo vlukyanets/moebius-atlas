@@ -22,6 +22,34 @@ $180^\circ$. Доведення - три рядки, і воно повніст�
 аксіому паралельних: у геометрії без єдиної паралельної теорема не
 виконується.
 
+[!anim] triangle-angle-sum
+
+Перетягни будь-яку вершину. Зараз $\angle A = \live{triangle-angle-sum:alpha}{56^\circ}$,
+$\angle B = \live{triangle-angle-sum:beta}{82^\circ}$ і
+$\angle C = \live{triangle-angle-sum:gamma}{42^\circ}$, а разом це
+$\live{triangle-angle-sum:sum}{180^\circ}$ - і жоден трикутник, який ти зробиш, цього не
+змінить. Ось чому, крок за кроком.
+
+> [!step] triangle-angle-sum:parallel
+> Через $B$ проведемо пряму [$a$](#triangle-angle-sum:line-a), паралельну до
+> [$AC$](#triangle-angle-sum:side-ac).
+
+> [!step] triangle-angle-sum:alternate-a
+> $BA$ перетинає паралельні прямі $a$ і $AC$, тож кут між $a$ і $BA$ -
+> різносторонній з [$\angle A$](#triangle-angle-sum:angle-a) і дорівнює йому.
+
+> [!step] triangle-angle-sum:alternate-c
+> Так само $BC$ переносить [$\angle C$](#triangle-angle-sum:angle-c) до вершини $B$, з
+> іншого боку.
+
+> [!step] triangle-angle-sum:straight
+> Разом із самим [$\angle B$](#triangle-angle-sum:angle-b) три кути при $B$ заповнюють
+> розгорнутий кут уздовж $a$: $\angle A + \angle B + \angle C = 180^\circ$.
+
+> [!task] triangle-angle-sum:right-angle
+> Перетягни вершину так, щоб трикутник мав прямий кут. Чому тоді дорівнює
+> сума двох інших кутів?
+
 Наслідки випадають одразу: трикутник має щонайбільше один тупий або
 прямий кут, а кожен гострий кут прямокутного трикутника доповнює
 інший до $90^\circ$.
