@@ -14,7 +14,7 @@ import { useFrame, useThree } from '@react-three/fiber';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { defineScene } from '../stage/defineScene';
 import { ease, useAnimOn, useStep, useToken } from '../stage/hooks';
-import { Label, NAMES, Sector, at3, corners, letterAt, numberAt, shaped, type Tri } from './shared/triangle';
+import { Label, NAMES, Sector, at3, corners, letterAt, placeNumbers, shaped, type Tri } from './shared/triangle';
 
 interface Problem {
   /** The angles at A and at C, in degrees; B is what they leave. */
@@ -65,6 +65,7 @@ function TriangleAngleExamples(): JSX.Element {
   });
 
   const ks = corners(tri);
+  const numbers = placeNumbers(tri, ks, problem.labels, [viewport.width / 2, viewport.height / 2]);
   const outline = useMemo(() => [...tri, tri[0]].map((p) => at3(p, 0.01)), [tri]);
 
   return (
@@ -82,7 +83,7 @@ function TriangleAngleExamples(): JSX.Element {
             <meshBasicMaterial color={ink} />
           </mesh>
           <Label at={letterAt(p, ks[i])}>{NAMES[i]}</Label>
-          <Label at={numberAt(p, ks[i])} found={problem.found[i]}>
+          <Label at={numbers[i].at} found={problem.found[i]}>
             {problem.labels[i]}
           </Label>
         </group>

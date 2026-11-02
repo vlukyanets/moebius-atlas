@@ -30,7 +30,7 @@ import {
   letterAt,
   lerp,
   middle,
-  numberAt,
+  placeNumbers,
   scale,
   sub,
   toward,
@@ -158,6 +158,20 @@ function TriangleAngleSum(): JSX.Element {
   // three angles fill.
   const half: Corner = { start: cross(d, sub(A, B)) > 0 ? heading(d) : heading(d) + Math.PI, sweep: Math.PI, deg: 180 };
   const inward = toward(middle(ks[1]));
+  // Line a, once the proof has drawn it, runs right across the canvas and is
+  // as much in a number's way as a side is.
+  const reach = viewport.width + viewport.height;
+  const lineA: readonly [V2, V2] = [add(B, scale(d, -reach)), add(B, scale(d, reach))];
+  const numbers = placeNumbers(
+    tri,
+    ks,
+    deg.map((n) => `${n}°`),
+    [viewport.width / 2, viewport.height / 2],
+    goal[0] > 0 ? [lineA] : [],
+  );
+  // The half-turn's 180° reads as the line under B's own number when that
+  // number is inside the angle, and just inside the angle when it is not.
+  const halfTurnAt = numbers[1].inside ? add(numbers[1].at, scale(inward, 0.5)) : add(B, scale(inward, ARC + 0.9));
 
   // Places what the progress values say. Called every frame of a transition
   // and once after every render, because a drag moves the vertices under a
@@ -255,8 +269,7 @@ function TriangleAngleSum(): JSX.Element {
       <group ref={straight} position={at3(B, 0.03)}>
         <Line points={arcPoints(half, ARC + 0.3)} color={ink} lineWidth={2} dashed dashSize={0.12} gapSize={0.08} />
       </group>
-      {/* Inside the triangle, past B's own value, where the half-turn is read. */}
-      <Label at={add(B, scale(inward, ARC + 1.3))} fade={straightLabel}>
+      <Label at={halfTurnAt} fade={straightLabel}>
         180°
       </Label>
 
@@ -279,7 +292,7 @@ function TriangleAngleSum(): JSX.Element {
             <meshBasicMaterial transparent opacity={0} depthWrite={false} />
           </mesh>
           <Label at={letterAt(p, ks[i])}>{NAMES[i]}</Label>
-          <Label at={numberAt(p, ks[i])}>
+          <Label at={numbers[i].at}>
             {deg[i]}°
           </Label>
         </group>

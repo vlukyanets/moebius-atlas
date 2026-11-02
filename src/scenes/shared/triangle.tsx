@@ -14,8 +14,6 @@ export type Tri = readonly [V2, V2, V2];
 export const NAMES = ['A', 'B', 'C'] as const;
 /** Radius of an angle's arc. */
 export const ARC = 0.75;
-/** Below this an angle's number no longer fits between its sides. */
-const NARROW = 30;
 
 export const sub = (p: V2, q: V2): V2 => [p[0] - q[0], p[1] - q[1]];
 export const add = (p: V2, q: V2): V2 => [p[0] + q[0], p[1] + q[1]];
@@ -26,6 +24,52 @@ export const heading = (p: V2): number => Math.atan2(p[1], p[0]);
 export const cross = (p: V2, q: V2): number => p[0] * q[1] - p[1] * q[0];
 export const lerp = (p: V2, q: V2, t: number): V2 => add(p, scale(sub(q, p), t));
 export const at3 = (p: V2, z = 0): [number, number, number] => [p[0], p[1], z];
+const dot = (p: V2, q: V2): number => p[0] * q[0] + p[1] * q[1];
+
+/** Pixels per scene unit: the 2D camera's zoom in `SceneHost`. */
+const PX = 40;
+/** The gap a label keeps from every line and arc, in scene units. */
+const CLEAR = 0.12;
+/** The arcs a number has to stay outside: an angle's own, and the dashed half-turn drawn over B. */
+const ARCS = ARC + 0.3;
+
+let measurer: CanvasRenderingContext2D | null | undefined;
+
+/**
+ * Half the width and height of a label's box, in scene units. The text is
+ * measured in the font `.scene-label` sets in styles.css - weight, size and
+ * family are mirrored here - because a label's place depends on its width:
+ * `4x = 80°` needs twice the room of `56°`.
+ */
+function halfBox(text: string): V2 {
+  measurer ??= document.createElement('canvas').getContext('2d');
+  let width = text.length * 8.5;
+  if (measurer) {
+    const family = getComputedStyle(document.documentElement).getPropertyValue('--sans') || 'sans-serif';
+    measurer.font = `600 14px ${family}`;
+    width = measurer.measureText(text).width;
+  }
+  return [width / 2 / PX, 9 / PX];
+}
+
+/** How far a box of half-size `half` reaches from its centre along the unit direction `n`. */
+const reach = (n: V2, [hw, hh]: V2): number => Math.abs(n[0]) * hw + Math.abs(n[1]) * hh;
+
+/**
+ * How far along the bisector of a wedge - from direction `from`, sweeping
+ * `sweep` counter-clockwise - a box of half-size `half` has to sit to clear
+ * both of the wedge's sides and the arcs around its tip.
+ */
+function into(from: number, sweep: number, half: V2): number {
+  const s = Math.sin(sweep / 2);
+  if (s < 1e-3) return Infinity;
+  const along = toward(from + sweep / 2);
+  return Math.max(
+    ARCS + CLEAR + reach(along, half),
+    (reach(toward(from + Math.PI / 2), half) + CLEAR) / s,
+    (reach(toward(from + sweep - Math.PI / 2), half) + CLEAR) / s,
+  );
+}
 
 export interface Corner {
   /** Where the arc of the inner angle starts, and how far it sweeps (radians). */
@@ -57,13 +101,78 @@ export const middle = (k: Corner): number => k.start + k.sweep / 2;
 /** Where a vertex's letter goes: just outside the triangle, opposite its angle. */
 export const letterAt = (p: V2, k: Corner): V2 => add(p, scale(toward(middle(k) + Math.PI), 0.5));
 
+interface Box {
+  c: V2;
+  half: V2;
+}
+
+/** Whether two boxes come within CLEAR of each other. */
+const overlaps = (a: Box, b: Box): boolean =>
+  Math.abs(a.c[0] - b.c[0]) < a.half[0] + b.half[0] + CLEAR && Math.abs(a.c[1] - b.c[1]) < a.half[1] + b.half[1] + CLEAR;
+
+/** Whether a box comes within CLEAR of the segment from `p` to `q`. */
+function crosses({ c, half }: Box, p: V2, q: V2): boolean {
+  for (let t = 0; t <= 1; t += 1 / 64) {
+    const x = lerp(p, q, t);
+    if (Math.abs(x[0] - c[0]) < half[0] + CLEAR && Math.abs(x[1] - c[1]) < half[1] + CLEAR) return true;
+  }
+  return false;
+}
+
+/** Whether a box comes within CLEAR of the disc of radius `r` around `p`. */
+const nears = ({ c, half }: Box, p: V2, r: number): boolean =>
+  Math.hypot(Math.max(Math.abs(c[0] - p[0]) - half[0], 0), Math.max(Math.abs(c[1] - p[1]) - half[1], 0)) < r + CLEAR;
+
 /**
- * Where an angle's number goes: inside the angle while there is room, and
- * just past its arc - outside the angle, beside one of its sides - once the
- * angle is too narrow to hold it.
+ * Where the numbers of the three angles go, so that no text touches a side,
+ * an arc, a vertex, a letter, another number, any of the scene's other
+ * `lines` or the edge of the canvas (`bounds`, half its width and height). Each number first tries the snug
+ * place inside its angle - as close to the vertex as its width allows, and
+ * still on the vertex's side of the opposite side - and if anything is in the
+ * way, the nearest free place in rings around its vertex, starting from the
+ * bisector. `inside` says the number got the place inside its angle.
  */
-export const numberAt = (p: V2, k: Corner): V2 =>
-  k.deg >= NARROW ? add(p, scale(toward(middle(k)), ARC + 0.55)) : add(p, scale(toward(k.start + k.sweep + 0.6), ARC + 0.45));
+export function placeNumbers(
+  tri: Tri,
+  ks: readonly Corner[],
+  texts: readonly string[],
+  bounds: V2,
+  lines: readonly (readonly [V2, V2])[] = [],
+): { at: V2; inside: boolean }[] {
+  const taken: Box[] = tri.map((p, i) => ({ c: letterAt(p, ks[i]), half: halfBox(NAMES[i]) }));
+  const free = (box: Box): boolean =>
+    Math.abs(box.c[0]) + box.half[0] <= bounds[0] &&
+    Math.abs(box.c[1]) + box.half[1] <= bounds[1] &&
+    !taken.some((t) => overlaps(box, t)) &&
+    !tri.some((p, j) => crosses(box, p, tri[(j + 1) % 3]) || nears(box, p, ARCS)) &&
+    !lines.some(([p, q]) => crosses(box, p, q));
+
+  return tri.map((p, i) => {
+    const k = ks[i];
+    const half = halfBox(texts[i]);
+    const mid = middle(k);
+    const tries: { at: V2; inside: boolean }[] = [];
+    const d = into(k.start, k.sweep, half);
+    // The side opposite the vertex, with its normal turned towards the vertex.
+    const q = tri[(i + 1) % 3];
+    const r = tri[(i + 2) % 3];
+    let n = unit([q[1] - r[1], r[0] - q[0]]);
+    if (dot(n, sub(p, q)) < 0) n = scale(n, -1);
+    // Down the bisector first: `into` clears the arc only along it, so a
+    // box's corner can still graze the arc at the snug distance.
+    for (let extra = 0; Number.isFinite(d) && extra <= 1.5; extra += 0.1) {
+      const at = add(p, scale(toward(mid), d + extra));
+      if (dot(n, sub(at, q)) - reach(n, half) >= CLEAR) tries.push({ at, inside: true });
+    }
+    for (let r = ARCS + CLEAR; r <= 4.5; r += 0.2)
+      for (let turn = 0; turn <= 180; turn += 15)
+        for (const side of turn === 0 || turn === 180 ? [1] : [1, -1])
+          tries.push({ at: add(p, scale(toward(mid + side * MathUtils.degToRad(turn)), r + reach(toward(mid), half))), inside: false });
+    const placed = tries.find((t) => free({ c: t.at, half })) ?? tries[0] ?? { at: p, inside: false };
+    taken.push({ c: placed.at, half });
+    return placed;
+  });
+}
 
 /**
  * A triangle with angle `a` at A and `c` at C (degrees) on a level base,

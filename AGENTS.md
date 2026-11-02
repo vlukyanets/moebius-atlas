@@ -464,6 +464,13 @@ formality bolted on beside it.
   `zIndexRange={[1, 0]}` - drei's default stacks them over the sticky top bar.
   drei hands the `ref` of an `<Html>` to its inner element (the one with
   `className`), not to the wrapper.
+- Text in a scene touches nothing. `placeNumbers` in `src/scenes/shared/`
+  measures each label in its real font and gives it the snug place inside its
+  angle when that is free, or else the nearest free place around the vertex -
+  clear of every side, arc, vertex, letter, other number, any extra line the
+  scene passes in (the proof's line `a`) and the canvas edge. A fixed offset
+  along the bisector was right for `56°` and wrong for `4x = 80°`, and two
+  steep angles side by side put their numbers on top of each other.
 - Nothing is drawn that does not have to be, which is the whole performance
   budget. Every scene has a canvas of its own - one canvas fixed behind the
   page would trail the scroll by a frame and the scenes would shake - with
@@ -532,6 +539,10 @@ raise one only for growth that was meant, and say so next to it:
   nothing new.
 - The `\live` fallbacks in a body and the opening state of its scene: the
   fallback is what a reader sees until the scene loads, and in print.
+- The font of `.scene-label` in `styles.css` and the one `halfBox` measures
+  with in `src/scenes/shared/triangle.tsx` (weight and size; the family is
+  read from `--sans`). A label measured in another font is placed for a
+  width it does not have.
 - `public/privacy.html` carries its own copy of the design tokens it uses and
   its own two-line reading of the `theme` setting, because it is served outside
   the app and `styles.css` and `settings.ts` cannot reach it. A token whose
