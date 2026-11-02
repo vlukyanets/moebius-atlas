@@ -85,7 +85,13 @@ function atlasContent(): Plugin {
 }
 
 /** Size budgets in kB of minified output, keyed by chunk name. */
-const BUDGETS: Record<string, number> = {};
+const BUDGETS: Record<string, number> = {
+  // three + React Three Fiber + what drei a scene uses: 832 kB when the first
+  // scene landed, rounded up to the hundred plus a hundred to spare. Raise it
+  // when a scene genuinely needs more of three or drei, not to hush a
+  // dependency bump nobody looked at.
+  three: 1000,
+};
 /** The budget of every chunk not named in `BUDGETS`. */
 const DEFAULT_BUDGET = 500;
 /**
@@ -122,6 +128,13 @@ function chunkBudgets(): Plugin {
 
 /** three and the React Three Fiber packages, kept together in one chunk. */
 const THREE_MODULE = /\/node_modules\/(three|three-stdlib|@react-three)\//;
+/**
+ * React gets a chunk of its own for the same reason: a manual chunk swallows
+ * the unassigned modules it imports, and the one `three` lives in imports
+ * React - which then dragged the whole of three onto the first paint of every
+ * page, scene or no scene.
+ */
+const REACT_MODULE = /\/node_modules\/(react|react-dom|scheduler)\//;
 
 // base './' makes the build relocatable - it works both at the GitHub Pages
 // project path (https://user.github.io/repo/) and at a custom domain root.
@@ -133,7 +146,7 @@ export default defineConfig({
     chunkSizeWarningLimit: Number.POSITIVE_INFINITY,
     rollupOptions: {
       output: {
-        manualChunks: (id) => (THREE_MODULE.test(id) ? 'three' : undefined),
+        manualChunks: (id) => (THREE_MODULE.test(id) ? 'three' : REACT_MODULE.test(id) ? 'react' : undefined),
       },
     },
   },
