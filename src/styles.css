@@ -637,6 +637,12 @@ button { font-family: inherit; }
   border: 1px solid var(--border); border-radius: 10px; overflow: hidden;
   touch-action: none;
 }
+/* Labels a scene puts over its canvas (drei's <Html>). They never take the
+   pointer - a drag that starts on a label has to reach the vertex under it -
+   and a scene fades one in and out through --fade, set on the label itself
+   (the element drei hands the ref to). */
+.scene-label-wrap { pointer-events: none; }
+.scene-label { font-family: var(--sans); font-size: 14px; font-weight: 600; color: var(--text); white-space: nowrap; user-select: none; opacity: var(--fade, 1); }
 .scene-bar { display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 8px; }
 .scene-bar-count { min-width: 48px; text-align: center; font-family: var(--mono); font-size: 13px; color: var(--text-muted); }
 
