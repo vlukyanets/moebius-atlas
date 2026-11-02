@@ -16,7 +16,12 @@ of prerequisites. Two views over the same content:
 
 Each topic opens a dedicated page (Markdown body with KaTeX formulas,
 prerequisites, dependents, external resources), and global search covers all
-topics in both languages. The layout is built for a desktop-sized window: below
+topics in both languages. A topic can show its idea as a live **scene** - a
+2D or 3D drawing the reader drags and turns - and the text leads it: each
+step of an explanation is a block the reader clicks to see it played out,
+words in the text light up what they name in the drawing, numbers in a
+formula follow what the reader does, and a task in the text is checked by
+the scene. The layout is built for a desktop-sized window: below
 720px the page scrolls sideways rather than reflowing.
 
 ## Filters
@@ -162,6 +167,7 @@ the current text color in either theme.
 | Styling | Plain CSS with custom properties | Design tokens map 1:1 to `:root` variables in `src/styles.css` |
 | Content | Markdown files (`src/content/<lang>/*.md`) | One file per topic per language; a build plugin ships the frontmatter with the app and the bodies as one chunk per language |
 | Markdown | react-markdown + remark-math + rehype-katex | Full Markdown bodies with inline/display KaTeX |
+| Scenes | three + React Three Fiber 8 + drei 9 | 2D and 3D drawings written as React components, drawn only when something changes |
 | Ids | uuid | v4 ids for the progress profiles, so a rename never detaches one from its marks |
 | Sign-in | Google Identity Services, loaded on demand | Browser-side token flow: the only OAuth a site with no server can run honestly |
 | Sync | Google Drive `appDataFolder` (REST) | A per-reader store the app can reach without a backend, and that stays out of the reader's visible Drive |
@@ -233,8 +239,30 @@ topics is what the index, the search and the path view need on first paint,
 while the bodies are grouped into one chunk per language and fetched by
 `src/data/bodies.ts` when a topic page opens. The Markdown renderer itself -
 react-markdown plus KaTeX, the heaviest dependency here - is loaded with the
-first body. Opening the site costs 303 kB of JavaScript (83 kB gzipped)
-instead of the 972 kB a single eager bundle used to cost.
+first body. Opening the site costs 315 kB of JavaScript (86 kB gzipped)
+instead of the 972 kB a single eager bundle used to cost. three, which
+scenes are drawn with, comes only with the first topic that has a scene.
+
+A body embeds a scene and talks to it with a few markers - plain text, like
+the `[!spoiler]` that folds the answers of a self-check away:
+
+```md
+[!anim] triangle-angle-sum
+
+Right now $\angle A = \live{triangle-angle-sum:alpha}{56^\circ}$.
+
+> [!step] triangle-angle-sum:parallel
+> Through $B$ draw the line [$a$](#triangle-angle-sum:line-a) parallel to $AC$.
+
+> [!task] triangle-angle-sum:right-angle
+> Drag a vertex until the triangle has a right angle.
+```
+
+`[!anim] <id>` draws the scene `src/scenes/<id>.tsx`; a `[!step]` block is one
+step of it and what is said about it, in the order of the text; a link to
+`#<scene>:<key>` lights up what it names; `\live{<scene>:<key>}{<fallback>}`
+in a formula shows the scene's current value; a `[!task]` block is checked by
+the scene.
 
 The view tabs themselves are also Markdown-authored: `src/views/<lang>/<id>.md`
 with `kind: index|path` and `order` in the English frontmatter, localized tab
