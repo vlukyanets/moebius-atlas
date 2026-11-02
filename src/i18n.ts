@@ -188,12 +188,4 @@ export const UI = {
     uk: 'Не вдалося зв’язатися з Google. Прогрес збережено в цьому браузері.',
   },
   cloudRetry: { en: 'Try again', uk: 'Спробувати ще раз' },
-  animAddOne: { en: 'Add a marble', uk: 'Додати кульку' },
-  animReset: { en: 'Reset', uk: 'Скинути' },
-  animPlaceOnes: { en: 'ones', uk: 'одиниці' },
-  animPlaceTens: { en: 'tens', uk: 'десятки' },
-  animStepBack: { en: 'Step back', uk: 'Крок назад' },
-  animStepForward: { en: 'Next digit', uk: 'Наступна цифра' },
-  animRoundTarget: { en: 'TARGET', uk: 'ЦІЛЬ' },
-  animRoundDecider: { en: 'DECIDER', uk: 'РІШАЄ' },
 } satisfies Record<string, L10n>;
