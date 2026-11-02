@@ -84,9 +84,57 @@ function atlasContent(): Plugin {
   };
 }
 
+/** Size budgets in kB of minified output, keyed by chunk name. */
+const BUDGETS: Record<string, number> = {};
+/** The budget of every chunk not named in `BUDGETS`. */
+const DEFAULT_BUDGET = 500;
+/**
+ * A language's chunk of topic bodies grows with the content, not with the
+ * code, and is fetched only when a topic page opens - so it is held to a
+ * ceiling of its own rather than to the code's 500 kB.
+ */
+const BODIES_BUDGET = 4000;
+
+/**
+ * Fails the build when a chunk outgrows its budget. Vite's own warning has
+ * one threshold for every chunk, and the chunk `three` lives in is over it by
+ * itself, so a single number would either fire on every build - and stop
+ * being read - or be raised until it caught nothing else. And it is an error,
+ * not a warning, because `npm run build` is the only gate this project has and
+ * a warning in its output is easy to scroll past.
+ */
+function chunkBudgets(): Plugin {
+  return {
+    name: 'chunk-budgets',
+    apply: 'build',
+    generateBundle(_, bundle) {
+      for (const chunk of Object.values(bundle)) {
+        if (chunk.type !== 'chunk') continue;
+        const kB = Buffer.byteLength(chunk.code) / 1000;
+        const limit = chunk.facadeModuleId?.startsWith('\0virtual:atlas-bodies/')
+          ? BODIES_BUDGET
+          : (BUDGETS[chunk.name] ?? DEFAULT_BUDGET);
+        if (kB > limit) this.error(`${chunk.fileName}: ${kB.toFixed(1)} kB > budget ${limit} kB`);
+      }
+    },
+  };
+}
+
+/** three and the React Three Fiber packages, kept together in one chunk. */
+const THREE_MODULE = /\/node_modules\/(three|three-stdlib|@react-three)\//;
+
 // base './' makes the build relocatable - it works both at the GitHub Pages
 // project path (https://user.github.io/repo/) and at a custom domain root.
 export default defineConfig({
-  plugins: [react(), atlasContent()],
+  plugins: [react(), atlasContent(), chunkBudgets()],
   base: './',
+  build: {
+    // Replaced by chunkBudgets, which knows that chunks differ.
+    chunkSizeWarningLimit: Number.POSITIVE_INFINITY,
+    rollupOptions: {
+      output: {
+        manualChunks: (id) => (THREE_MODULE.test(id) ? 'three' : undefined),
+      },
+    },
+  },
 });
