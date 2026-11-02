@@ -27,6 +27,8 @@ change it without breaking it. Read both before a first edit.
 | `src/data/topics.ts` | Static tables: `TAGS`, `SUBJECTS`, `TRACKS` (labels + colors) and the loaded `TOPICS` |
 | `src/data/atlas.ts` | Everything derived from the `requires` relation: reverse index (`dependents`), `search`, `prereqLevels`, `treeLayout`, `ringLayout`, the upward walk the hover trail follows, formatting helpers |
 | `src/data/views.ts` | Loads the tab definitions from `src/views/<lang>/*.md` |
+| `src/stage/` | The scene host and the text-scene channel - see *Scenes* |
+| `src/scenes/<id>.tsx` | One scene per file, hand-written, drawn where a body says `[!anim] <id>` |
 | `src/content/<lang>/<id>.md` | Topic content - one file per topic per language (~485 each) |
 | `src/views/<lang>/<id>.md` | Tab definitions (`kind`, `order`, localized title) |
 | `src/components/` | Presentation only - see below |
@@ -34,7 +36,7 @@ change it without breaking it. Read both before a first edit.
 | `public/logo.svg` | Favicon; must stay visually in sync with `src/icons/logo.svg` |
 | `public/privacy.html` | Privacy policy, EN + UK. A standalone page outside the app - see below |
 | `tools/check_graph.py` | Content invariants: ids resolve, relation is acyclic, transitively reduced, grade-ordered |
-| `vite.config.ts` | Build config + the `atlas-content` plugin that splits content into metadata and per-language bodies |
+| `vite.config.ts` | Build config, the `atlas-content` plugin that splits content into metadata and per-language bodies, and the per-chunk size budgets |
 | `.github/workflows/deploy.yml` | Builds and publishes `dist/` to GitHub Pages on push to `master` |
 | `.github/pull_request_template.md` | What every pull request answers - see *Git* |
 
@@ -48,8 +50,8 @@ panning, zoom, the tools, and the hover-and-trail helpers), `PathTree` (the tree
 levels stacked bottom-up, an arrow along every `requires` edge), `PathRings` (the same
 path as rings around the target), `TopicPicker` (searchable combobox for the path target),
 `TopicDetail` (Markdown body, meta line, REQUIRES / LEADS TO / RESOURCES columns),
-`SearchResults`, `TagBadge`, `Markdown` (react-markdown + KaTeX and the spoiler
-extension, loaded on demand),
+`SearchResults`, `TagBadge`, `Markdown` (react-markdown + KaTeX, the spoiler and
+the scene markers, loaded on demand),
 `Icons`, `Logo`.
 
 Icons: `src/icons/<name>.svg` is registered in `components/Icons.tsx` and inlined
@@ -119,6 +121,12 @@ drawn at all.
   alerts use), so nothing else has to change to author one, and raw HTML
   stays out of the bodies. `rehypeSpoilers` in `components/Markdown.tsx` is
   what reads it.
+- A body talks to its scenes through markers of the same kind - see *Scenes*
+  for what each does: `[!anim] <id>` on a line of its own, blockquotes opening
+  with `[!step] <scene>:<key>` or `[!task] <scene>:<key>`, links to
+  `#<scene>:<key>`, and `\live{<scene>:<key>}{<fallback>}` inside a formula.
+  The fallback is what the formula shows until the scene has said anything,
+  so it is written as the scene's opening value.
 
 ### Prerequisite invariants
 
@@ -146,11 +154,19 @@ points it at another checkout. Its own docstring states what it reads and writes
 - Comments explain **why**, not what. Each file opens with a JSDoc block stating
   its responsibility - keep it accurate when behaviour changes.
 - No new dependencies without a reason. The stack is deliberately small: React,
-  react-markdown, remark-math, rehype-katex, KaTeX, uuid.
+  react-markdown, remark-math, rehype-katex, KaTeX, uuid, and for scenes three,
+  `@react-three/fiber` and `@react-three/drei`. Those three are pinned exactly:
+  drei 9 is the last line for fiber 8, fiber 8 the last for React 18, and three
+  breaks its API between minor versions. Framer Motion was here for the first
+  animations and is gone - it does not support React Three Fiber, and one way
+  to move things is enough.
 - Components render. Anything derived from the `requires` relation belongs in
   `src/data/atlas.ts`.
 - Every user-visible string goes through `UI` in `src/i18n.ts` with **both** `en`
-  and `uk`. No literal English in JSX.
+  and `uk`. No literal English in JSX. The one exception is a scene's own
+  labels: they live in its `strings` (`defineScene`), whose type demands the
+  Ukrainian set have exactly the English keys, because the words of every
+  scene in `UI` would ride in the entry chunk of every page.
 - Ukrainian plural forms are non-trivial (see `topicsWord` in `src/i18n.ts`) -
   do not paste an English `n === 1 ? ... : ...` into a Ukrainian branch.
 
@@ -394,12 +410,79 @@ formality bolted on beside it.
   states are painted plain, trail, hovered - in that order, so the line the
   pointer is on is never under another one.
 
+### Scenes
+
+- A scene is a React component in `src/scenes/<id>.tsx`, written by hand for
+  its topic and exported through `defineScene` (camera `2d` or `3d`, the step
+  keys it understands, its `strings`). There is no scene builder and no
+  registry: the host finds the file by its id with an `import.meta.glob`, and
+  each file is a chunk of its own.
+- A scene knows the page only through the hooks in `src/stage/hooks.ts` -
+  `useStep`, `useHovered`, `usePressed`, `usePublish`, `useTask`,
+  `useStrings`, `useSceneLang`, `useAnimOn`, `useLoop`, `useToken`. It never
+  reads the store, the settings or i18n directly. The host provides their
+  context *inside* `<Canvas>`: React Three Fiber renders through a reconciler
+  of its own, and handing the context in is surer than counting on a bridge.
+  For the same reason `useSceneLang` exists - i18n's `useLang` does not reach
+  inside the canvas.
+- The text leads, the scene draws. Which steps there are, in what order and
+  with what words is the text's: each `[!step] <scene>:<key>` block is one,
+  and the bar under the canvas walks them in the order of the body, from no
+  step through the last and never round. The scene only knows what each key
+  *looks like*, and draws it as a state rather than a movement - it eases to
+  what the current key asks for from wherever it is. That is what lets the
+  reader click the steps in any order and drag the drawing at any of them,
+  with no "undo" written anywhere.
+- `src/stage/bus.ts` is the one store per body the two sides meet in, keyed by
+  the scene's id: the steps (read off the source before anything renders),
+  the current step, the hovered key, the live values and the task states. A
+  new body - another topic, another language - is a new store. A scene is
+  embedded once per body, since everything addresses it by its id; a second
+  `[!anim]` with the same id stays text.
+- `\live` is expanded to plain TeX before KaTeX sees it, so a formula is an
+  ordinary formula at every moment; `rehypeLiveMath` takes those formulas away
+  from rehype-katex and has to run before it. A scene publishes finished
+  LaTeX - it knows the language, so a decimal comma is its business.
+- Task states are view state, like the question of a locked checkbox: nothing
+  about them is stored or synced.
+- A reference to a scene the body does not embed - a step, a task, a link - is
+  drawn as an error in `--bad`, and an `[!anim]` whose file does not exist
+  shows its own marker, the way an unread `[!spoiler]` does. A key a scene
+  does not react to and a step it does not list are warned about in the dev
+  console; a scene declares a key by passing it to a hook.
+- WebGL cannot read CSS, so colours come from `useToken('--name')`, which
+  re-reads the token when the theme changes. A hex inside a scene is a
+  dark-mode bug exactly as one inside a CSS rule is. The canvas is `flat` (no
+  tone mapping) so a token comes out the colour CSS would draw it, and is
+  transparent: the stage behind it is `.scene-canvas`.
+- Labels over a canvas are drei's `<Html>`: they take no pointer events, so a
+  drag starting on a label reaches what is under it, and they sit at
+  `zIndexRange={[1, 0]}` - drei's default stacks them over the sticky top bar.
+  drei hands the `ref` of an `<Html>` to its inner element (the one with
+  `className`), not to the wrapper.
+- Nothing is drawn that does not have to be, which is the whole performance
+  budget. Every scene has a canvas of its own - one canvas fixed behind the
+  page would trail the scroll by a frame and the scenes would shake - with
+  `frameloop="demand"`: a frame is drawn when something changed. A scene that
+  eases keeps calling `invalidate()` until it has arrived and then stops; one
+  that moves on its own asks for every frame with `useLoop`, and gets it only
+  while it is on screen with motion on. Off screen a canvas draws nothing at
+  all and stays mounted, so the scene keeps its state. `dpr` stops at 2 - past
+  that the eye sees no difference and the GPU does four times the work for
+  every doubling - and there is no post-processing.
+- With motion off (`useAnimOn()` false) a scene lands on its target at once;
+  dragging and turning still work.
+
 ### Bundle
 
-The app is one page, but it is not one download. Three things are kept out of
-the entry chunk on purpose, and a change that drags any of them back in shows
-up as Vite's "chunks are larger than 500 kB" warning - treat that warning as a
-regression, not as noise:
+The app is one page, but it is not one download. Four things are kept out of
+the entry chunk on purpose. `chunkBudgets` in `vite.config.ts` gives every
+chunk a size budget and fails the build when one is over - 500 kB for code,
+1000 kB for the chunk three lives in, 4000 kB for a language's bodies, which
+grow with the content rather than with the code. Vite's own warning is off: it
+has one threshold for every chunk, and the three chunk is over 500 kB by
+itself. A budget that fails is a regression to find, not a number to raise -
+raise one only for growth that was meant, and say so next to it:
 
 - **Topic bodies.** `atlas-content` in `vite.config.ts` serves the content
   folder as `virtual:atlas-meta` (frontmatter of every topic, needed on first
@@ -412,6 +495,15 @@ regression, not as noise:
 - **Nothing renders a topic body but the detail page.** A card or a tooltip
   that wants a one-line summary has to derive it from the fetched body, not
   from a field precomputed for all 968 files.
+- **three.** `three`, React Three Fiber and drei go into one `three` chunk,
+  which only `src/stage/SceneHost.tsx` imports, and `Markdown.tsx` loads that
+  with `lazy()` - so a topic without a scene never downloads it. React has a
+  `react` chunk of its own for a reason that is easy to undo: a manual chunk
+  swallows the unassigned modules it imports, and with only `three` assigned,
+  React went into it and the entry imported three on every first paint.
+  Anything else that ends up shared between the entry and the three chunk
+  needs a chunk of its own the same way. Importing three, fiber or drei
+  outside `src/stage/` and `src/scenes/` undoes the split.
 
 ### Things that must stay in sync
 
@@ -423,6 +515,12 @@ regression, not as noise:
   plugin, which cuts the file in two, and by `parseFile`, which reads the block
   it cut off. Both accept `---` on its own line, CRLF or LF.
 - `src/icons/logo.svg` and `public/logo.svg` are the same drawing.
+- The step keys a scene lists in `defineScene({ steps })` and the `[!step]`
+  blocks that name it in both languages. The text decides the order; a key the
+  scene does not list is only a dev-console warning, and the step then shows
+  nothing new.
+- The `\live` fallbacks in a body and the opening state of its scene: the
+  fallback is what a reader sees until the scene loads, and in print.
 - `public/privacy.html` carries its own copy of the design tokens it uses and
   its own two-line reading of the `theme` setting, because it is served outside
   the app and `styles.css` and `settings.ts` cannot reach it. A token whose
@@ -466,9 +564,12 @@ regression, not as noise:
 - **A tag, track or subject** - extend the union in `types.ts`, then the table in
   `topics.ts` (label, full name, both colors). Filter chips are generated from
   those tables, so no component changes.
+- **A scene** - `src/scenes/<id>.tsx` exporting `defineScene(...)` by default,
+  `[!anim] <id>` in the body of both languages, and the `[!step]`, `[!task]`,
+  links and `\live` the text needs. `triangle-angle-sum` is the worked example.
 - **A language** - add it to `SUPPORTED_LANGS` in `i18n.ts`, add the matching
-  entries to every `UI` string, and create `src/content/<lang>/` and
-  `src/views/<lang>/`. Missing translations fall back to English per field, so a
+  entries to every `UI` string and to the `strings` of every scene, and create
+  `src/content/<lang>/` and `src/views/<lang>/`. Missing translations fall back to English per field, so a
   partial language ships fine.
 
 ## Git
