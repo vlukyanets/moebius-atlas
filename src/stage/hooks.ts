@@ -9,7 +9,7 @@
  * explicitly is surer than relying on it to bridge the DOM tree's.
  */
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useSyncExternalStore } from 'react';
-import { Color } from 'three';
+import { Color, MathUtils } from 'three';
 import type { Lang } from '../i18n';
 import type { Bus, TaskStatus } from './bus';
 
@@ -99,6 +99,18 @@ export function useLoop(active: boolean): void {
     return () => setLoop(me, false);
   }, [setLoop, active]);
 }
+
+/**
+ * The longest stretch of time one frame may move an easing by. With
+ * `frameloop="demand"` the first frame after a pause is handed the whole pause
+ * as its delta, and an easing fed half a second arrives in that one frame -
+ * every transition that starts from rest, which is most of them, would snap.
+ */
+const MAX_FRAME = 1 / 30;
+
+/** One frame of easing `current` towards `target` - the way a scene moves. */
+export const ease = (current: number, target: number, delta: number, lambda = 6): number =>
+  MathUtils.damp(current, target, lambda, Math.min(delta, MAX_FRAME));
 
 const readToken = (name: string) => (): string =>
   getComputedStyle(document.documentElement).getPropertyValue(name).trim();

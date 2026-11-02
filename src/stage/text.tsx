@@ -18,9 +18,13 @@ import { expandLive } from './live';
 
 const classes = (...names: (string | false)[]): string => names.filter(Boolean).join(' ');
 
-/** Enter and Space press a block that acts as a button, as they would a button. */
+/**
+ * Enter and Space press a block that acts as a button, as they would a button -
+ * but only when the block itself has the focus: a link inside it handles its
+ * own keys, and taking them from it would leave the link dead to the keyboard.
+ */
 const onActivate = (fn: () => void) => (e: KeyboardEvent): void => {
-  if (e.key !== 'Enter' && e.key !== ' ') return;
+  if (e.target !== e.currentTarget || (e.key !== 'Enter' && e.key !== ' ')) return;
   e.preventDefault();
   fn();
 };
