@@ -29,15 +29,20 @@ const strings = {
 
 const START: Tri = [[-4, -2], [-1, 2.5], [4, -2]];
 const NAMES = ['A', 'B', 'C'] as const;
-/** A move is refused rather than letting the triangle fold flat or collapse. */
-const MIN_ANGLE = 5;
+/**
+ * Two vertices may not meet. An angle may close all the way to 0: watching
+ * one close while another opens to 180 is the theorem at its plainest.
+ */
 const MIN_SIDE = 1;
 const ARC = 0.75;
+/** Below this an angle's number no longer fits between its sides. */
+const NARROW = 30;
 
 const sub = (p: V2, q: V2): V2 => [p[0] - q[0], p[1] - q[1]];
 const add = (p: V2, q: V2): V2 => [p[0] + q[0], p[1] + q[1]];
 const scale = (p: V2, k: number): V2 => [p[0] * k, p[1] * k];
 const unit = (p: V2): V2 => scale(p, 1 / Math.hypot(p[0], p[1]));
+const toward = (t: number): V2 => [Math.cos(t), Math.sin(t)];
 const heading = (p: V2): number => Math.atan2(p[1], p[0]);
 const cross = (p: V2, q: V2): number => p[0] * q[1] - p[1] * q[0];
 const lerp = (p: V2, q: V2, t: number): V2 => add(p, scale(sub(q, p), t));
@@ -63,9 +68,22 @@ function corner(p: V2, q: V2, r: V2): Corner {
 
 const corners = ([a, b, c]: Tri): [Corner, Corner, Corner] => [corner(a, b, c), corner(b, c, a), corner(c, a, b)];
 
-const fits = (t: Tri): boolean =>
-  corners(t).every((k) => k.deg >= MIN_ANGLE) &&
-  [0, 1, 2].every((i) => Math.hypot(...sub(t[i], t[(i + 1) % 3])) >= MIN_SIDE);
+const fits = (t: Tri): boolean => [0, 1, 2].every((i) => Math.hypot(...sub(t[i], t[(i + 1) % 3])) >= MIN_SIDE);
+
+/**
+ * The directions labels are placed along, taken from the arc rather than by
+ * adding the two side vectors: at 0 or 180 degrees those cancel and leave no
+ * direction at all.
+ */
+const middle = (k: Corner): number => k.start + k.sweep / 2;
+
+/**
+ * Where an angle's number goes: inside the angle while there is room, and
+ * just past its arc - outside the angle, beside one of its sides - once the
+ * angle is too narrow to hold it.
+ */
+const numberAt = (p: V2, k: Corner): V2 =>
+  k.deg >= NARROW ? add(p, scale(toward(middle(k)), ARC + 0.55)) : add(p, scale(toward(k.start + k.sweep + 0.6), ARC + 0.45));
 
 /**
  * Whole degrees that add up to 180. Rounding each angle on its own gives 179
@@ -127,6 +145,21 @@ function TriangleAngleSum(): JSX.Element {
   };
 
   const [tri, setTri] = useState<Tri>(START);
+
+  // A vertex stays a label's width inside the canvas, or its letter is cut off.
+  const inside = ([x, y]: V2): V2 => {
+    const mx = viewport.width / 2 - 1;
+    const my = viewport.height / 2 - 0.8;
+    return [MathUtils.clamp(x, -mx, mx), MathUtils.clamp(y, -my, my)];
+  };
+  // The canvas narrows when the page does - a smaller window, a larger text
+  // size - and a vertex left where it was would be off it, out of reach.
+  useEffect(() => {
+    setTri((t) => {
+      const moved = t.map(inside) as unknown as Tri;
+      return moved.every((p, i) => p[0] === t[i][0] && p[1] === t[i][1]) || !fits(moved) ? t : moved;
+    });
+  }, [viewport.width, viewport.height]);
   const [dragging, setDragging] = useState<number | null>(null);
   const [A, B, C] = tri;
   const ks = corners(tri);
@@ -164,7 +197,7 @@ function TriangleAngleSum(): JSX.Element {
   // The half-turn at B on the side the triangle lies: the straight angle the
   // three angles fill.
   const half: Corner = { start: cross(d, sub(A, B)) > 0 ? heading(d) : heading(d) + Math.PI, sweep: Math.PI, deg: 180 };
-  const inward = unit(add(unit(sub(A, B)), unit(sub(C, B))));
+  const inward = toward(middle(ks[1]));
 
   // Places what the progress values say. Called every frame of a transition
   // and once after every render, because a drag moves the vertices under a
@@ -226,11 +259,7 @@ function TriangleAngleSum(): JSX.Element {
     if (!(e.buttons & 1)) return release();
     const hit = e.ray.intersectPlane(Z, new Vector3());
     if (!hit) return;
-    // A vertex stays a label's width inside the canvas, or its letter is cut off.
-    const mx = viewport.width / 2 - 1;
-    const my = viewport.height / 2 - 0.8;
-    const p: V2 = [MathUtils.clamp(hit.x, -mx, mx), MathUtils.clamp(hit.y, -my, my)];
-    const next = tri.map((q, j) => (j === i ? p : q)) as unknown as Tri;
+    const next = tri.map((q, j) => (j === i ? inside([hit.x, hit.y]) : q)) as unknown as Tri;
     // A move that would fold the triangle is refused: the vertex stays where
     // the triangle was last a triangle.
     if (fits(next)) setTri(next);
@@ -240,7 +269,6 @@ function TriangleAngleSum(): JSX.Element {
     release();
   };
 
-  const centre = scale(add(add(A, B), C), 1 / 3);
   const outline = useMemo(() => [...tri, A].map((p) => at3(p, 0.01)), [tri, A]);
 
   return (
@@ -290,8 +318,8 @@ function TriangleAngleSum(): JSX.Element {
             <circleGeometry args={[0.45, 24]} />
             <meshBasicMaterial transparent opacity={0} depthWrite={false} />
           </mesh>
-          <Label at={add(p, scale(unit(sub(p, centre)), 0.5))}>{NAMES[i]}</Label>
-          <Label at={add(p, scale(unit(add(unit(sub(tri[(i + 1) % 3], p)), unit(sub(tri[(i + 2) % 3], p)))), ARC + 0.55))}>
+          <Label at={add(p, scale(toward(middle(ks[i]) + Math.PI), 0.5))}>{NAMES[i]}</Label>
+          <Label at={numberAt(p, ks[i])}>
             {deg[i]}°
           </Label>
         </group>

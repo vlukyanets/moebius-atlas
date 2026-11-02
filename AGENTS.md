@@ -472,6 +472,13 @@ formality bolted on beside it.
   every doubling - and there is no post-processing.
 - With motion off (`useAnimOn()` false) a scene lands on its target at once;
   dragging and turning still work.
+- The text-size setting is a CSS `zoom` on `<html>`, and a canvas is the one
+  thing on the page that measures itself. The host has R3F size it in layout
+  pixels (`resize={{ offsetSize: true }}`) - a zoomed rect made it wider than
+  its box - and place the pointer from `clientX` against the canvas's
+  on-screen rect, since R3F's own `offsetX` against the layout size is off by
+  the zoom. A scene that reads pointer positions some other way has to obey
+  the same rule.
 
 ### Bundle
 

@@ -15,7 +15,7 @@
  * screen - without being unmounted, so a scene keeps its state when the
  * reader scrolls past it and back.
  */
-import { Canvas, useThree } from '@react-three/fiber';
+import { Canvas, events, useThree } from '@react-three/fiber';
 import { useCallback, useEffect, useMemo, useRef, useState, type RefObject } from 'react';
 import { UI, tr, useLang } from '../i18n';
 import { useAnimOn } from './animOn';
@@ -27,6 +27,21 @@ type AnyScene = SceneDef<Record<string, string>>;
 
 /** One chunk per scene: a page loads only the scenes its body embeds. */
 const SCENES = import.meta.glob<{ default: AnyScene }>('../scenes/*.tsx');
+
+/**
+ * R3F's pointer events, but with the pointer placed from `clientX` against the
+ * canvas's on-screen rect. R3F's own reads `offsetX` against the layout size,
+ * and under the text-size setting - a CSS `zoom` on <html> - those are in
+ * different units, so a press landed off the vertex it was aimed at.
+ */
+const zoomSafeEvents: typeof events = (store) => ({
+  ...events(store),
+  compute(event, state) {
+    const box = state.gl.domElement.getBoundingClientRect();
+    state.pointer.set(((event.clientX - box.left) / box.width) * 2 - 1, -((event.clientY - box.top) / box.height) * 2 + 1);
+    state.raycaster.setFromCamera(state.pointer, state.camera);
+  },
+});
 
 /** Whether the element is on screen, or close enough to be by the next scroll. */
 function useOnScreen(ref: RefObject<Element>): boolean {
@@ -109,6 +124,11 @@ export function SceneHost({ id }: { id: string }): JSX.Element {
             orthographic={def.camera === '2d'}
             camera={def.camera === '2d' ? { position: [0, 0, 10], zoom: 40 } : { position: [6, 5, 8], fov: 40 }}
             gl={{ antialias: true }}
+            // Measured in layout pixels, not with getBoundingClientRect: the
+            // text-size setting is a CSS `zoom` on <html>, and a zoomed rect
+            // made the canvas that much wider than its box.
+            resize={{ offsetSize: true }}
+            events={zoomSafeEvents}
           >
             <Redraw when={frameloop} />
             <SceneContext.Provider value={ctx}>
